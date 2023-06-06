@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:griot_app/authentication/data/entities/token.dart';
+import 'package:griot_app/authentication/domain/entities/token.dart';
 import 'package:griot_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
@@ -31,7 +31,7 @@ void main(){
           .thenAnswer((_) async => const Right(tToken));
 
       // act
-      final result = await usecase.execute(email: tEmail, password: tPassword);
+      final result = await usecase(email: tEmail, password: tPassword);
 
       // assert
       expect(result, const Right(tToken));

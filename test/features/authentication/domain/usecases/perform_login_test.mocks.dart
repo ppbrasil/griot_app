@@ -8,7 +8,7 @@
 import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
-import 'package:griot_app/authentication/data/entities/token.dart' as _i6;
+import 'package:griot_app/authentication/domain/entities/token.dart' as _i6;
 import 'package:griot_app/authentication/domain/repositories/auth_repository.dart'
     as _i3;
 import 'package:griot_app/core/error/failures.dart' as _i5;
