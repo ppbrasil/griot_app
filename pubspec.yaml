@@ -28,6 +28,9 @@ dependencies:
   # local storage
   shared_preferences: ^2.0.8
 
+  # check connectivity
+  internet_connection_checker: ^1.0.0+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
