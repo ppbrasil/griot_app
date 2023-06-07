@@ -1,24 +1,33 @@
-/*
-import 'package:griot_app/core/api/api_client.dart';
+import 'package:griot_app/authentication/data/data_sources/auth_data_source.dart';
+import 'package:griot_app/authentication/domain/entities/token.dart';
 import 'package:griot_app/authentication/domain/repositories/auth_repository.dart';
+import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
-
-
-// Define any custom types here. For example, if ServerFailure is a custom type, you might need to define it.
-
-class ServerFailure extends Failure {}
+import 'package:griot_app/core/network/network_info.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
+  final AuthRemoteDataSource remoteDataSource;
+  final NetworkInfo networkInfo;
+
+  AuthRepositoryImpl ({
+    required this.remoteDataSource, 
+    required this.networkInfo,
+    });
 
   @override
-  Future<Either<Failure, Token>> performLogin(String email, String password) async {
-    try {
-      final token = await login(email, password);
-      return Right(token);
-    } catch (error) {
-      return Left(ServerFailure());
-    }
-  }
+  Future<Either<Failure, Token>> login(
+    String email, 
+    String password,
+    ) async {
+        await networkInfo.isConnected;
+        try{
+          final remoteToken = await remoteDataSource.login(email, password);
+          remoteDataSource.storeToken(remoteToken);
+          return Right(remoteToken);
+        } on ServerException {
+          return const Left(ServerFailure(message: 'Authentication failed'));
+        }
+   }
 }
-*/
+

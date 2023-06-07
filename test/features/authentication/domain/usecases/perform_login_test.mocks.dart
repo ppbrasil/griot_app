@@ -50,7 +50,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #performLogin,
+          #login,
           [
             email,
             password,
@@ -60,7 +60,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
             _FakeEither_0<_i5.Failure, _i6.Token>(
           this,
           Invocation.method(
-            #performLogin,
+            #login,
             [
               email,
               password,
