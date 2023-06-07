@@ -5,5 +5,5 @@ import 'package:griot_app/authentication/domain/entities/token.dart';
 // Define any custom types here. For example, if Token is a custom type, you might need to define it.
 
 abstract class AuthRepository {
-  Future<Either<Failure, Token>> performLogin(String email, String password);
+  Future<Either<Failure, Token>> login(String email, String password);
 }

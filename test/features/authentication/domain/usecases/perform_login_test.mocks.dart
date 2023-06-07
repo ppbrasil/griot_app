@@ -44,7 +44,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Token>> performLogin(
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Token>> login(
     String? email,
     String? password,
   ) =>
