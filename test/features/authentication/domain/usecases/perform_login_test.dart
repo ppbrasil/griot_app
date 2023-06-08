@@ -20,7 +20,7 @@ void main(){
 
   });
 
-  const tEmail = "ppbrasil";
+  const tUsername = "ppbrasil";
   const tPassword = "Q!w2e3r4T%";
   const tToken = Token(tokenString: 'agivenstring');
 
@@ -28,15 +28,15 @@ void main(){
     'should get a token from the auth credentials from the repository',
     () async {
       // arrange
-      when(mockAuthRepository.login(tEmail, tPassword))
+      when(mockAuthRepository.login(tUsername, tPassword))
           .thenAnswer((_) async => const Right(tToken));
 
       // act
-      final result = await usecase(email: tEmail, password: tPassword);
+      final result = await usecase(username: tUsername, password: tPassword);
 
       // assert
       expect(result, const Right(tToken));
-      verify(mockAuthRepository.login(tEmail, tPassword));    
+      verify(mockAuthRepository.login(tUsername, tPassword));    
       verifyNoMoreInteractions(mockAuthRepository);
     },
   );
@@ -50,11 +50,11 @@ void main(){
         .thenAnswer((_) async => const Left(failure));
 
     // act
-    final result = await usecase(email: tEmail, password: tPassword);
+    final result = await usecase(username: tUsername, password: tPassword);
 
     // assert
     expect(result, const Left(failure));
-    verify(mockAuthRepository.login(tEmail, tPassword));    
+    verify(mockAuthRepository.login(tUsername, tPassword));    
     verifyNoMoreInteractions(mockAuthRepository);
   },
 );
