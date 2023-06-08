@@ -17,12 +17,12 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, Token>> login(
-    String email, 
+    String username, 
     String password,
     ) async {
         await networkInfo.isConnected;
         try{
-          final remoteToken = await remoteDataSource.login(email, password);
+          final remoteToken = await remoteDataSource.login(username, password);
           remoteDataSource.storeToken(remoteToken);
           return Right(remoteToken);
         } on ServerException {

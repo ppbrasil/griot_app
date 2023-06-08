@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:griot_app/authentication/data/models/token_model.dart';
 import 'package:griot_app/authentication/domain/entities/token.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../fixtures/fixture_reader.dart';
+import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   const tTokenModel = TokenModel(tokenString: '57de67cf9yb09nn097t5diuhba986fboo88jn975');

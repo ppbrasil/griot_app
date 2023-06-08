@@ -8,7 +8,7 @@ class PerformLogin{
 
   PerformLogin(this.repository);
 
-  Future<Either<Failure, Token>> call({required String email, required String password}) async {
-    return await repository.login(email, password);
+  Future<Either<Failure, Token>> call({required String username, required String password}) async {
+    return await repository.login(username, password);
   }
 }
