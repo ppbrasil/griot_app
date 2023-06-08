@@ -46,14 +46,14 @@ class MockAuthRemoteDataSource extends _i1.Mock
 
   @override
   _i4.Future<_i2.TokenModel> login(
-    String? email,
+    String? username,
     String? password,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
           #login,
           [
-            email,
+            username,
             password,
           ],
         ),
@@ -62,7 +62,7 @@ class MockAuthRemoteDataSource extends _i1.Mock
           Invocation.method(
             #login,
             [
-              email,
+              username,
               password,
             ],
           ),

@@ -26,7 +26,7 @@ void main(){
   group('login', () { 
     const tUsername = 'ppbrasil@gmail.com';
     const tPassword = 'q1w2e3r4t5';
-    const tEndpoint = 'http://app.griot.me/api/user/auth/';
+    const tEndpoint = 'app.griot.me/api/user/auth/';
     const tBody = {
     'username': 'ppbrasil@gmail.com',
     'password': 'q1w2e3r4t5',
@@ -44,7 +44,7 @@ void main(){
         datasource.login(tUsername, tPassword);
         // assert
         verify(mockHttClient.post(
-          Uri.parse('http://app.griot.me/api/user/auth/'),
+          Uri.parse('app.griot.me/api/user/auth/'),
           headers:  {'Content-Type': 'application/json',},
           body: {'username': 'ppbrasil@gmail.com', 'password': 'q1w2e3r4t5'},
         ));

@@ -24,7 +24,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     };
 
     final response = await client.post(
-      Uri.parse('http://app.griot.me/api/user/auth/'), 
+      Uri.parse('app.griot.me/api/user/auth/'), 
       headers:{'Content-Type': 'application/json',},
       body: body,
     );
