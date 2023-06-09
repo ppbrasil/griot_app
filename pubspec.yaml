@@ -13,6 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   # state management
   flutter_bloc: ^8.0.1
 
@@ -23,13 +24,19 @@ dependencies:
   dartz: ^0.10.1
 
   # Remote API
-  http: ^0.13.3
+  http: ^1.0.0
 
   # local storage
   shared_preferences: ^2.0.8
 
   # check connectivity
   internet_connection_checker: ^1.0.0+1
+
+  # Dependency Injection
+  get_it: ^7.6.0
+
+  # Fonts
+  google_fonts: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -43,5 +50,38 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  assets:
+    - assets/logo3x.png
+    - assets/vertical@3x - F3F3F3 - White Smoke.png
+    
+  fonts:
+  - family: Poppins
+    fonts:
+      - asset: fonts/Poppins/Poppins-Black.ttf
+      - asset: fonts/Poppins/Poppins-BlackItalic.ttf
+        style: italic     
+      - asset: fonts/Poppins/Poppins-Bold.ttf
+      - asset: fonts/Poppins/Poppins-BoldItalic.ttf
+        style: italic     
+      - asset: fonts/Poppins/Poppins-ExtraBold.ttf
+      - asset: fonts/Poppins/Poppins-ExtraBoldItalic.ttf
+        style: italic     
+      - asset: fonts/Poppins/Poppins-ExtraLight.ttf
+      - asset: fonts/Poppins/Poppins-ExtraLightItalic.ttf
+        style: italic     
+      - asset: fonts/Poppins/Poppins-Italic.ttf
+        style: italic     
+      - asset: fonts/Poppins/Poppins-Light.ttf
+      - asset: fonts/Poppins/Poppins-LightItalic.ttf
+        style: italic     
+      - asset: fonts/Poppins/Poppins-Medium.ttf
+      - asset: fonts/Poppins/Poppins-MediumItalic.ttf
+        style: italic     
+      - asset: fonts/Poppins/Poppins-Regular.ttf
+      - asset: fonts/Poppins/Poppins-SemiBold.ttf
+      - asset: fonts/Poppins/Poppins-SemiBoldItalic.ttf
+        style: italic     
+      - asset: fonts/Poppins/Poppins-Thin.ttf
+      - asset: fonts/Poppins/Poppins-ThinItalic.ttf
+        style: italic
   uses-material-design: true
