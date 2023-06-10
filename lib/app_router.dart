@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:griot_app/accounts/presentation/pages/accounts_list_page.dart';
+import 'package:griot_app/memories/presentation/pages/accounts_list_page.dart';
 import 'package:griot_app/authentication/presentation/pages/login_page.dart';
 import 'package:griot_app/splash_screen.dart';
 
@@ -10,7 +10,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SplashPage());
       case '/login':
         return MaterialPageRoute(builder: (_) => const LoginPage());
-      case '/accounts_list':
+      case '/memories_list':
         return MaterialPageRoute(builder: (_) => const AccountsListPage());
       default:
         throw const RouteException('Route not found');
