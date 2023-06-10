@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/app_router.dart';
-import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:griot_app/core/app_theme.dart';
 
 class GriotApp extends StatelessWidget {

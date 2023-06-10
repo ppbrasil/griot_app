@@ -4,11 +4,13 @@ class CustomTextInputField extends StatefulWidget {
   final IconData icon;
   final String label;
   final bool isSecret;
+  final TextEditingController textController;
 
   const CustomTextInputField(
       {super.key,
       required this.icon,
       required this.label,
+      required this.textController,
       this.isSecret = false});
 
   @override
@@ -30,6 +32,7 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10, top: 5),
       child: TextField(
+        controller: widget.textController,
         style: const TextStyle(
             color: Color.fromARGB(255, 7, 103, 103),
             fontSize: 12,

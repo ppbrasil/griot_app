@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:griot_app/core/app_theme.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
