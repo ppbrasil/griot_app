@@ -15,21 +15,17 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final AuthBloc myBloc = sl<AuthBloc>();
 
-  void _login() {
+  void _login(BuildContext context) {
     String email = emailController.text;
     String password = passwordController.text;
-    AuthBloc authBloc = myBloc;
 
-    authBloc.add(SignInWithCredentials(username: email, password: password));
-
-    //BlocProvider.of<AuthBloc>(context).add(SignInWithCredentials(username: email, password: password));
+    BlocProvider.of<AuthBloc>(context)
+        .add(SignInWithCredentials(username: email, password: password));
   }
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is removed from the widget tree.
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -38,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => myBloc,
+      create: (_) => sl<AuthBloc>(),
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is Success) {
@@ -119,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                     // Login Button
                     ActionButton(
                       label: 'Login',
-                      onPressed: _login,
+                      onPressed: () => _login(context),
                     ),
                     const Spacer(flex: 7),
                   ],
