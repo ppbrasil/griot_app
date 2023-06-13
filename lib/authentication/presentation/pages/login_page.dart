@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:griot_app/authentication/presentation/bloc/login_form_validation_bloc_bloc.dart';
+
 import 'package:griot_app/authentication/presentation/widgets/action_button.dart';
 import 'package:griot_app/authentication/presentation/widgets/custom_text_input_fields.dart.dart';
+import 'package:griot_app/core/services/field_validation.dart';
+
 import 'package:griot_app/injection_container.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,6 +19,15 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  late LoginFormValidationBloc loginFormValidationBloc;
+  ValidationService validationService = ValidationService();
+
+  @override
+  void initState() {
+    super.initState();
+    loginFormValidationBloc =
+        LoginFormValidationBloc(validationService: validationService);
+  }
 
   void _login(BuildContext context) {
     String email = emailController.text;
@@ -28,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    loginFormValidationBloc.close();
     super.dispose();
   }
 
@@ -83,6 +97,8 @@ class _LoginPageState extends State<LoginPage> {
                           textController: emailController,
                           icon: Icons.email_outlined,
                           label: 'Email',
+                          loginFormValidationBloc: loginFormValidationBloc,
+                          fieldType: CustomTextInputFieldType.email,
                         ),
 
                         // Password fields
@@ -90,7 +106,8 @@ class _LoginPageState extends State<LoginPage> {
                           textController: passwordController,
                           icon: Icons.lock_outlined,
                           label: 'Password',
-                          isSecret: true,
+                          loginFormValidationBloc: loginFormValidationBloc,
+                          fieldType: CustomTextInputFieldType.password,
                         ),
 
                         // Forgot your password link
@@ -141,11 +158,12 @@ class ErrorTextField extends StatelessWidget {
             width: 200,
             height: 50,
             child: Text(
-              'Your credentials don\'t match!\nTry again or click "Forget my password"',
+              'Credentials don\'t match!\nTry again or click "Forget my password"',
               textAlign: TextAlign.center,
               style: TextStyle(
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: Colors.red,
+                color: Colors.orange,
               ),
             ),
           );
