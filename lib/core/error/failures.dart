@@ -15,13 +15,21 @@ class AuthenticationFailure extends Failure {
   List<Object> get props => [message];
 }
 
+class InvalidTokenFailure extends Failure {
+  final String message;
+
+  const InvalidTokenFailure({this.message = "Invalid token"}) : super();
+
+  @override
+  List<Object> get props => [message];
+}
+
 class ServerFailure extends Failure {
   final String message;
   const ServerFailure({required this.message});
 
   @override
   List<Object> get props => [message];
-
 }
 
 class CacheFailure extends Failure {
@@ -30,5 +38,4 @@ class CacheFailure extends Failure {
 
   @override
   List<Object> get props => [message];
-
 }

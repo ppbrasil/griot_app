@@ -10,24 +10,25 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
 
-  AuthRepositoryImpl ({
-    required this.remoteDataSource, 
+  AuthRepositoryImpl({
+    required this.remoteDataSource,
     required this.networkInfo,
-    });
+  });
 
   @override
   Future<Either<Failure, Token>> login(
-    String username, 
+    String username,
     String password,
-    ) async {
-        await networkInfo.isConnected;
-        try{
-          final remoteToken = await remoteDataSource.login(username, password);
-          remoteDataSource.storeToken(remoteToken);
-          return Right(remoteToken);
-        } on ServerException {
-          return const Left(ServerFailure(message: 'Authentication failed'));
-        }
-   }
+  ) async {
+    await networkInfo.isConnected;
+    try {
+      final remoteToken = await remoteDataSource.login(username, password);
+      remoteDataSource.storeToken(remoteToken);
+      return Right(remoteToken);
+    } on InvalidTokenException {
+      return const Left(InvalidTokenFailure(message: 'Invalid token'));
+    } on ServerException {
+      return const Left(ServerFailure(message: 'Authentication failed'));
+    }
+  }
 }
-

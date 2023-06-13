@@ -31,16 +31,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       },
       body: finalbody,
     );
-    if (response.statusCode == 200) {
-      return TokenModel.fromJson(json.decode(response.body));
-    } else {
-      throw ServerException();
-    }
+
+    await handleError(response);
+
+    return TokenModel.fromJson(json.decode(response.body));
   }
 
   @override
   Future<void> storeToken(TokenModel tokenToStore) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', tokenToStore.tokenString);
+  }
+
+  Future<void> handleError(http.Response response) async {
+    if (response.statusCode == 401) {
+      throw InvalidTokenException();
+    } else if (!(response.statusCode >= 200 && response.statusCode <= 204)) {
+      throw ServerException();
+    }
   }
 }

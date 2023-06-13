@@ -13,14 +13,14 @@ class Token {
 }
 
 class APIClient {
-  final http.Client httpClient;
+  final http.Client client;
   static const baseUrl = 'https://www.griot.me/api';
 
-  APIClient({required this.httpClient});
-
+  APIClient({required this.client});
 
   Future<Token> login(String email, String password) async {
-    final response = await post('user/auth/', data: {'email': email, 'password': password});
+    final response =
+        await post('user/auth/', data: {'email': email, 'password': password});
     if (response.statusCode != 200) {
       throw ServerException();
     }
@@ -33,20 +33,21 @@ class APIClient {
     return token;
   }
 
-  Future<http.Response> post(String path, {required Map<String, String> data, String? token}) async {
+  Future<http.Response> post(String path,
+      {required Map<String, String> data, String? token}) async {
     final url = Uri.parse('$baseUrl/$path');
 
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
-    
+
     if (token != null) {
       headers['Authorization'] = 'Bearer $token';
     }
 
     final body = json.encode(data);
 
-    return httpClient.post(url, headers: headers, body: body);
+    return client.post(url, headers: headers, body: body);
   }
 }
