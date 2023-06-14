@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is Success) {
-          Navigator.pushNamed(context, '/memories_list');
+          Navigator.pushNamed(context, '/home_page');
         }
       },
       builder: (context, state) {

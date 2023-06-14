@@ -1,22 +1,22 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
 
-class GriotBottomNavigationBar extends StatefulWidget {
-  const GriotBottomNavigationBar({super.key});
+class GriotBottomNavigationBar extends StatelessWidget {
+  final int currentIndex;
+  final Function(int) onItemTapped;
 
-  @override
-  State<GriotBottomNavigationBar> createState() =>
-      _GriotBottomNavigationBarState();
-}
+  const GriotBottomNavigationBar(
+      {super.key, required this.currentIndex, required this.onItemTapped});
 
-class _GriotBottomNavigationBarState extends State<GriotBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
         BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: onItemTapped,
           backgroundColor: Colors.white,
           type: BottomNavigationBarType.fixed,
           items: const [
@@ -26,7 +26,7 @@ class _GriotBottomNavigationBarState extends State<GriotBottomNavigationBar> {
               backgroundColor: Color.fromRGBO(81, 172, 135, 1),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
+              icon: Icon(Icons.camera_alt_outlined),
               label: '',
               backgroundColor: Color.fromRGBO(81, 172, 135, 1),
             ),
@@ -36,7 +36,7 @@ class _GriotBottomNavigationBarState extends State<GriotBottomNavigationBar> {
               backgroundColor: Color.fromRGBO(81, 172, 135, 1),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.camera_alt_outlined),
+              icon: Icon(Icons.favorite),
               label: '',
               backgroundColor: Color.fromRGBO(81, 172, 135, 1),
             ),
@@ -52,7 +52,9 @@ class _GriotBottomNavigationBarState extends State<GriotBottomNavigationBar> {
           left: MediaQuery.of(context).size.width / 2 - 30,
           child: FloatingActionButton(
             child: const Icon(Icons.add, color: Colors.white),
-            onPressed: () => {},
+            onPressed: () => context
+                .read<NavigationBloc>()
+                .add(MemoriesCreationClickedEvent()),
           ),
         )
       ],
