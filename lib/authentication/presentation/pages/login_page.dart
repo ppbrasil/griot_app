@@ -47,101 +47,98 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<AuthBloc>(),
-      child: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is Success) {
-            Navigator.pushNamed(context, '/memories_list');
-          }
-        },
-        builder: (context, state) {
-          return Scaffold(
-            body: Container(
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(3, 0, 3, 0),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Color.fromRGBO(13, 68, 86, 1),
-                  Color.fromRGBO(7, 103, 103, 1),
-                ], stops: <double>[
-                  0,
-                  1
-                ]),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Spacer(flex: 7),
-                    // Logo
-                    SizedBox(
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is Success) {
+          Navigator.pushNamed(context, '/memories_list');
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: double.infinity,
+            padding: const EdgeInsets.fromLTRB(3, 0, 3, 0),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Color.fromRGBO(13, 68, 86, 1),
+                Color.fromRGBO(7, 103, 103, 1),
+              ], stops: <double>[
+                0,
+                1
+              ]),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Spacer(flex: 7),
+                  // Logo
+                  SizedBox(
+                    width: 180,
+                    height: 149,
+                    child: Image.asset(
+                      'assets/vertical@3x - F3F3F3 - White Smoke.png',
                       width: 180,
                       height: 149,
-                      child: Image.asset(
-                        'assets/vertical@3x - F3F3F3 - White Smoke.png',
-                        width: 180,
-                        height: 149,
-                      ),
                     ),
-                    const Spacer(flex: 4),
-                    // input fields
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // email Filed
-                        CustomTextInputField(
-                          textController: emailController,
-                          icon: Icons.email_outlined,
-                          label: 'Email',
-                          loginFormValidationBloc: loginFormValidationBloc,
-                          fieldType: CustomTextInputFieldType.email,
-                        ),
+                  ),
+                  const Spacer(flex: 4),
+                  // input fields
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // email Filed
+                      CustomTextInputField(
+                        textController: emailController,
+                        icon: Icons.email_outlined,
+                        label: 'Email',
+                        loginFormValidationBloc: loginFormValidationBloc,
+                        fieldType: CustomTextInputFieldType.email,
+                      ),
 
-                        // Password fields
-                        CustomTextInputField(
-                          textController: passwordController,
-                          icon: Icons.lock_outlined,
-                          label: 'Password',
-                          loginFormValidationBloc: loginFormValidationBloc,
-                          fieldType: CustomTextInputFieldType.password,
-                        ),
+                      // Password fields
+                      CustomTextInputField(
+                        textController: passwordController,
+                        icon: Icons.lock_outlined,
+                        label: 'Password',
+                        loginFormValidationBloc: loginFormValidationBloc,
+                        fieldType: CustomTextInputFieldType.password,
+                      ),
 
-                        // Forgot your password link
-                        TextButton(
-                          onPressed: () => {},
-                          child: const Text(
-                            'Forgot my password?',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                              decoration: TextDecoration.underline,
-                            ),
+                      // Forgot your password link
+                      TextButton(
+                        onPressed: () => {},
+                        child: const Text(
+                          'Forgot my password?',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                            decoration: TextDecoration.underline,
                           ),
                         ),
-                      ],
-                    ),
-                    const Spacer(flex: 1),
-                    const ErrorTextField(),
-                    const Spacer(flex: 3),
-                    // Login Button
-                    ActionButton(
-                      label: 'Login',
-                      onPressed: () => _login(context),
-                    ),
-                    const Spacer(flex: 7),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(flex: 1),
+                  const ErrorTextField(),
+                  const Spacer(flex: 3),
+                  // Login Button
+                  ActionButton(
+                    label: 'Login',
+                    onPressed: () => _login(context),
+                  ),
+                  const Spacer(flex: 7),
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
