@@ -7,8 +7,6 @@ import 'package:griot_app/authentication/presentation/widgets/action_button.dart
 import 'package:griot_app/authentication/presentation/widgets/custom_text_input_fields.dart.dart';
 import 'package:griot_app/core/services/field_validation.dart';
 
-import 'package:griot_app/injection_container.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
