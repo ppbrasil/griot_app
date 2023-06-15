@@ -4,8 +4,8 @@ import 'package:griot_app/memories/domain/entities/memory.dart';
 
 abstract class MemoriesRepository {
   Future<Either<Failure, List<Memory>>> getMemoriesList();
+  Future<Either<Failure, Memory>> performGetMemoryDetails({int memoryId});
 /*
-  Future<Either<Failure, Memory>> getMemoryDetails();
   Future<Either<Failure, Memory>> updateMemory();
   Future<Either<Failure, Memory>> createMemory();
   Future<Either<Failure, Memory>> deleteMemory();

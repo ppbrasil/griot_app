@@ -11,4 +11,7 @@ void main() {
       expect(tMemoryModel, isA<Memory>());
     },
   );
+//  group('fromJson', () {
+//    test('Should return a valid list from JSON',);
+//  });
 }

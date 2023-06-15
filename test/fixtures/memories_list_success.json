@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "account": 1,
+        "title": "My first memory",
+        "videos": []
+    },
+    {
+        "id": 2,
+        "account": 1,
+        "title": "My second memory",
+        "videos": []
+    },
+    {
+        "id": 3,
+        "account": 1,
+        "title": "My third memory",
+        "videos": []
+    }
+]
