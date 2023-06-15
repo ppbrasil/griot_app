@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+// Abstract
 abstract class Failure extends Equatable {
   const Failure([List<Object>? properties]) : super();
 
@@ -7,6 +8,7 @@ abstract class Failure extends Equatable {
   List<Object> get props => [];
 }
 
+// Implementations
 class AuthenticationFailure extends Failure {
   final String message;
   const AuthenticationFailure({required this.message});

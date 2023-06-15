@@ -1,0 +1,45 @@
+I'm building a flutter project with the following features 
+- Login/Authentication 
+- Memories 
+- BelovedOnes 
+- Profile 
+
+Since we are following the Clean Architecture Approach with 9 layers. Each of those features have a folder with the following structure: 
+- data/data_sources: holds the connectivity logic with the data source. Responsible for generating errors and passing it up to the repository
+
+- data/models: extending the entities adding methods and fields needed to process data_source specific demands (e.g. fromJson or toJson methods)
+
+- data/repositories_impl: Implementing the repositories abstract classes. Responsible to decide from where to retrieve the data (e.g. local or remote data_source) and to return Either a proper response or a failure back to the use_case
+
+- domain/repositories: Abstract class declaring the methods repositories needs to fulfill  
+
+- domain/entities: The class representing the concepts from the real world in a completely decouple from interface or data way
+
+- domain/use_cases: The actual call to perform something to fulfill a user need when it goes beyond mere non persistent presentation logic 
+
+- presentation/BLoC (acting as PLoC): Controls the state in the presentation layer and interfaces with UseCase when a business logic needs to be called upon.
+ 
+- presentation/widgets: Reusable pieces of the interface.
+
+- presentation/pages: Pages using the widgets and being build declaring and listening to BLoC providers
+
+Besides those folders we have a core folder with 
+- services 
+- errors: Define the error types for the data_sources to use
+- failures: Define the Failures for the repositories to use
+- presentation/widgets: Widgets that are used for multiple features
+- presentation/pages: Pages that are used to support multiple features (e.g. home_page that holds a navigation bar)
+
+We have already built the authentication feature and now, we need to move forward with the implementation of the Memories Feature. For that I want to follow the following steps
+1. Define Use-cases (conceptually)
+2. Write Entities extending Equatable
+3. Write Repository Abstraction
+4. Define and implement tests for the Use Cases
+5. Write Use Cases
+6. Write Models
+7. Write Repository Implementation
+8. Write Data_Sources
+9. Write Bloc Events
+10. Write Bloc States
+11. Write Bloc File
+12. Attach Interface

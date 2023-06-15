@@ -22,15 +22,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       'password': password,
     };
 
-    String finalbody = jsonEncode(body);
+    //String finalbody = jsonEncode(body);
 
-    final response = await client.post(
-      Uri.parse('http://app.griot.me/api/user/auth/'),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: finalbody,
-    );
+    final response =
+        await client.post(Uri.parse('http://app.griot.me/api/user/auth/'),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            //body: body,
+            body: jsonEncode(body));
 
     await handleError(response);
 
@@ -44,7 +44,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   Future<void> handleError(http.Response response) async {
-    if (response.statusCode == 401) {
+    if (response.statusCode == 401 || response.statusCode == 404) {
       throw InvalidTokenException();
     } else if (!(response.statusCode >= 200 && response.statusCode <= 204)) {
       throw ServerException();
