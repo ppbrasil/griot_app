@@ -26,7 +26,7 @@ void main() {
     'should get a token from the auth credentials from the repository',
     () async {
       // arrange
-      when(mockAuthRepository.login(tUsername, tPassword))
+      when(mockAuthRepository.login(username: tUsername, password: tPassword))
           .thenAnswer((_) async => const Right(tToken));
 
       // act
@@ -35,7 +35,8 @@ void main() {
 
       // assert
       expect(result, const Right(tToken));
-      verify(mockAuthRepository.login(tUsername, tPassword));
+      verify(
+          mockAuthRepository.login(username: tUsername, password: tPassword));
       verifyNoMoreInteractions(mockAuthRepository);
     },
   );
@@ -47,7 +48,7 @@ void main() {
       const Failure failure = AuthenticationFailure(
           message:
               'Authentication Failed'); // Or any other Failure you have defined
-      when(mockAuthRepository.login(any, any))
+      when(mockAuthRepository.login(username: tUsername, password: tPassword))
           .thenAnswer((_) async => const Left(failure));
 
       // act
@@ -56,7 +57,8 @@ void main() {
 
       // assert
       expect(result, const Left(failure));
-      verify(mockAuthRepository.login(tUsername, tPassword));
+      verify(
+          mockAuthRepository.login(username: tUsername, password: tPassword));
       verifyNoMoreInteractions(mockAuthRepository);
     },
   );
