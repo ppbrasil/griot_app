@@ -9,15 +9,13 @@ import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
 import 'perform_login_test.mocks.dart';
 
 @GenerateMocks([AuthRepository])
-
-void main(){
+void main() {
   late PerformLogin usecase;
   late MockAuthRepository mockAuthRepository;
 
-  setUp((){
+  setUp(() {
     mockAuthRepository = MockAuthRepository();
     usecase = PerformLogin(mockAuthRepository);
-
   });
 
   const tUsername = "ppbrasil";
@@ -32,31 +30,34 @@ void main(){
           .thenAnswer((_) async => const Right(tToken));
 
       // act
-      final result = await usecase(username: tUsername, password: tPassword);
+      final result =
+          await usecase(const Params(username: tUsername, password: tPassword));
 
       // assert
       expect(result, const Right(tToken));
-      verify(mockAuthRepository.login(tUsername, tPassword));    
+      verify(mockAuthRepository.login(tUsername, tPassword));
       verifyNoMoreInteractions(mockAuthRepository);
     },
   );
 
   test(
-  'should return failure when the call to login is unsuccessful',
-  () async {
-    // arrange
-    const Failure failure = AuthenticationFailure(message: 'Authentication Failed');  // Or any other Failure you have defined
-    when(mockAuthRepository.login(any, any))
-        .thenAnswer((_) async => const Left(failure));
+    'should return failure when the call to login is unsuccessful',
+    () async {
+      // arrange
+      const Failure failure = AuthenticationFailure(
+          message:
+              'Authentication Failed'); // Or any other Failure you have defined
+      when(mockAuthRepository.login(any, any))
+          .thenAnswer((_) async => const Left(failure));
 
-    // act
-    final result = await usecase(username: tUsername, password: tPassword);
+      // act
+      final result =
+          await usecase(const Params(username: tUsername, password: tPassword));
 
-    // assert
-    expect(result, const Left(failure));
-    verify(mockAuthRepository.login(tUsername, tPassword));    
-    verifyNoMoreInteractions(mockAuthRepository);
-  },
-);
-
+      // assert
+      expect(result, const Left(failure));
+      verify(mockAuthRepository.login(tUsername, tPassword));
+      verifyNoMoreInteractions(mockAuthRepository);
+    },
+  );
 }

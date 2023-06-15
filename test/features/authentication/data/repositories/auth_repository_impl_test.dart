@@ -16,7 +16,7 @@ import 'auth_repository_impl_test.mocks.dart';
 //class MockNetworkInfo extends Mock implements NetworkInfo{}
 
 @GenerateMocks([AuthRemoteDataSource, NetworkInfo, ServerException])
-void main(){
+void main() {
   late AuthRepositoryImpl repository;
   late MockAuthRemoteDataSource mockRemoteDataSource;
   late MockNetworkInfo mockNetworkInfo;
@@ -33,65 +33,73 @@ void main(){
       remoteDataSource: mockRemoteDataSource,
       networkInfo: mockNetworkInfo,
     );
-
   });
   group('login', () {
 //    setUp(() {
 //      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
 //    });
 
-    test('should check if the device is online', 
-    () async {
-      //arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true); 
-      when(mockRemoteDataSource.login(tEmail, tPassword))
-      .thenAnswer((_) async => tTokenModel);
-      //act
-      await repository.login(tEmail, tPassword);
-      //assert
-      verify(mockNetworkInfo. isConnected).called(1);
-    },);
-   });
+    test(
+      'should check if the device is online',
+      () async {
+        //arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockRemoteDataSource.login(tEmail, tPassword))
+            .thenAnswer((_) async => tTokenModel);
+        //act
+        await repository.login(username: tEmail, password: tPassword);
+        //assert
+        verify(mockNetworkInfo.isConnected).called(1);
+      },
+    );
+  });
 
   group('device is online', () {
     setUp(() {
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
     });
 
-    test('should return data when auth call to remote data source is successfull', () async {
+    test(
+        'should return data when auth call to remote data source is successfull',
+        () async {
       // arrange
       when(mockRemoteDataSource.login(tEmail, tPassword))
-      .thenAnswer((_) async => tTokenModel);
+          .thenAnswer((_) async => tTokenModel);
       // act
-      final result = await repository.login(tEmail, tPassword);
+      final result =
+          await repository.login(username: tEmail, password: tPassword);
       // assert
       verify(mockRemoteDataSource.login(tEmail, tPassword));
       expect(result, equals(const Right(tToken)));
-    }); 
+    });
 
-    test('should perssit token when auth call to remote data source is successfull', () async {
-    // arrange
-    when(mockRemoteDataSource.login(tEmail, tPassword))
-    .thenAnswer((_) async => tTokenModel);
-    // act
-    await repository.login(tEmail, tPassword);
-    // assert
-    verify(mockRemoteDataSource.login(tEmail, tPassword));
-    verify(mockRemoteDataSource.storeToken(tTokenModel));
-    }); 
-  });
-
-    test('should return Auth failure when auth call to remote data source is unsuccessfull', 
-    () async {
+    test(
+        'should perssit token when auth call to remote data source is successfull',
+        () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true); 
       when(mockRemoteDataSource.login(tEmail, tPassword))
-      .thenThrow(ServerException());
+          .thenAnswer((_) async => tTokenModel);
       // act
-      final result = await repository.login(tEmail, tPassword);
+      await repository.login(username: tEmail, password: tPassword);
       // assert
       verify(mockRemoteDataSource.login(tEmail, tPassword));
-      expect(result, equals(const Left(ServerFailure(message: 'Authentication failed'))));
-    }); 
+      verify(mockRemoteDataSource.storeToken(tTokenModel));
+    });
+  });
 
-}  
+  test(
+      'should return Auth failure when auth call to remote data source is unsuccessfull',
+      () async {
+    // arrange
+    when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+    when(mockRemoteDataSource.login(tEmail, tPassword))
+        .thenThrow(ServerException());
+    // act
+    final result =
+        await repository.login(username: tEmail, password: tPassword);
+    // assert
+    verify(mockRemoteDataSource.login(tEmail, tPassword));
+    expect(result,
+        equals(const Left(ServerFailure(message: 'Authentication failed'))));
+  });
+}

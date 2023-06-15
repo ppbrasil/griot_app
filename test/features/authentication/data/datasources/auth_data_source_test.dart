@@ -60,7 +60,7 @@ void main() {
     test('Should return Token when response code is 200', () async {
       // arrange
       when(mockHttClient.post(Uri.parse(tEndpoint),
-              headers: tHeaders, body: tBody))
+              headers: tHeaders, body: jsonEncode(tBody)))
           .thenAnswer((_) async =>
               http.Response(fixture('auth_success_response.json'), 200));
       // act
@@ -73,7 +73,7 @@ void main() {
     test('Should throw a InvalidTokenException when code is not 200', () async {
       // arrange
       when(mockHttClient.post(Uri.parse(tEndpoint),
-              headers: tHeaders, body: tBody))
+              headers: tHeaders, body: jsonEncode(tBody)))
           .thenAnswer((_) async =>
               http.Response(fixture('auth_invalid_response.json'), 404));
       // act

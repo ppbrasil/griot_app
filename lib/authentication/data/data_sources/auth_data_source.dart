@@ -18,8 +18,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<TokenModel> login(String username, String password) async {
     final Map<String, dynamic> body = {
-      'username': username,
-      'password': password,
+      "username": username,
+      "password": password,
     };
 
     //String finalbody = jsonEncode(body);

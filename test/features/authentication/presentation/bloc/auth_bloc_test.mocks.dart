@@ -65,29 +65,18 @@ class MockPerformLogin extends _i1.Mock implements _i4.PerformLogin {
         ),
       ) as _i2.AuthRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Token>> call({
-    required String? username,
-    required String? password,
-  }) =>
+  _i5.Future<_i3.Either<_i6.Failure, _i7.Token>> call(_i4.Params? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
-          [],
-          {
-            #username: username,
-            #password: password,
-          },
+          [params],
         ),
         returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Token>>.value(
             _FakeEither_1<_i6.Failure, _i7.Token>(
           this,
           Invocation.method(
             #call,
-            [],
-            {
-              #username: username,
-              #password: password,
-            },
+            [params],
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Token>>);

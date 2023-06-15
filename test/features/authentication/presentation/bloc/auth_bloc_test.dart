@@ -31,17 +31,19 @@ void main() {
 
     test('Should get data from the concrete usecase', () async {
       // arrange
-      when(mockPerformLogin(username: tUsername, password: tPassword))
+      when(mockPerformLogin(
+              const Params(username: tUsername, password: tPassword)))
           .thenAnswer((_) async => const Right(tToken));
 
       // act
       bloc.add(const SignInWithCredentials(
           password: tPassword, username: tUsername));
-      await untilCalled(
-          mockPerformLogin(password: tPassword, username: tUsername));
+      await untilCalled(mockPerformLogin(
+          const Params(password: tPassword, username: tUsername)));
 
       //assert
-      verify(mockPerformLogin(username: tUsername, password: tPassword));
+      verify(mockPerformLogin(
+          const Params(username: tUsername, password: tPassword)));
     });
 
     test('Should emit Empty state when initialized', () async {
@@ -51,7 +53,8 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'should emit Success state when login is successful',
       build: () {
-        when(mockPerformLogin.call(username: 'myUsername', password: '123'))
+        when(mockPerformLogin
+                .call(const Params(username: 'myUsername', password: '123')))
             .thenAnswer(
           (_) async => const Right(Token(tokenString: 'wswsxwsc')),
         );
@@ -65,7 +68,8 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'should emit Error state when login fails',
       build: () {
-        when(mockPerformLogin.call(username: 'myUsername', password: '123'))
+        when(mockPerformLogin
+                .call(const Params(username: 'myUsername', password: '123')))
             .thenAnswer(
           (_) async => const Left(
               AuthenticationFailure(message: 'Authentication Failed')),

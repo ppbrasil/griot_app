@@ -16,10 +16,10 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<Either<Failure, Token>> login(
-    String username,
-    String password,
-  ) async {
+  Future<Either<Failure, Token>> login({
+    required String username,
+    required String password,
+  }) async {
     await networkInfo.isConnected;
     try {
       final remoteToken = await remoteDataSource.login(username, password);
