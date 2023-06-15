@@ -34,11 +34,11 @@ class AppTheme {
 
   // Text Themes
   static const TextTheme _lightTextTheme = TextTheme(
-    headline1: _lightScreenHeading1TextStyle,
+    displayLarge: _lightScreenHeading1TextStyle,
   );
 
   static final TextTheme _darkTextTheme = TextTheme(
-    headline1: _darkScreenHeading1TextStyle,
+    displayLarge: _darkScreenHeading1TextStyle,
   );
 
   // Themes
@@ -55,7 +55,6 @@ class AppTheme {
     ),
     colorScheme: const ColorScheme.light(
       primary: lightPrimaryColor,
-      primaryVariant: lightPrimaryVariantColor,
       secondary: lightSecondaryColor,
       onPrimary: lightOnPrimaryColor,
     ),
@@ -74,7 +73,6 @@ class AppTheme {
     ),
     colorScheme: const ColorScheme.dark(
       primary: darkPrimaryColor,
-      primaryVariant: darkPrimaryVariantColor,
       secondary: darkSecondaryColor,
       onPrimary: darkOnPrimaryColor,
       background: Colors.white12,
