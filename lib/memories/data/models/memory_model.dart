@@ -17,4 +17,12 @@ class MemoryModel extends Memory {
       title: json['title'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'account': account,
+      'title': title,
+    };
+  }
 }

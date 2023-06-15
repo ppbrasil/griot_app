@@ -26,4 +26,18 @@ void main() {
       expect(result, tMemoryModel);
     });
   });
+
+  group('toJson', () {
+    test('Should return a JSON map containing the proper data', () async {
+      // act
+      final result = tMemoryModel.toJson();
+      // assert
+      final expectedMap = {
+        "id": 1,
+        "account": 1,
+        "title": "My first memory",
+      };
+      expect(result, expectedMap);
+    });
+  });
 }
