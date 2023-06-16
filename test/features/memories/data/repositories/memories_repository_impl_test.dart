@@ -24,7 +24,7 @@ void main() {
     mockNetworkInfo = MockNetworkInfo();
     repository = MemoriesRepositoryImpl(
       remoteDataSource: mockMemoriesRemoteDataSource,
-      networkinfo: mockNetworkInfo,
+      networkInfo: mockNetworkInfo,
     );
   });
 

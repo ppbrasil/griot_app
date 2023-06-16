@@ -7,15 +7,15 @@ import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
 
 class MemoriesRepositoryImpl implements MemoriesRepository {
-  final NetworkInfo networkinfo;
+  final NetworkInfo networkInfo;
   final MemoriesRemoteDataSource remoteDataSource;
 
   MemoriesRepositoryImpl(
-      {required this.networkinfo, required this.remoteDataSource});
+      {required this.networkInfo, required this.remoteDataSource});
 
   @override
   Future<Either<Failure, List<Memory>>> getMemoriesList() async {
-    if (await networkinfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
         final List<Memory> memories =
             await remoteDataSource.getMemoriesListFromAPI();
@@ -31,7 +31,7 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
   @override
   Future<Either<Failure, Memory>> performGetMemoryDetails(
       {required int memoryId}) async {
-    if (await networkinfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
         final Memory memory =
             await remoteDataSource.getMemoryDetailsFromAPI(memoryId: memoryId);
@@ -47,7 +47,7 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
   @override
   Future<Either<Failure, Memory>> performcreateMemory(
       {required String title}) async {
-    if (await networkinfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
         final Memory memory =
             await remoteDataSource.postMemoryToAPI(title: title);
