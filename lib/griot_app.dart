@@ -5,6 +5,7 @@ import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:griot_app/core/app_theme.dart';
 import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
 import 'package:griot_app/injection_container.dart';
+import 'package:griot_app/memories/presentation/bloc/memories_bloc_bloc.dart';
 
 class GriotApp extends StatelessWidget {
   const GriotApp({Key? key}) : super(key: key);
@@ -15,10 +16,13 @@ class GriotApp extends StatelessWidget {
       create: (context) => sl<AuthBloc>(),
       child: BlocProvider(
         create: (context) => NavigationBloc(),
-        child: MaterialApp(
-          title: 'Griot App',
-          theme: AppTheme.lightTheme,
-          onGenerateRoute: AppRouter().onGenerateRoute,
+        child: BlocProvider(
+          create: (context) => sl<MemoriesBlocBloc>(),
+          child: MaterialApp(
+            title: 'Griot App',
+            theme: AppTheme.lightTheme,
+            onGenerateRoute: AppRouter().onGenerateRoute,
+          ),
         ),
       ),
     );

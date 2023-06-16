@@ -10,3 +10,5 @@ class InvalidTokenException implements Exception {
   @override
   String toString() => 'InvalidTokenException: $message';
 }
+
+class NoTokenException implements Exception {}

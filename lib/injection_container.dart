@@ -4,6 +4,7 @@ import 'package:griot_app/authentication/data/repositories/auth_repository_impl.
 import 'package:griot_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/network/network_info.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/repositories/memories_repository_impl.dart';
@@ -24,6 +25,8 @@ void init() {
 
   // Core stuff
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+
+  sl.registerLazySingleton<TokenProvider>(() => TokenProviderImpl());
 
   // External Dependencies
   sl.registerLazySingleton<http.Client>(() => http.Client());
@@ -70,5 +73,6 @@ void initMemories() {
   sl.registerLazySingleton<MemoriesRemoteDataSource>(
       () => MemoriesRemoteDataSourceImpl(
             client: sl(),
+            tokenProvider: sl(),
           ));
 }

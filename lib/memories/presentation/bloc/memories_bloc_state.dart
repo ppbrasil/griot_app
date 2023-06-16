@@ -56,7 +56,7 @@ class MemoriesGetListLoading extends MemoriesBlocState {}
 class MemoriesGetListSuccess extends MemoriesBlocState {
   final List<Memory> memories;
 
-  MemoriesGetListSuccess({required this.memories});
+  const MemoriesGetListSuccess({required this.memories});
 
   @override
   List<Object> get props => [memories];
@@ -65,7 +65,7 @@ class MemoriesGetListSuccess extends MemoriesBlocState {
 class MemoriesGetListFailure extends MemoriesBlocState {
   final String message;
 
-  MemoriesGetListFailure({required this.message});
+  const MemoriesGetListFailure({required this.message});
 
   @override
   List<Object> get props => [message];
