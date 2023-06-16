@@ -152,8 +152,11 @@ void main() {
         'Should return Entity list when the call to remote data source is successful',
         () async {
           // arrange
+          final tMemoryModelList = tMemoryList
+              .map((e) => MemoryModel(account: 1, title: e.title))
+              .toList();
           when(mockMemoriesRemoteDataSource.getMemoriesListFromAPI())
-              .thenAnswer((_) async => tMemoryList);
+              .thenAnswer((_) async => tMemoryModelList);
           // act
           final result = await repository.getMemoriesList();
           // assert

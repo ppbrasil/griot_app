@@ -10,7 +10,7 @@ import 'dart:async' as _i4;
 import 'package:griot_app/core/network/network_info.dart' as _i5;
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart'
     as _i3;
-import 'package:griot_app/memories/domain/entities/memory.dart' as _i2;
+import 'package:griot_app/memories/data/models/memory_model.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -24,8 +24,8 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeMemory_0 extends _i1.SmartFake implements _i2.Memory {
-  _FakeMemory_0(
+class _FakeMemoryModel_0 extends _i1.SmartFake implements _i2.MemoryModel {
+  _FakeMemoryModel_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -44,22 +44,25 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i4.Future<List<_i2.Memory>> getMemoriesListFromAPI() => (super.noSuchMethod(
+  _i4.Future<List<_i2.MemoryModel>> getMemoriesListFromAPI() =>
+      (super.noSuchMethod(
         Invocation.method(
           #getMemoriesListFromAPI,
           [],
         ),
-        returnValue: _i4.Future<List<_i2.Memory>>.value(<_i2.Memory>[]),
-      ) as _i4.Future<List<_i2.Memory>>);
+        returnValue:
+            _i4.Future<List<_i2.MemoryModel>>.value(<_i2.MemoryModel>[]),
+      ) as _i4.Future<List<_i2.MemoryModel>>);
   @override
-  _i4.Future<_i2.Memory> getMemoryDetailsFromAPI({int? memoryId}) =>
+  _i4.Future<_i2.MemoryModel> getMemoryDetailsFromAPI(
+          {required int? memoryId}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getMemoryDetailsFromAPI,
           [],
           {#memoryId: memoryId},
         ),
-        returnValue: _i4.Future<_i2.Memory>.value(_FakeMemory_0(
+        returnValue: _i4.Future<_i2.MemoryModel>.value(_FakeMemoryModel_0(
           this,
           Invocation.method(
             #getMemoryDetailsFromAPI,
@@ -67,16 +70,16 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
             {#memoryId: memoryId},
           ),
         )),
-      ) as _i4.Future<_i2.Memory>);
+      ) as _i4.Future<_i2.MemoryModel>);
   @override
-  _i4.Future<_i2.Memory> postMemoryToAPI({String? title}) =>
+  _i4.Future<_i2.MemoryModel> postMemoryToAPI({required String? title}) =>
       (super.noSuchMethod(
         Invocation.method(
           #postMemoryToAPI,
           [],
           {#title: title},
         ),
-        returnValue: _i4.Future<_i2.Memory>.value(_FakeMemory_0(
+        returnValue: _i4.Future<_i2.MemoryModel>.value(_FakeMemoryModel_0(
           this,
           Invocation.method(
             #postMemoryToAPI,
@@ -84,7 +87,7 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
             {#title: title},
           ),
         )),
-      ) as _i4.Future<_i2.Memory>);
+      ) as _i4.Future<_i2.MemoryModel>);
 }
 
 /// A class which mocks [NetworkInfo].
