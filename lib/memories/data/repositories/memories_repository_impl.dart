@@ -15,7 +15,17 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
 
   @override
   Future<Either<Failure, List<Memory>>> getMemoriesList() async {
-    return const Left(ServerFailure(message: 'message'));
+    if (await networkinfo.isConnected) {
+      try {
+        final List<Memory> memories =
+            await remoteDataSource.getMemoriesListFromAPI();
+        return Right(memories);
+      } on ServerException {
+        return const Left(ServerFailure(message: 'Unable to retrieve data'));
+      }
+    } else {
+      return const Left(ConnectivityFailure(message: 'No internet connection'));
+    }
   }
 
   @override
@@ -37,8 +47,16 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
   @override
   Future<Either<Failure, Memory>> performcreateMemory(
       {required String title}) async {
-    final String title;
-
-    return const Left(ServerFailure(message: 'message'));
+    if (await networkinfo.isConnected) {
+      try {
+        final Memory memory =
+            await remoteDataSource.postMemoryToAPI(title: title);
+        return Right(memory);
+      } on ServerException {
+        return const Left(ServerFailure(message: 'Unable to retrieve data'));
+      }
+    } else {
+      return const Left(ConnectivityFailure(message: 'No internet connection'));
+    }
   }
 }
