@@ -80,4 +80,23 @@ class MockMemoriesRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>> performcreateMemory(
+          {String? title}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #performcreateMemory,
+          [],
+          {#title: title},
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Memory>(
+          this,
+          Invocation.method(
+            #performcreateMemory,
+            [],
+            {#title: title},
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
 }

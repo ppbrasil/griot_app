@@ -1,12 +1,12 @@
 import 'package:griot_app/memories/domain/entities/memory.dart';
 
 class MemoryModel extends Memory {
-  final int id;
+  final int? id;
   final int account;
 
   const MemoryModel({
+    this.id,
     required this.account,
-    required this.id,
     required super.title,
   });
 
@@ -20,7 +20,6 @@ class MemoryModel extends Memory {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'account': account,
       'title': title,
     };
