@@ -7,12 +7,15 @@ import 'package:test/test.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  const tMemoryModel = MemoryModel(title: "My first memory", id: 1, account: 1);
+  const tMemoryModelone = MemoryModel(
+    title: "My first memory",
+    account: 1,
+  );
 
   test(
     'Should be a subclass of Memory entity',
     () async {
-      expect(tMemoryModel, isA<Memory>());
+      expect(tMemoryModelone, isA<Memory>());
     },
   );
   group('fromJson', () {
@@ -23,17 +26,18 @@ void main() {
       // act
       final result = MemoryModel.fromJson(jsonMap);
       // assert
-      expect(result, tMemoryModel);
+      expect(result, tMemoryModelone);
     });
   });
 
   group('toJson', () {
-    test('Should return a JSON map containing the proper data', () async {
+    test(
+        'Should return a JSON map containing the proper data for a memory WITHOUT id',
+        () async {
       // act
-      final result = tMemoryModel.toJson();
+      final result = tMemoryModelone.toJson();
       // assert
       final expectedMap = {
-        "id": 1,
         "account": 1,
         "title": "My first memory",
       };
