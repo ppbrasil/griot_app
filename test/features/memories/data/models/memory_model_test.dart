@@ -8,6 +8,7 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   const tMemoryModelone = MemoryModel(
+    id: 1,
     title: "My first memory",
     account: 1,
   );
@@ -38,6 +39,7 @@ void main() {
       final result = tMemoryModelone.toJson();
       // assert
       final expectedMap = {
+        "id": 1,
         "account": 1,
         "title": "My first memory",
       };

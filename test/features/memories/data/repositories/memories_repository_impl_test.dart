@@ -32,7 +32,8 @@ void main() {
     const tMemoryId = 1;
     const tAccount = 2;
     const tTitle = "Test Memory Title";
-    const tMemoryModel = MemoryModel(account: tAccount, title: tTitle);
+    const tMemoryModel =
+        MemoryModel(id: tMemoryId, account: tAccount, title: tTitle);
     const Memory tMemory = tMemoryModel;
 
     test('Should check connectivity when performGetMemoryDetails is called',
@@ -128,8 +129,10 @@ void main() {
     const tTitle1 = "Test Memory Title 1";
     const tAccount2 = 2;
     const tTitle2 = "Test Memory Title 2";
-    const tMemoryModel1 = MemoryModel(account: tAccount1, title: tTitle1);
-    const tMemoryModel2 = MemoryModel(account: tAccount2, title: tTitle2);
+    const tMemoryModel1 =
+        MemoryModel(id: 1, account: tAccount1, title: tTitle1);
+    const tMemoryModel2 =
+        MemoryModel(id: 2, account: tAccount2, title: tTitle2);
     final List<MemoryModel> tMemoryModelList = [tMemoryModel1, tMemoryModel2];
     final List<Memory> tMemoryList = [tMemoryModel1, tMemoryModel2];
 
@@ -153,7 +156,7 @@ void main() {
         () async {
           // arrange
           final tMemoryModelList = tMemoryList
-              .map((e) => MemoryModel(account: 1, title: e.title))
+              .map((e) => MemoryModel(id: 1, account: 1, title: e.title))
               .toList();
           when(mockMemoriesRemoteDataSource.getMemoriesListFromAPI())
               .thenAnswer((_) async => tMemoryModelList);
@@ -222,7 +225,7 @@ void main() {
   group('performCreateMemory', () {
     const tTitle = "New Memory Title";
     const tAccount = 2;
-    const tMemoryModel = MemoryModel(account: tAccount, title: tTitle);
+    const tMemoryModel = MemoryModel(id: 1, account: tAccount, title: tTitle);
     const Memory tMemory = tMemoryModel;
 
     test('Should check connectivity when performCreateMemory is called',
