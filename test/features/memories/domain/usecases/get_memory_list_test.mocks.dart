@@ -63,7 +63,7 @@ class MockMemoriesRepository extends _i1.Mock
       ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.Memory>>>);
   @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>> performGetMemoryDetails(
-          {int? memoryId}) =>
+          {required int? memoryId}) =>
       (super.noSuchMethod(
         Invocation.method(
           #performGetMemoryDetails,
@@ -82,7 +82,7 @@ class MockMemoriesRepository extends _i1.Mock
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
   @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>> performcreateMemory(
-          {String? title}) =>
+          {required String? title}) =>
       (super.noSuchMethod(
         Invocation.method(
           #performcreateMemory,
