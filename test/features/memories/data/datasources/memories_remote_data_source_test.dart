@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/models/memory_model.dart';
@@ -11,20 +12,27 @@ import 'package:http/http.dart' as http;
 import '../../../../fixtures/fixture_reader.dart';
 import 'memories_remote_data_source_test.mocks.dart';
 
-@GenerateMocks([http.Client])
+@GenerateMocks([http.Client, TokenProvider])
 void main() {
   late MemoriesRemoteDataSourceImpl datasource;
   late MockClient mockHttpClient;
+  late MockTokenProvider mockTokenProvider;
 
   setUp(() {
     mockHttpClient = MockClient();
-    datasource = MemoriesRemoteDataSourceImpl(client: mockHttpClient);
+    mockTokenProvider = MockTokenProvider();
+    datasource = MemoriesRemoteDataSourceImpl(
+        tokenProvider: mockTokenProvider, client: mockHttpClient);
   });
 
   group('getMemoryDetailsFromAPI', () {
-    final tMemoryId = 1;
-    final tEndpoint = 'http://app.griot.me/api/memories/$tMemoryId';
-    final tHeaders = {'Content-Type': 'application/json'};
+    const tMemoryId = 1;
+    const tEndpoint = 'http://app.griot.me/api/memory/retrieve/$tMemoryId/';
+    const tToken = 'yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk';
+    const tHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Token $tToken',
+    };
 
     final tMemoryModel = MemoryModel.fromJson(
         json.decode(fixture('memory_details_success.json')));
@@ -33,9 +41,21 @@ void main() {
       'Should perform a GET request with memories/{id} endpoint and application/json header',
       () async {
         // arrange
-        when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-            .thenAnswer((_) async =>
-                http.Response(fixture('memory_details_success.json'), 200));
+
+        when(mockTokenProvider.getToken())
+            .thenAnswer((_) async => 'Token $tToken');
+
+        /*
+        final tHeaders = {
+          'Content-Type': 'application/json',
+          'Authorization': 'Token $tToken',
+        };*/
+
+        when(mockHttpClient.get(
+          Uri.parse(tEndpoint),
+          headers: tHeaders,
+        )).thenAnswer((_) async =>
+            http.Response(fixture('memory_details_success.json'), 200));
 
         // act
         await datasource.getMemoryDetailsFromAPI(memoryId: tMemoryId);
@@ -50,6 +70,8 @@ void main() {
 
     test('Should return MemoryModel when response code is 200', () async {
       // arrange
+      when(mockTokenProvider.getToken())
+          .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
           .thenAnswer((_) async =>
               http.Response(fixture('memory_details_success.json'), 200));
@@ -65,6 +87,8 @@ void main() {
     test('Should throw a ServerException when response code is not 200',
         () async {
       // arrange
+      when(mockTokenProvider.getToken())
+          .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
           .thenAnswer((_) async => http.Response('Something went wrong', 404));
 
@@ -78,8 +102,12 @@ void main() {
   });
 
   group('getMemoriesListFromAPI', () {
-    final tEndpoint = 'http://app.griot.me/api/memories/';
-    final tHeaders = {'Content-Type': 'application/json'};
+    const tEndpoint = 'http://app.griot.me/api/memory/list/';
+    const tToken = "yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk";
+    const tHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Token $tToken',
+    };
 
     final tMemoryModelList = [
       MemoryModel.fromJson(json.decode(fixture('memory_details_success.json'))),
@@ -93,6 +121,8 @@ void main() {
       'Should perform a GET request with memories/ endpoint and application/json header',
       () async {
         // arrange
+        when(mockTokenProvider.getToken())
+            .thenAnswer((_) async => 'Token $tToken');
         when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
             .thenAnswer((_) async =>
                 http.Response(fixture('memories_list_success.json'), 200));
@@ -110,6 +140,8 @@ void main() {
 
     test('Should return List<MemoryModel> when response code is 200', () async {
       // arrange
+      when(mockTokenProvider.getToken())
+          .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
           .thenAnswer((_) async =>
               http.Response(fixture('memories_list_success.json'), 200));
@@ -123,6 +155,8 @@ void main() {
 
     test('Should throw a AuthException when response code is 401', () async {
       // arrange
+      when(mockTokenProvider.getToken())
+          .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
           .thenAnswer((_) async => http.Response('Invalid token', 401));
 
@@ -135,10 +169,14 @@ void main() {
   });
 
   group('postMemoryToAPI', () {
-    final tTitle = 'Test Title';
-    final tEndpoint = 'http://app.griot.me/api/memories/';
-    final tHeaders = {'Content-Type': 'application/json'};
-    final tBody = {"title": tTitle};
+    const tTitle = 'Test Title';
+    const tEndpoint = 'http://app.griot.me/api/memories/';
+    const tToken = "yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk";
+    const tHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Token $tToken',
+    };
+    const tBody = {"title": tTitle};
 
     final tMemoryModel = MemoryModel.fromJson(
         json.decode(fixture('memory_details_success.json')));
@@ -147,6 +185,8 @@ void main() {
       'Should perform a POST request with memories/ endpoint, application/json header, and body',
       () async {
         // arrange
+        when(mockTokenProvider.getToken())
+            .thenAnswer((_) async => 'Token $tToken');
         when(mockHttpClient.post(
           Uri.parse(tEndpoint),
           headers: tHeaders,
@@ -169,6 +209,8 @@ void main() {
     test('Should return MemoryModel when response code is 201 (Created)',
         () async {
       // arrange
+      when(mockTokenProvider.getToken())
+          .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.post(
         Uri.parse(tEndpoint),
         headers: tHeaders,
@@ -186,6 +228,8 @@ void main() {
     test('Should throw a ServerException when response code is not 201',
         () async {
       // arrange
+      when(mockTokenProvider.getToken())
+          .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.post(
         Uri.parse(tEndpoint),
         headers: tHeaders,

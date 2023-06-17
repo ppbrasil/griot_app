@@ -9,6 +9,7 @@ import 'dart:async' as _i3;
 import 'dart:convert' as _i4;
 import 'dart:typed_data' as _i5;
 
+import 'package:griot_app/core/data/token_provider.dart' as _i6;
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -262,4 +263,22 @@ class MockClient extends _i1.Mock implements _i2.Client {
         ),
         returnValueForMissingStub: null,
       );
+}
+
+/// A class which mocks [TokenProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTokenProvider extends _i1.Mock implements _i6.TokenProvider {
+  MockTokenProvider() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<String> getToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getToken,
+          [],
+        ),
+        returnValue: _i3.Future<String>.value(''),
+      ) as _i3.Future<String>);
 }

@@ -47,8 +47,8 @@ class MemoriesBlocBloc extends Bloc<MemoriesBlocEvent, MemoriesBlocState> {
       emit(MemoriesGetListLoading());
       final memoriesEither = await getMemories(getMemoriesUseCase.NoParams());
       memoriesEither.fold(
-        (failure) => emit(
-            MemoriesGetListFailure(message: 'Failed to fetch memory list')),
+        (failure) => emit(const MemoriesGetListFailure(
+            message: 'Failed to fetch memory list')),
         (memories) => emit(MemoriesGetListSuccess(memories: memories)),
       );
     });
