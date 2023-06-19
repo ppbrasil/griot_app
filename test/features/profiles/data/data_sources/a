@@ -1,0 +1,15 @@
+
+patch(http://app.griot.me/api/profile/update/, 
+{headers: {
+    Content-Type: application/json, Authorization: 
+    Token yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk}, 
+    body: {
+        "profile_picture":"https://griot-memories-data.s3.amazonaws.com/profile_pictures/3x4.jpg",
+        "name":"Pedro Paulo",
+        "middle_name":"Brasil",
+        "last_name":"de Assis Ribeiro",
+        "birth_date":"1980-12-16T00:00:00.000",
+        "gender":"male",
+        "language":"pt",
+        "time_zone":
+        "America/Sao_Paulo"}, encoding: null})

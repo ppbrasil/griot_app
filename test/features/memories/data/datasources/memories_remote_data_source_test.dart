@@ -45,12 +45,6 @@ void main() {
         when(mockTokenProvider.getToken())
             .thenAnswer((_) async => 'Token $tToken');
 
-        /*
-        final tHeaders = {
-          'Content-Type': 'application/json',
-          'Authorization': 'Token $tToken',
-        };*/
-
         when(mockHttpClient.get(
           Uri.parse(tEndpoint),
           headers: tHeaders,

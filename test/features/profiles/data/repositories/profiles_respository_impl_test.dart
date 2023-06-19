@@ -5,7 +5,6 @@ import 'package:griot_app/profile/data/data_sources/profiles_remote_data_source.
 import 'package:griot_app/profile/data/models/profile_model.dart';
 import 'package:griot_app/profile/data/repositories_impl/profiles_respository_impl.dart';
 import 'package:griot_app/profile/domain/entities/profile.dart';
-import 'package:griot_app/profile/domain/use_cases/perform_update_profile_dateils.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:test/test.dart';

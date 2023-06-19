@@ -1,4 +1,7 @@
 import 'package:griot_app/profile/domain/entities/profile.dart';
+import 'package:intl/intl.dart';
+
+final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
 class ProfileModel extends Profile {
   const ProfileModel({
@@ -17,7 +20,7 @@ class ProfileModel extends Profile {
     return ProfileModel(
       id: json['id'] as int,
       profilePicture: json['profile_picture'] as String?,
-      name: json['name'] as String,
+      name: json['name'] as String?,
       middleName: json['middle_name'] as String?,
       lastName: json['last_name'] as String,
       birthDate: DateTime.parse(json['birth_date'] as String),
@@ -46,7 +49,7 @@ class ProfileModel extends Profile {
       data['last_name'] = lastName;
     }
     if (birthDate != null) {
-      data['birth_date'] = birthDate?.toIso8601String();
+      data['birth_date'] = formatter.format(birthDate!);
     }
     if (gender != null) {
       data['gender'] = gender;
