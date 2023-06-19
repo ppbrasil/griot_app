@@ -4,6 +4,7 @@ import 'package:griot_app/beloved_ones/presentation/pages/beloved_ones_details_p
 import 'package:griot_app/beloved_ones/presentation/pages/beloved_ones_list_page.dart';
 import 'package:griot_app/core/presentation/pages/dashboard.dart';
 import 'package:griot_app/core/presentation/pages/home_page.dart';
+import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/presentation/pages/memories_creation_page.dart';
 import 'package:griot_app/memories/presentation/pages/memories_details_page.dart';
 import 'package:griot_app/memories/presentation/pages/memories_list_page.dart';
@@ -24,7 +25,15 @@ class AppRouter {
       case '/memories_list_page':
         return MaterialPageRoute(builder: (_) => const MemoriesListPage());
       case '/memories_details_page':
-        return MaterialPageRoute(builder: (_) => const MemoriesDetailsPage());
+        if (settings.arguments is Memory) {
+          return MaterialPageRoute(
+            builder: (_) =>
+                MemoryDetailsPage(memory: settings.arguments as Memory),
+          );
+        }
+        throw const RouteException(
+            'Arguments for /memories_details_page must be of type Memory');
+
       case '/memories_creation_page':
         return MaterialPageRoute(builder: (_) => const MemoriesCreationPage());
       case '/beloved_ones_list_page':

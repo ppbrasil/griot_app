@@ -17,7 +17,6 @@ void main() {
   late MemoriesRepositoryImpl repository;
   late MockMemoriesRemoteDataSource mockMemoriesRemoteDataSource;
   late MockNetworkInfo mockNetworkInfo;
-  late int tMemoryId;
 
   setUp(() {
     mockMemoriesRemoteDataSource = MockMemoriesRemoteDataSource();

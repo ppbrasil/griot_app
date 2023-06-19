@@ -7,6 +7,8 @@ import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
 import 'package:griot_app/injection_container.dart';
 import 'package:griot_app/memories/presentation/bloc/memories_bloc_bloc.dart';
 
+final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+
 class GriotApp extends StatelessWidget {
   const GriotApp({Key? key}) : super(key: key);
 
@@ -21,6 +23,7 @@ class GriotApp extends StatelessWidget {
           child: MaterialApp(
             title: 'Griot App',
             theme: AppTheme.lightTheme,
+            navigatorObservers: [routeObserver],
             onGenerateRoute: AppRouter().onGenerateRoute,
           ),
         ),
