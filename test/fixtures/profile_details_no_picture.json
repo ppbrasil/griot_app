@@ -1,0 +1,17 @@
+{
+    "id": 1,
+    "user": {
+        "username": "ppbrasil@gmail.com",
+        "email": "ppbrasil@gmail.com"
+    },
+    "profile_picture": null,
+    "name": "Pedro Paulo",
+    "middle_name": "Brasil",
+    "last_name": "de Assis Ribeiro",
+    "birth_date": "1980-12-16",
+    "gender": "male",
+    "language": "pt",
+    "timezone": "America/Sao_Paulo",
+    "created_at": "2023-06-19T12:08:32.550556Z",
+    "updated_at": "2023-06-19T12:10:19.459131Z"
+}
