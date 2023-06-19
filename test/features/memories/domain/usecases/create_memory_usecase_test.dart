@@ -21,7 +21,7 @@ void main() {
   const tTitle = "My Memory Title";
   const tNewMemory = Memory(title: tTitle);
 
-  test('Should get a memory\'s detials from the repository', () async {
+  test('Should get a memory\'s details from the repository', () async {
     // arrange
     when(mockMemoriesRepository.performcreateMemory(title: tTitle))
         .thenAnswer((_) async => const Right(tNewMemory));
