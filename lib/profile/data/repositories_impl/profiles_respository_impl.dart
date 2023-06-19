@@ -16,7 +16,7 @@ class ProfilesRepositoryImpl implements ProfilesRepository {
   Future<Either<Failure, Profile>> performGetProfileDetails() async {
     if (await networkInfo.isConnected) {
       try {
-        Profile profile = await remoteDataSource.performGetProfileDetails();
+        Profile profile = await remoteDataSource.getProfileDetailsFromAPI();
 
         return Right(profile);
       } on ServerFailure {
@@ -38,6 +38,25 @@ class ProfilesRepositoryImpl implements ProfilesRepository {
     String? language,
     String? timeZone,
   }) async {
-    return const Left(ConnectivityFailure(message: 'No internet connection'));
+    if (await networkInfo.isConnected) {
+      try {
+        Profile profile = await remoteDataSource.updateProfileDetailsOverAPI(
+          profilePicture: profilePicture,
+          name: name,
+          middleName: middleName,
+          lastName: lastName,
+          birthDate: birthDate,
+          gender: gender,
+          language: language,
+          timeZone: timeZone,
+        );
+
+        return Right(profile);
+      } on ServerFailure {
+        return const Left(ServerFailure(message: 'Unable to retrieve data'));
+      }
+    } else {
+      return const Left(ConnectivityFailure(message: 'No internet connection'));
+    }
   }
 }

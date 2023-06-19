@@ -1,8 +1,8 @@
 import 'package:griot_app/profile/domain/entities/profile.dart';
 
 abstract class ProfilesRemoteDataSource {
-  Future<Profile> performGetProfileDetails();
-  Future<Profile> performUpdateProfileDetails({
+  Future<Profile> getProfileDetailsFromAPI();
+  Future<Profile> updateProfileDetailsOverAPI({
     final String? profilePicture,
     final String? name,
     final String? middleName,
