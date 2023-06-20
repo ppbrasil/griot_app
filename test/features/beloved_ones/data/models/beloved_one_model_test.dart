@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:griot_app/beloved_ones/data/models/beloved_one_model.dart';
+import 'package:griot_app/beloved_ones/domain/entities/beloved_one.dart';
 import 'package:test/test.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
@@ -17,6 +18,13 @@ void main() {
     gender: "male",
     language: "pt",
     timeZone: "America/Sao_Paulo",
+  );
+
+  test(
+    'Should be a subclass of Memory entity',
+    () async {
+      expect(tBelovedOneModel, isA<BelovedOne>());
+    },
   );
 
   group('fromJson', () {

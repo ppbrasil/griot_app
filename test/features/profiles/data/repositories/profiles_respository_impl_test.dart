@@ -3,7 +3,7 @@ import 'package:griot_app/core/error/failures.dart';
 import 'package:griot_app/core/network/network_info.dart';
 import 'package:griot_app/profile/data/data_sources/profiles_remote_data_source.dart';
 import 'package:griot_app/profile/data/models/profile_model.dart';
-import 'package:griot_app/profile/data/repositories_impl/profiles_respository_impl.dart';
+import 'package:griot_app/profile/data/repository_impl/profiles_respository_impl.dart';
 import 'package:griot_app/profile/domain/entities/profile.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';

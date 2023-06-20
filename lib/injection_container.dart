@@ -14,7 +14,7 @@ import 'package:griot_app/memories/domain/usecases/get_memories_list.dart';
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart';
 import 'package:griot_app/memories/presentation/bloc/memories_bloc_bloc.dart';
 import 'package:griot_app/profile/data/data_sources/profiles_remote_data_source.dart';
-import 'package:griot_app/profile/data/repositories_impl/profiles_respository_impl.dart';
+import 'package:griot_app/profile/data/repository_impl/profiles_respository_impl.dart';
 import 'package:griot_app/profile/domain/repositories/profile_respository.dart';
 import 'package:griot_app/profile/domain/use_cases/perform_update_profile_dateils.dart';
 import 'package:griot_app/profile/presentation/bloc/profile_bloc_bloc.dart';
