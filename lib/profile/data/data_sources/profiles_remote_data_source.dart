@@ -73,7 +73,7 @@ class ProfilesRemoteDataSourceImpl implements ProfilesRemoteDataSource {
       }),
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 201 || response.statusCode == 200) {
       return ProfileModel.fromJson(json.decode(response.body));
     } else {
       throw InvalidTokenException();

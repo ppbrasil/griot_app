@@ -5,6 +5,8 @@ abstract class ProfileBlocState extends Equatable {
 
   @override
   List<Object> get props => [];
+
+  get profile => null;
 }
 
 class ProfileInitial extends ProfileBlocState {}
@@ -12,6 +14,7 @@ class ProfileInitial extends ProfileBlocState {}
 class ProfileGetDetailsLoading extends ProfileBlocState {}
 
 class ProfileGetDetailsSuccess extends ProfileBlocState {
+  @override
   final Profile profile;
 
   const ProfileGetDetailsSuccess({required this.profile});
@@ -32,6 +35,7 @@ class ProfileGetDetailsFailure extends ProfileBlocState {
 class ProfileUpdateLoading extends ProfileBlocState {}
 
 class ProfileUpdateSuccess extends ProfileBlocState {
+  @override
   final Profile profile;
 
   const ProfileUpdateSuccess({required this.profile});
