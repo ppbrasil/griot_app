@@ -47,7 +47,7 @@ void main() {
         );
         return bloc;
       },
-      act: (bloc) => bloc.add(const GetProfileInfoEvent()),
+      act: (bloc) => bloc.add(const GetProfileDetailsEvent()),
       expect: () => [
         ProfileGetDetailsLoading(),
         ProfileGetDetailsSuccess(profile: tProfile),
@@ -64,7 +64,7 @@ void main() {
         );
         return bloc;
       },
-      act: (bloc) => bloc.add(const GetProfileInfoEvent()),
+      act: (bloc) => bloc.add(const GetProfileDetailsEvent()),
       expect: () => [
         ProfileGetDetailsLoading(),
         const ProfileGetDetailsFailure(
@@ -85,7 +85,7 @@ void main() {
         );
         return bloc;
       },
-      act: (bloc) => bloc.add(UpdateProfileInfoEvent(profile: tProfile)),
+      act: (bloc) => bloc.add(UpdateProfileDetailsEvent(profile: tProfile)),
       expect: () => [
         ProfileUpdateLoading(),
         ProfileUpdateSuccess(profile: tProfile),
@@ -103,7 +103,7 @@ void main() {
         );
         return bloc;
       },
-      act: (bloc) => bloc.add(UpdateProfileInfoEvent(profile: tProfile)),
+      act: (bloc) => bloc.add(UpdateProfileDetailsEvent(profile: tProfile)),
       expect: () => [
         ProfileUpdateLoading(),
         const ProfileUpdateFailure(message: 'Failed to update profile details'),

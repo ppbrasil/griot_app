@@ -17,7 +17,7 @@ class ProfileBlocBloc extends Bloc<ProfileBlocEvent, ProfileBlocState> {
     required this.getDetails,
     required this.updateDetails,
   }) : super(ProfileInitial()) {
-    on<GetProfileInfoEvent>((event, emit) async {
+    on<GetProfileDetailsEvent>((event, emit) async {
       emit(ProfileGetDetailsLoading());
       final profileEither = await getDetails(getProfileUseCase.NoParams());
       profileEither.fold(
@@ -27,7 +27,7 @@ class ProfileBlocBloc extends Bloc<ProfileBlocEvent, ProfileBlocState> {
       );
     });
 
-    on<UpdateProfileInfoEvent>((event, emit) async {
+    on<UpdateProfileDetailsEvent>((event, emit) async {
       emit(ProfileUpdateLoading());
       final profileEither = await updateDetails(updateProfileUseCase.Params(
         profilePicture: event.profile.profilePicture,

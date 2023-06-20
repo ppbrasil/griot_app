@@ -7,17 +7,17 @@ abstract class ProfileBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetProfileInfoEvent extends ProfileBlocEvent {
-  const GetProfileInfoEvent();
+class GetProfileDetailsEvent extends ProfileBlocEvent {
+  const GetProfileDetailsEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class UpdateProfileInfoEvent extends ProfileBlocEvent {
+class UpdateProfileDetailsEvent extends ProfileBlocEvent {
   final Profile profile;
 
-  const UpdateProfileInfoEvent({required this.profile});
+  const UpdateProfileDetailsEvent({required this.profile});
 
   @override
   List<Object> get props => [profile];
