@@ -17,7 +17,9 @@ class UsersRemoteDataSourceImpl implements UsersRemoteDataSource {
   final TokenProvider tokenProvider;
 
   UsersRemoteDataSourceImpl(
-      {required this.client, required this.tokenProvider});
+      {required this.client,
+      required this.tokenProvider,
+      required Object networkInfo});
 
   @override
   Future<List<Account>> getBelovedAccountsListFromAPI() {

@@ -5,7 +5,7 @@ abstract class MainAccountIdProvider {
   Future<int> getMainAccountId();
 }
 
-class TokenProviderImpl implements MainAccountIdProvider {
+class MainAccountIdProviderImpl implements MainAccountIdProvider {
   @override
   Future<int> getMainAccountId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
