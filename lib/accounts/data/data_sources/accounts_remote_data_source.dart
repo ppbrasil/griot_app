@@ -1,15 +1,9 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:griot_app/core/data/token_provider.dart';
+import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/accounts/data/models/account_model.dart';
 import 'package:griot_app/accounts/data/models/beloved_one_model.dart';
-import 'package:griot_app/accounts/data/models/beloved_ones_list_model.dart';
-import 'package:http/http.dart' as http;
-
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:griot_app/core/data/token_provider.dart';
-
-import 'package:griot_app/accounts/domain/entities/account.dart';
-import 'package:griot_app/accounts/domain/entities/beloved_one.dart';
-import 'package:griot_app/core/error/exceptions.dart';
 
 abstract class AccountsRemoteDataSource {
   Future<AccountModel> getAccountDetailsFromAPI({required int accountId});

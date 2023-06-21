@@ -1,15 +1,13 @@
 import 'package:dartz/dartz.dart';
+import 'package:griot_app/core/error/exceptions.dart';
+import 'package:griot_app/core/error/failures.dart';
+import 'package:griot_app/core/network/network_info.dart';
+
 import 'package:griot_app/accounts/data/data_sources/accounts_remote_data_source.dart';
 import 'package:griot_app/accounts/data/models/account_model.dart';
 import 'package:griot_app/accounts/data/models/beloved_one_model.dart';
-import 'package:griot_app/accounts/data/models/beloved_ones_list_model.dart';
-import 'package:griot_app/accounts/domain/entities/account.dart';
 import 'package:griot_app/accounts/domain/entities/beloved_one.dart';
 import 'package:griot_app/accounts/domain/repositories/accounts_repository.dart';
-import 'package:griot_app/core/error/exceptions.dart';
-
-import 'package:griot_app/core/error/failures.dart';
-import 'package:griot_app/core/network/network_info.dart';
 
 class AccountsRepositoryImpl implements AccountsRepository {
   final NetworkInfo networkInfo;

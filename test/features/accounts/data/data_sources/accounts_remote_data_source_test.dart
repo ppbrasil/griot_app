@@ -105,7 +105,6 @@ void main() {
 
     final iBelovedOnesListModel = BelovedOneListModel.fromJson(json.decode(
         fixture('account_details_success.json'))['beloved_ones_profiles']);
-    final iBelovedOnesModelList = [iBelovedOnesListModel.belovedOnes[0]];
 
     test(
       'Should perform a GET request with account endpoint and application/json header',
@@ -129,7 +128,7 @@ void main() {
         ));
       },
     );
-    test('Should return a Lis<BelovedOneModel> when response code is 200',
+    test('Should return a List<BelovedOneModel> when response code is 200',
         () async {
       // arrange
       when(mockTokenProvider.getToken())
