@@ -1,8 +1,9 @@
 I'm building a flutter project with the following features 
 - Login/Authentication 
-- Memories 
-- BelovedOnes 
+- User
 - Profile 
+- Accounts 
+- Memories 
 
 Since we are following the Clean Architecture Approach with 9 layers. Each of those features have a folder with the following structure: 
 - data/data_sources: holds the connectivity logic with the data source. Responsible for generating errors and passing it up to the repository
@@ -30,7 +31,7 @@ Besides those folders we have a core folder with
 - presentation/widgets: Widgets that are used for multiple features
 - presentation/pages: Pages that are used to support multiple features (e.g. home_page that holds a navigation bar)
 
-We have already built the authentication feature and now, we need to move forward with the implementation of the Memories Feature. For that I want to follow the following steps
+We have already built the authentication, memories and profile features and now, we need to move forward with the implementation of the User and Accounts Feature. For that I want to follow the following steps
 1. Define Use-cases (conceptually)
 2. Write Entities extending Equatable
 3. Write Repository Abstraction
@@ -43,3 +44,5 @@ We have already built the authentication feature and now, we need to move forwar
 10. Write Bloc States
 11. Write Bloc File
 12. Attach Interface
+
+For both features I have already covered steps from 1 to 5 and now, after writing the Models I need you r help to write the tests for the UserModel Class.

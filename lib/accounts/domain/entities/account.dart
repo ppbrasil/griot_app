@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:griot_app/beloved_ones/domain/entities/beloved_one.dart';
+import 'package:griot_app/accounts/domain/entities/beloved_one.dart';
 
 class Account extends Equatable {
   final int? id;

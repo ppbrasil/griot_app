@@ -1,0 +1,74 @@
+{
+    "owned_accounts": [
+        {
+            "id": 1,
+            "owner_user": 1,
+            "beloved_ones_profiles": [
+                {
+                    "id": 1,
+                    "user": {
+                        "username": "pbrasil",
+                        "email": "pedro@griot.me"
+                    },
+                    "profile_picture": "https://griot-memories-data.s3.amazonaws.com/profile_pictures/my_profile.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAVZTSDT4BCHJLQOX6%2F20230620%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230620T215540Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEFYaCXVzLWVhc3QtMSJIMEYCIQChN%2BOc0iWd9483PBCugjQWMTsfDQG2KcE0ixQ7f5favgIhAMS%2BNhs09b5tZDq0aNRjcRYHMWMBkOmSOaTDiFgl3pl3KsUFCK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMzk4NTk3NTI5MzQ2IgxlX8qI%2F3vgnzU%2FxogqmQU4RKLttqTvp6p1narB9AHtGb5PP1I5o83EHPPfXhQl2Rb3ydi%2FmQUeT5F02SzlMxbXWDVcXU6Kwf0FQoXwGIlWzDiR9Q%2BDFYNxcdQYTy1BhbUfhM7orP9saUqpXI8TeD6RpBz7ZZPlr5lWqFDAeMhE7bYmzqQWaQjkN0rh2IATW9Yj4r80Q8CC7adn3Aewkc6m7DStWhKqie3JyxH1PMk6622rfWJbqS2njxR7G1mHYPJtHNDanUH%2FnsX1oKxIXdVoGZijDRdFAv7ly%2B%2BbilrDv7qd2%2Fdi2fBeWbRWqyQVldOnwzsCUCl3OMFO6Db6soGhG%2BI%2B6dPm7ZOcbFx%2BhJ8oMZfeHxM9zbSK5xx3eW%2BHLNx4XZ0BD5DUsyAXBF9VxujCLrjEMrJ1z8bj1ygagzJcVbMWuTI93k9kEJIuYvOQnpRArl%2F3SNID2fTF%2F7%2FSom1wIEntNcwKHB0JnAiwZXx%2Bs%2BLjVDJfwYM%2B%2F9jzqHhBzqq9T18ahYORWBF1diR9rG7Fmk0UL6S87XBREd5BsQ6SiTtRUqFTyHRhMK1rZ5RqHSkDPDehmaM2PgoklJXfvAp9zz46%2B9vJOeHCF7eIXw6wYNBJRyjG3oyoaB1IR6uTrRqOT6i3Kj2irI65QPz4tT%2BAb1p8PJRKp%2FQw5%2B71XccQUycwQv%2Fr9hXBrOWLeRPTZBNqrlR7buD5mVJBMoZ8R9aCbcpXCbntentD0nS0S%2BpS2IfmAcjn8v5sWfL%2FGnIYJGrYdI5Zd9c1no1k99CB%2FQxkB%2FpE6I8f1sZnGENsSmkwvLc%2BN4Sk5bsG%2BwZf3Ava3%2BBuyM2en4RRDDJxP6TQ603v4Z%2B7n%2B4GN0b1XBGN1Hw7UPF%2FEmn%2Bi5zZZQcKx32KmKu5HoKGNVeBeDC6rcikBjqwAaqfg%2BhOk57O9t9%2BB1adfYg1yhyRYXO80Vrfkaz27kAZ6f1F0eUqYr8Lqqh1scbJVguTDXSSbbdP32ufnstgmjm7rGBurTfdjZ9PyMF6lq5sWhypEe5AYKX8IG7zwszHMo72nP6A2iQ3L2WT6GdhvEREBSSZNlJi9u3vvqEe2MZ37mOdY9RUwWZXdcj84Ej0%2B1rF0c1%2Fd0qsb4b4ZLY%2BABN%2FcaZy%2BA%2FPLCz3DlkkhwQX&X-Amz-Signature=4245801eff6c251ddedd9960f54b06f5f839d52c6a0309bdd0d8d904d21c3edd",
+                    "name": "Pedro",
+                    "middle_name": null,
+                    "last_name": "Brasil",
+                    "birth_date": null,
+                    "gender": "male",
+                    "language": "pt",
+                    "timezone": "America/Sao_Paulo",
+                    "created_at": "2023-06-03T12:50:11.172529Z",
+                    "updated_at": "2023-06-03T12:57:05.479331Z"
+                },
+                {
+                    "id": 4,
+                    "user": {
+                        "username": "bc.caffaro",
+                        "email": ""
+                    },
+                    "profile_picture": null,
+                    "name": "Bianca",
+                    "middle_name": null,
+                    "last_name": "Caffaro",
+                    "birth_date": null,
+                    "gender": "female",
+                    "language": "pt",
+                    "timezone": "America/Sao_Paulo",
+                    "created_at": "2023-06-20T12:19:43.399452Z",
+                    "updated_at": "2023-06-20T12:19:43.399468Z"
+                },
+                {
+                    "id": 2,
+                    "user": {
+                        "username": "clarinha",
+                        "email": ""
+                    },
+                    "profile_picture": "https://griot-memories-data.s3.amazonaws.com/profile_pictures/WhatsApp_Image_2023-06-03_at_10.05.53_AM.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAVZTSDT4BCHJLQOX6%2F20230620%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230620T215540Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEFYaCXVzLWVhc3QtMSJIMEYCIQChN%2BOc0iWd9483PBCugjQWMTsfDQG2KcE0ixQ7f5favgIhAMS%2BNhs09b5tZDq0aNRjcRYHMWMBkOmSOaTDiFgl3pl3KsUFCK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMzk4NTk3NTI5MzQ2IgxlX8qI%2F3vgnzU%2FxogqmQU4RKLttqTvp6p1narB9AHtGb5PP1I5o83EHPPfXhQl2Rb3ydi%2FmQUeT5F02SzlMxbXWDVcXU6Kwf0FQoXwGIlWzDiR9Q%2BDFYNxcdQYTy1BhbUfhM7orP9saUqpXI8TeD6RpBz7ZZPlr5lWqFDAeMhE7bYmzqQWaQjkN0rh2IATW9Yj4r80Q8CC7adn3Aewkc6m7DStWhKqie3JyxH1PMk6622rfWJbqS2njxR7G1mHYPJtHNDanUH%2FnsX1oKxIXdVoGZijDRdFAv7ly%2B%2BbilrDv7qd2%2Fdi2fBeWbRWqyQVldOnwzsCUCl3OMFO6Db6soGhG%2BI%2B6dPm7ZOcbFx%2BhJ8oMZfeHxM9zbSK5xx3eW%2BHLNx4XZ0BD5DUsyAXBF9VxujCLrjEMrJ1z8bj1ygagzJcVbMWuTI93k9kEJIuYvOQnpRArl%2F3SNID2fTF%2F7%2FSom1wIEntNcwKHB0JnAiwZXx%2Bs%2BLjVDJfwYM%2B%2F9jzqHhBzqq9T18ahYORWBF1diR9rG7Fmk0UL6S87XBREd5BsQ6SiTtRUqFTyHRhMK1rZ5RqHSkDPDehmaM2PgoklJXfvAp9zz46%2B9vJOeHCF7eIXw6wYNBJRyjG3oyoaB1IR6uTrRqOT6i3Kj2irI65QPz4tT%2BAb1p8PJRKp%2FQw5%2B71XccQUycwQv%2Fr9hXBrOWLeRPTZBNqrlR7buD5mVJBMoZ8R9aCbcpXCbntentD0nS0S%2BpS2IfmAcjn8v5sWfL%2FGnIYJGrYdI5Zd9c1no1k99CB%2FQxkB%2FpE6I8f1sZnGENsSmkwvLc%2BN4Sk5bsG%2BwZf3Ava3%2BBuyM2en4RRDDJxP6TQ603v4Z%2B7n%2B4GN0b1XBGN1Hw7UPF%2FEmn%2Bi5zZZQcKx32KmKu5HoKGNVeBeDC6rcikBjqwAaqfg%2BhOk57O9t9%2BB1adfYg1yhyRYXO80Vrfkaz27kAZ6f1F0eUqYr8Lqqh1scbJVguTDXSSbbdP32ufnstgmjm7rGBurTfdjZ9PyMF6lq5sWhypEe5AYKX8IG7zwszHMo72nP6A2iQ3L2WT6GdhvEREBSSZNlJi9u3vvqEe2MZ37mOdY9RUwWZXdcj84Ej0%2B1rF0c1%2Fd0qsb4b4ZLY%2BABN%2FcaZy%2BA%2FPLCz3DlkkhwQX&X-Amz-Signature=875ee5e73c2034e1e35d5ba8db8e76631b80efe0090b89eae3c4e32b75d9a540",
+                    "name": "Ana Clara",
+                    "middle_name": null,
+                    "last_name": "Estephan",
+                    "birth_date": null,
+                    "gender": "female",
+                    "language": "pt",
+                    "timezone": "America/Sao_Paulo",
+                    "created_at": "2023-06-03T13:06:28.169403Z",
+                    "updated_at": "2023-06-03T13:06:28.169426Z"
+                }
+            ],
+            "name": "My Account",
+            "is_active": true,
+            "created_at": "2023-06-15T20:39:16.145327Z",
+            "updated_at": "2023-06-20T12:17:44.083650Z",
+            "beloved_ones": [
+                5,
+                3,
+                4,
+                6,
+                7,
+                2
+            ]
+        }
+    ],
+    "beloved_accounts": []
+}

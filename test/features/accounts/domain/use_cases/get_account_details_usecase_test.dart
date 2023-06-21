@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:griot_app/accounts/domain/entities/account.dart';
-import 'package:griot_app/accounts/domain/repository/accounts_repository.dart';
+import 'package:griot_app/accounts/domain/repositories/accounts_repository.dart';
 import 'package:griot_app/accounts/domain/use_cases/get_account_details_usecase.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -10,12 +10,12 @@ import 'get_account_details_usecase_test.mocks.dart';
 
 @GenerateMocks([AccountsRepository])
 void main() {
-  late GetAccountsDetails usecase;
+  late GetAccountDetailsUseCase usecase;
   late MockAccountsRepository mockAccountsRepository;
 
   setUp(() {
     mockAccountsRepository = MockAccountsRepository();
-    usecase = GetAccountsDetails(mockAccountsRepository);
+    usecase = GetAccountDetailsUseCase(mockAccountsRepository);
   });
 
   const tAccounId = 1;

@@ -1,0 +1,69 @@
+{
+    "id": 1,
+    "owner_user": 1,
+    "beloved_ones_profiles": [
+        {
+            "id": 1,
+            "user": {
+                "username": "pbrasil",
+                "email": "pedro@griot.me"
+            },
+            "profile_picture": "https://griot-memories-data.s3.amazonaws.com/profile_pictures/my_profile.jpeg",
+            "name": "Pedro",
+            "middle_name": null,
+            "last_name": "Brasil",
+            "birth_date": null,
+            "gender": "male",
+            "language": "pt",
+            "timezone": "America/Sao_Paulo",
+            "created_at": "2023-06-03T12:50:11.172529Z",
+            "updated_at": "2023-06-03T12:57:05.479331Z"
+        },
+        {
+            "id": 4,
+            "user": {
+                "username": "bc.caffaro",
+                "email": ""
+            },
+            "profile_picture": null,
+            "name": "Bianca",
+            "middle_name": null,
+            "last_name": "Caffaro",
+            "birth_date": null,
+            "gender": "female",
+            "language": "pt",
+            "timezone": "America/Sao_Paulo",
+            "created_at": "2023-06-20T12:19:43.399452Z",
+            "updated_at": "2023-06-20T12:19:43.399468Z"
+        },
+        {
+            "id": 2,
+            "user": {
+                "username": "clarinha",
+                "email": ""
+            },
+            "profile_picture": "https://griot-memories-data.s3.amazonaws.com/profile_pictures/WhatsApp_Image_2023-06-03_at_10.05.53_AM.jpeg",
+            "name": "Ana Clara",
+            "middle_name": null,
+            "last_name": "Estephan",
+            "birth_date": null,
+            "gender": "female",
+            "language": "pt",
+            "timezone": "America/Sao_Paulo",
+            "created_at": "2023-06-03T13:06:28.169403Z",
+            "updated_at": "2023-06-03T13:06:28.169426Z"
+        }
+    ],
+    "name": "My Account",
+    "is_active": true,
+    "created_at": "2023-06-15T20:39:16.145327Z",
+    "updated_at": "2023-06-20T12:17:44.083650Z",
+    "beloved_ones": [
+        5,
+        3,
+        4,
+        6,
+        7,
+        2
+    ]
+}

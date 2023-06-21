@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:griot_app/beloved_ones/presentation/pages/beloved_ones_list_page.dart';
+import 'package:griot_app/accounts/presentation/pages/beloved_ones_list_page.dart';
 import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
 import 'package:griot_app/core/presentation/pages/dashboard.dart';
 import 'package:griot_app/core/presentation/widgets/griot_bottom_navigation_bar.dart';

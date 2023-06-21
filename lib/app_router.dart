@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:griot_app/authentication/presentation/pages/login_page.dart';
-import 'package:griot_app/beloved_ones/presentation/pages/beloved_ones_details_page.dart';
-import 'package:griot_app/beloved_ones/presentation/pages/beloved_ones_list_page.dart';
+import 'package:griot_app/accounts/presentation/pages/beloved_ones_details_page.dart';
+import 'package:griot_app/accounts/presentation/pages/beloved_ones_list_page.dart';
 import 'package:griot_app/core/presentation/pages/dashboard.dart';
 import 'package:griot_app/core/presentation/pages/home_page.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
