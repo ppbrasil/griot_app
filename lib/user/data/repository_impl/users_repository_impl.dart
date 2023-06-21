@@ -36,6 +36,9 @@ class UsersRepositoryImpl implements UsersRepository {
         List<Account> belovedAccountsList =
             await remoteDataSource.getOwnedAccountsListFromAPI();
 
+        final int? mainAccountid = belovedAccountsList[0].id;
+        remoteDataSource.storeMainAccountId(mainAccountId: mainAccountid);
+
         return Right(belovedAccountsList);
       } on ServerException {
         return const Left(ServerFailure(message: 'Unable to retrieve data'));

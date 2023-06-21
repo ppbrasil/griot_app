@@ -12,3 +12,5 @@ class InvalidTokenException implements Exception {
 }
 
 class NoTokenException implements Exception {}
+
+class NoMainAccountException implements Exception {}
