@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:griot_app/accounts/data/models/account_model.dart';
+import 'package:griot_app/accounts/data/models/beloved_one_model.dart';
+import 'package:griot_app/accounts/data/models/beloved_ones_list_model.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,9 +12,11 @@ import 'package:griot_app/accounts/domain/entities/beloved_one.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 
 abstract class AccountsRemoteDataSource {
-  Future<Account> getAccountDetailsFromAPI();
-  Future<BelovedOne> getBelovedOneDetailsFromAPI();
-  Future<List<BelovedOne>> getBelovedOnesListFromAPI();
+  Future<AccountModel> getAccountDetailsFromAPI({required int accountId});
+  Future<BelovedOneModel> getBelovedOneDetailsFromAPI(
+      {required int belovedOneid});
+  Future<List<BelovedOneModel>> getBelovedOnesListFromAPI(
+      {required int accountId});
 }
 
 class AccountsRemoteDataSourceImpl implements AccountsRemoteDataSource {
@@ -22,20 +27,52 @@ class AccountsRemoteDataSourceImpl implements AccountsRemoteDataSource {
       {required this.client, required this.tokenProvider});
 
   @override
-  Future<Account> getAccountDetailsFromAPI() {
-    // TODO: implement getAccountDetailsFromAPI
-    throw UnimplementedError();
+  Future<AccountModel> getAccountDetailsFromAPI(
+      {required int accountId}) async {
+    final String token = await tokenProvider.getToken();
+
+    final response = await client.get(
+      Uri.parse(
+          'http://app.griot.me/api/account/retrieve/$accountId/'), // You need to modify the API endpoint as per your application's requirement.
+      headers: {'Content-Type': 'application/json', 'Authorization': token},
+    );
+
+    if (response.statusCode == 200) {
+      return AccountModel.fromJson(json.decode(response.body));
+    } else {
+      throw InvalidTokenException();
+    }
   }
 
   @override
-  Future<BelovedOne> getBelovedOneDetailsFromAPI() {
+  Future<BelovedOneModel> getBelovedOneDetailsFromAPI(
+      {required int belovedOneid}) {
     // TODO: implement getBelovedOneDetailsFromAPI
     throw UnimplementedError();
   }
 
   @override
-  Future<List<BelovedOne>> getBelovedOnesListFromAPI() {
-    // TODO: implement getBelovedOnesListFromAPI
-    throw UnimplementedError();
+  Future<List<BelovedOneModel>> getBelovedOnesListFromAPI(
+      {required int accountId}) async {
+    final String token = await tokenProvider.getToken();
+
+    final response = await client.get(
+      Uri.parse(
+          'http://app.griot.me/api/account/retrieve/$accountId/'), // You need to modify the API endpoint as per your application's requirement.
+      headers: {'Content-Type': 'application/json', 'Authorization': token},
+    );
+
+    if (response.statusCode == 200) {
+      final List belovedOnesJson =
+          json.decode(response.body)['beloved_ones_profiles'];
+      return belovedOnesJson
+          .map((belovedOne) => BelovedOneModel.fromJson(belovedOne))
+          .toList();
+
+      //return BelovedOneListModel.fromJson(
+      //    json.decode(response.body)['beloved_ones_profiles']);
+    } else {
+      throw InvalidTokenException();
+    }
   }
 }

@@ -5,9 +5,9 @@ import 'package:griot_app/core/error/failures.dart';
 
 abstract class AccountsRepository {
   Future<Either<Failure, List<BelovedOne>>> performGetBelovedOnesList(
-      {required int? accountId});
+      {required int accountId});
   Future<Either<Failure, Account>> performGetAccountDetails(
-      {required int? accountId});
+      {required int accountId});
   Future<Either<Failure, BelovedOne>> performGetBelovedOneDetails(
-      {required int? belovedOneId});
+      {required int belovedOneId});
 }

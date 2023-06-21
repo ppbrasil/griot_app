@@ -9,8 +9,8 @@ import 'dart:async' as _i5;
 
 import 'package:griot_app/accounts/data/data_sources/accounts_remote_data_source.dart'
     as _i4;
-import 'package:griot_app/accounts/domain/entities/account.dart' as _i2;
-import 'package:griot_app/accounts/domain/entities/beloved_one.dart' as _i3;
+import 'package:griot_app/accounts/data/models/account_model.dart' as _i2;
+import 'package:griot_app/accounts/data/models/beloved_one_model.dart' as _i3;
 import 'package:griot_app/core/error/exceptions.dart' as _i7;
 import 'package:griot_app/core/network/network_info.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
@@ -26,8 +26,8 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeAccount_0 extends _i1.SmartFake implements _i2.Account {
-  _FakeAccount_0(
+class _FakeAccountModel_0 extends _i1.SmartFake implements _i2.AccountModel {
+  _FakeAccountModel_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -36,8 +36,9 @@ class _FakeAccount_0 extends _i1.SmartFake implements _i2.Account {
         );
 }
 
-class _FakeBelovedOne_1 extends _i1.SmartFake implements _i3.BelovedOne {
-  _FakeBelovedOne_1(
+class _FakeBelovedOneModel_1 extends _i1.SmartFake
+    implements _i3.BelovedOneModel {
+  _FakeBelovedOneModel_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -56,43 +57,54 @@ class MockAccountsRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i5.Future<_i2.Account> getAccountDetailsFromAPI() => (super.noSuchMethod(
+  _i5.Future<_i2.AccountModel> getAccountDetailsFromAPI(
+          {required int? accountId}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getAccountDetailsFromAPI,
           [],
+          {#accountId: accountId},
         ),
-        returnValue: _i5.Future<_i2.Account>.value(_FakeAccount_0(
+        returnValue: _i5.Future<_i2.AccountModel>.value(_FakeAccountModel_0(
           this,
           Invocation.method(
             #getAccountDetailsFromAPI,
             [],
+            {#accountId: accountId},
           ),
         )),
-      ) as _i5.Future<_i2.Account>);
+      ) as _i5.Future<_i2.AccountModel>);
   @override
-  _i5.Future<_i3.BelovedOne> getBelovedOneDetailsFromAPI() =>
+  _i5.Future<_i3.BelovedOneModel> getBelovedOneDetailsFromAPI(
+          {required int? belovedOneid}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getBelovedOneDetailsFromAPI,
           [],
+          {#belovedOneid: belovedOneid},
         ),
-        returnValue: _i5.Future<_i3.BelovedOne>.value(_FakeBelovedOne_1(
+        returnValue:
+            _i5.Future<_i3.BelovedOneModel>.value(_FakeBelovedOneModel_1(
           this,
           Invocation.method(
             #getBelovedOneDetailsFromAPI,
             [],
+            {#belovedOneid: belovedOneid},
           ),
         )),
-      ) as _i5.Future<_i3.BelovedOne>);
+      ) as _i5.Future<_i3.BelovedOneModel>);
   @override
-  _i5.Future<List<_i3.BelovedOne>> getBelovedOnesListFromAPI() =>
+  _i5.Future<List<_i3.BelovedOneModel>> getBelovedOnesListFromAPI(
+          {required int? accountId}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getBelovedOnesListFromAPI,
           [],
+          {#accountId: accountId},
         ),
-        returnValue: _i5.Future<List<_i3.BelovedOne>>.value(<_i3.BelovedOne>[]),
-      ) as _i5.Future<List<_i3.BelovedOne>>);
+        returnValue: _i5.Future<List<_i3.BelovedOneModel>>.value(
+            <_i3.BelovedOneModel>[]),
+      ) as _i5.Future<List<_i3.BelovedOneModel>>);
 }
 
 /// A class which mocks [NetworkInfo].

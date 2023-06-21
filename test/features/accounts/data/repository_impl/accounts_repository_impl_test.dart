@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:griot_app/accounts/data/data_sources/accounts_remote_data_source.dart';
+import 'package:griot_app/accounts/data/models/account_model.dart';
 import 'package:griot_app/accounts/data/models/beloved_one_model.dart';
+import 'package:griot_app/accounts/data/models/beloved_ones_list_model.dart';
 import 'package:griot_app/accounts/data/repository_impl/accounts_repository_impl.dart';
 import 'package:griot_app/accounts/domain/entities/account.dart';
 import 'package:griot_app/core/error/exceptions.dart';
@@ -16,8 +18,8 @@ void main() {
   late AccountsRepositoryImpl repository;
   late MockAccountsRemoteDataSource mockRemoteDataSource;
   late MockNetworkInfo mockNetworkInfo;
-
-  late Account tAccount = const Account(name: 'myAccount');
+  late int tAccountId = 1;
+  late AccountModel tAccount = const AccountModel(id: 1, name: 'myAccount');
 
   setUp(() {
     mockRemoteDataSource = MockAccountsRemoteDataSource();
@@ -33,10 +35,11 @@ void main() {
       () async {
         //arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(mockRemoteDataSource.getAccountDetailsFromAPI())
+        when(mockRemoteDataSource.getAccountDetailsFromAPI(
+                accountId: tAccountId))
             .thenAnswer((_) async => tAccount);
         //act
-        await repository.performGetAccountDetails();
+        await repository.performGetAccountDetails(accountId: tAccountId);
         //assert
         verify(mockNetworkInfo.isConnected).called(1);
       },
@@ -51,12 +54,15 @@ void main() {
           'should return tAccount when call to remote data source is successfull',
           () async {
         // arrange
-        when(mockRemoteDataSource.getAccountDetailsFromAPI())
+        when(mockRemoteDataSource.getAccountDetailsFromAPI(
+                accountId: tAccountId))
             .thenAnswer((_) async => tAccount);
         // act
-        final result = await repository.performGetAccountDetails();
+        final result =
+            await repository.performGetAccountDetails(accountId: tAccountId);
         // assert
-        verify(mockRemoteDataSource.getAccountDetailsFromAPI());
+        verify(mockRemoteDataSource.getAccountDetailsFromAPI(
+            accountId: tAccountId));
         expect(result, equals(Right(tAccount)));
       });
 
@@ -65,12 +71,15 @@ void main() {
           () async {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(mockRemoteDataSource.getAccountDetailsFromAPI())
+        when(mockRemoteDataSource.getAccountDetailsFromAPI(
+                accountId: tAccountId))
             .thenThrow(ServerException());
         // act
-        final result = await repository.performGetAccountDetails();
+        final result =
+            await repository.performGetAccountDetails(accountId: tAccountId);
         // assert
-        verify(mockRemoteDataSource.getAccountDetailsFromAPI());
+        verify(mockRemoteDataSource.getAccountDetailsFromAPI(
+            accountId: tAccountId));
         expect(
             result,
             equals(
@@ -115,9 +124,10 @@ void main() {
       timeZone: "America/Sao_Paulo",
     );
 
-    final List<BelovedOneModel> tBelovedOnesList = [
-      tBelovedOneModel1, tBelovedOneModel2, tBelovedOneModel3
-      // Assuming we have a predefined list of beloved ones
+    final tBelovedOnesList = [
+      tBelovedOneModel1,
+      tBelovedOneModel2,
+      tBelovedOneModel3
     ];
 
     const int tAccountId = 1;
@@ -125,7 +135,8 @@ void main() {
     test('Should check if the device is online', () async {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemoteDataSource.getBelovedOnesListFromAPI())
+      when(mockRemoteDataSource.getBelovedOnesListFromAPI(
+              accountId: tAccountId))
           .thenAnswer((_) async => tBelovedOnesList);
       // act
       repository.performGetBelovedOnesList(accountId: tAccountId);
@@ -140,13 +151,15 @@ void main() {
 
       test('Should return a list of BelovedOne entities', () async {
         // arrange
-        when(mockRemoteDataSource.getBelovedOnesListFromAPI())
+        when(mockRemoteDataSource.getBelovedOnesListFromAPI(
+                accountId: tAccountId))
             .thenAnswer((_) async => tBelovedOnesList);
         // act
         final result =
             await repository.performGetBelovedOnesList(accountId: tAccountId);
         // assert
-        verify(mockRemoteDataSource.getBelovedOnesListFromAPI());
+        verify(mockRemoteDataSource.getBelovedOnesListFromAPI(
+            accountId: tAccountId));
         verify(mockNetworkInfo.isConnected);
         expect(result, equals(Right(tBelovedOnesList)));
       });
@@ -164,7 +177,8 @@ void main() {
             await repository.performGetBelovedOnesList(accountId: tAccountId);
         // assert
         verify(mockNetworkInfo.isConnected);
-        verifyNever(mockRemoteDataSource.getBelovedOnesListFromAPI());
+        verifyNever(mockRemoteDataSource.getBelovedOnesListFromAPI(
+            accountId: tAccountId));
 
         expect(
             result,
@@ -192,7 +206,8 @@ void main() {
       () async {
         //arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(mockRemoteDataSource.getBelovedOneDetailsFromAPI())
+        when(mockRemoteDataSource.getBelovedOneDetailsFromAPI(
+                belovedOneid: tBelovedOneId))
             .thenAnswer((_) async => tBelovedOneModel);
         //act
         await repository.performGetBelovedOneDetails(
@@ -211,13 +226,15 @@ void main() {
           'should return tAccount when call to remote data source is successfull',
           () async {
         // arrange
-        when(mockRemoteDataSource.getBelovedOneDetailsFromAPI())
+        when(mockRemoteDataSource.getBelovedOneDetailsFromAPI(
+                belovedOneid: tBelovedOneId))
             .thenAnswer((_) async => tBelovedOneModel);
         // act
         final result = await repository.performGetBelovedOneDetails(
             belovedOneId: tBelovedOneId);
         // assert
-        verify(mockRemoteDataSource.getBelovedOneDetailsFromAPI());
+        verify(mockRemoteDataSource.getBelovedOneDetailsFromAPI(
+            belovedOneid: tBelovedOneId));
         expect(result, equals(const Right(tBelovedOneModel)));
       });
 
@@ -226,13 +243,15 @@ void main() {
           () async {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(mockRemoteDataSource.getBelovedOneDetailsFromAPI())
+        when(mockRemoteDataSource.getBelovedOneDetailsFromAPI(
+                belovedOneid: tBelovedOneId))
             .thenThrow(ServerException());
         // act
         final result = await repository.performGetBelovedOneDetails(
             belovedOneId: tBelovedOneId);
         // assert
-        verify(mockRemoteDataSource.getBelovedOneDetailsFromAPI());
+        verify(mockRemoteDataSource.getBelovedOneDetailsFromAPI(
+            belovedOneid: tBelovedOneId));
         expect(
             result,
             equals(
