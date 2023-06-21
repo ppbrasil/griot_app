@@ -6,7 +6,6 @@ import 'package:griot_app/core/network/network_info.dart';
 import 'package:griot_app/accounts/data/data_sources/accounts_remote_data_source.dart';
 import 'package:griot_app/accounts/data/models/account_model.dart';
 import 'package:griot_app/accounts/data/models/beloved_one_model.dart';
-import 'package:griot_app/accounts/domain/entities/beloved_one.dart';
 import 'package:griot_app/accounts/domain/repositories/accounts_repository.dart';
 
 class AccountsRepositoryImpl implements AccountsRepository {
@@ -33,6 +32,7 @@ class AccountsRepositoryImpl implements AccountsRepository {
     }
   }
 
+/*
   @override
   Future<Either<Failure, BelovedOne>> performGetBelovedOneDetails(
       {required int belovedOneId}) async {
@@ -49,7 +49,7 @@ class AccountsRepositoryImpl implements AccountsRepository {
       return const Left(ConnectivityFailure(message: 'No internet connection'));
     }
   }
-
+*/
   @override
   Future<Either<Failure, List<BelovedOneModel>>> performGetBelovedOnesList(
       {required int accountId}) async {
