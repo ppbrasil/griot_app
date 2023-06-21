@@ -5,12 +5,12 @@
 // @dart=2.19
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i4;
 
 import 'package:griot_app/accounts/data/data_sources/accounts_remote_data_source.dart'
-    as _i4;
+    as _i3;
 import 'package:griot_app/accounts/data/models/account_model.dart' as _i2;
-import 'package:griot_app/accounts/data/models/beloved_one_model.dart' as _i3;
+import 'package:griot_app/accounts/data/models/beloved_one_model.dart' as _i5;
 import 'package:griot_app/core/error/exceptions.dart' as _i7;
 import 'package:griot_app/core/network/network_info.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
@@ -36,28 +36,17 @@ class _FakeAccountModel_0 extends _i1.SmartFake implements _i2.AccountModel {
         );
 }
 
-class _FakeBelovedOneModel_1 extends _i1.SmartFake
-    implements _i3.BelovedOneModel {
-  _FakeBelovedOneModel_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [AccountsRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAccountsRemoteDataSource extends _i1.Mock
-    implements _i4.AccountsRemoteDataSource {
+    implements _i3.AccountsRemoteDataSource {
   MockAccountsRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i2.AccountModel> getAccountDetailsFromAPI(
+  _i4.Future<_i2.AccountModel> getAccountDetailsFromAPI(
           {required int? accountId}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -65,7 +54,7 @@ class MockAccountsRemoteDataSource extends _i1.Mock
           [],
           {#accountId: accountId},
         ),
-        returnValue: _i5.Future<_i2.AccountModel>.value(_FakeAccountModel_0(
+        returnValue: _i4.Future<_i2.AccountModel>.value(_FakeAccountModel_0(
           this,
           Invocation.method(
             #getAccountDetailsFromAPI,
@@ -73,28 +62,9 @@ class MockAccountsRemoteDataSource extends _i1.Mock
             {#accountId: accountId},
           ),
         )),
-      ) as _i5.Future<_i2.AccountModel>);
+      ) as _i4.Future<_i2.AccountModel>);
   @override
-  _i5.Future<_i3.BelovedOneModel> getBelovedOneDetailsFromAPI(
-          {required int? belovedOneid}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getBelovedOneDetailsFromAPI,
-          [],
-          {#belovedOneid: belovedOneid},
-        ),
-        returnValue:
-            _i5.Future<_i3.BelovedOneModel>.value(_FakeBelovedOneModel_1(
-          this,
-          Invocation.method(
-            #getBelovedOneDetailsFromAPI,
-            [],
-            {#belovedOneid: belovedOneid},
-          ),
-        )),
-      ) as _i5.Future<_i3.BelovedOneModel>);
-  @override
-  _i5.Future<List<_i3.BelovedOneModel>> getBelovedOnesListFromAPI(
+  _i4.Future<List<_i5.BelovedOneModel>> getBelovedOnesListFromAPI(
           {required int? accountId}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -102,9 +72,9 @@ class MockAccountsRemoteDataSource extends _i1.Mock
           [],
           {#accountId: accountId},
         ),
-        returnValue: _i5.Future<List<_i3.BelovedOneModel>>.value(
-            <_i3.BelovedOneModel>[]),
-      ) as _i5.Future<List<_i3.BelovedOneModel>>);
+        returnValue: _i4.Future<List<_i5.BelovedOneModel>>.value(
+            <_i5.BelovedOneModel>[]),
+      ) as _i4.Future<List<_i5.BelovedOneModel>>);
 }
 
 /// A class which mocks [NetworkInfo].
@@ -116,10 +86,10 @@ class MockNetworkInfo extends _i1.Mock implements _i6.NetworkInfo {
   }
 
   @override
-  _i5.Future<bool> get isConnected => (super.noSuchMethod(
+  _i4.Future<bool> get isConnected => (super.noSuchMethod(
         Invocation.getter(#isConnected),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 }
 
 /// A class which mocks [ServerException].

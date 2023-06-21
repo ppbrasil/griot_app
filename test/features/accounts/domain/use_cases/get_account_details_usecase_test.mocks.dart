@@ -84,24 +84,4 @@ class MockAccountsRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i7.Account>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.BelovedOne>>
-      performGetBelovedOneDetails({required int? belovedOneId}) =>
-          (super.noSuchMethod(
-            Invocation.method(
-              #performGetBelovedOneDetails,
-              [],
-              {#belovedOneId: belovedOneId},
-            ),
-            returnValue:
-                _i4.Future<_i2.Either<_i5.Failure, _i6.BelovedOne>>.value(
-                    _FakeEither_0<_i5.Failure, _i6.BelovedOne>(
-              this,
-              Invocation.method(
-                #performGetBelovedOneDetails,
-                [],
-                {#belovedOneId: belovedOneId},
-              ),
-            )),
-          ) as _i4.Future<_i2.Either<_i5.Failure, _i6.BelovedOne>>);
 }
