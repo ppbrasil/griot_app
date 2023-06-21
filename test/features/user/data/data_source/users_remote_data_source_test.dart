@@ -1,10 +1,12 @@
 import 'dart:convert';
-import 'package:griot_app/accounts/data/models/account_model.dart';
+
+import 'package:griot_app/core/network/network_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 
 import 'package:griot_app/user/data/data_sources/users_remote_data_source.dart';
+import 'package:griot_app/accounts/data/models/account_model.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +15,11 @@ import 'package:mockito/mockito.dart';
 
 import 'users_remote_data_source_test.mocks.dart';
 
-@GenerateMocks([http.Client, TokenProvider])
+@GenerateMocks([
+  http.Client,
+  TokenProvider,
+  NetworkInfo,
+])
 void main() {
   late UsersRemoteDataSource datasource;
   late MockClient mockHttpClient;
@@ -23,7 +29,9 @@ void main() {
     mockHttpClient = MockClient();
     mockTokenProvider = MockTokenProvider();
     datasource = UsersRemoteDataSourceImpl(
-        tokenProvider: mockTokenProvider, client: mockHttpClient);
+      tokenProvider: mockTokenProvider,
+      client: mockHttpClient,
+    );
   });
 
   group('getOwnedAccountsListFromAPI', () {

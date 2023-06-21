@@ -11,7 +11,7 @@ class UsersBlocBloc extends Bloc<UsersBlocEvent, UsersBlocState> {
   final getOwnedAccountsUseCase.GetOwnedAccountsListUseCase getOwnedAccounts;
 
   UsersBlocBloc({required this.getOwnedAccounts}) : super(UsersBlocInitial()) {
-    on<GetBelovedOnesListEvent>((event, emit) async {
+    on<GetOwnedAccountsListEvent>((event, emit) async {
       emit(UsersBlocLoading());
 
       final ownedAccountsListEither =

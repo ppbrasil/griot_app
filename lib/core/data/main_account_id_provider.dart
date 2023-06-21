@@ -9,7 +9,7 @@ class MainAccountIdProviderImpl implements MainAccountIdProvider {
   @override
   Future<int> getMainAccountId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final int? mainAccountId = prefs.getString('main_account_id') as int?;
+    final int? mainAccountId = prefs.getInt('main_account_id');
 
     if (mainAccountId == null) {
       throw NoMainAccountException();

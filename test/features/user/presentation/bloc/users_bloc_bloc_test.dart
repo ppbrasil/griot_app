@@ -39,7 +39,7 @@ void main() {
             .thenAnswer((_) async => Right(ownedAccountList));
         return bloc;
       },
-      act: (bloc) => bloc.add(GetBelovedOnesListEvent()),
+      act: (bloc) => bloc.add(GetOwnedAccountsListEvent()),
       expect: () => [
         UsersBlocLoading(),
         UsersBlocSuccess(ownedAccounstList: ownedAccountList),
@@ -53,7 +53,7 @@ void main() {
                 ServerFailure(message: 'Failed to fetch Owned Accounts List')));
         return bloc;
       },
-      act: (bloc) => bloc.add(GetBelovedOnesListEvent()),
+      act: (bloc) => bloc.add(GetOwnedAccountsListEvent()),
       expect: () => [
         UsersBlocLoading(),
         UsersBlocError(),

@@ -28,7 +28,6 @@ import 'package:griot_app/profile/presentation/bloc/profile_bloc_bloc.dart';
 import 'package:griot_app/user/data/data_sources/users_remote_data_source.dart';
 import 'package:griot_app/user/data/repository_impl/users_repository_impl.dart';
 import 'package:griot_app/user/domain/repository/users_repository.dart';
-import 'package:griot_app/user/domain/use_cases/get_user_beloved_accounts_list_usecase.dart';
 import 'package:griot_app/user/domain/use_cases/get_user_owned_accounts_list_usecase.dart';
 import 'package:griot_app/user/presentation/bloc/users_bloc_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -143,7 +142,6 @@ void initUser() {
   sl.registerLazySingleton<UsersRemoteDataSource>(
       () => UsersRemoteDataSourceImpl(
             client: sl(),
-            networkInfo: sl(),
             tokenProvider: sl(),
           ));
 }

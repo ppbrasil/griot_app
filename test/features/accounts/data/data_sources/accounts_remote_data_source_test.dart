@@ -96,7 +96,8 @@ void main() {
 
   group('getBelovedOnesListFromAPI', () {
     const int tAccountId = 1;
-    const tEndpoint = 'http://app.griot.me/api/account/retrieve/$tAccountId/';
+    const tEndpoint =
+        'http://app.griot.me/api/account/list-beloved-ones/$tAccountId/';
     const tToken = 'yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk';
     const tHeaders = {
       'Content-Type': 'application/json',

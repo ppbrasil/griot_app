@@ -53,7 +53,7 @@ class AccountsRemoteDataSourceImpl implements AccountsRemoteDataSource {
 
     final response = await client.get(
       Uri.parse(
-          'http://app.griot.me/api/account/retrieve/$accountId/'), // You need to modify the API endpoint as per your application's requirement.
+          'http://app.griot.me/api/account/list-beloved-ones/$accountId/'), // You need to modify the API endpoint as per your application's requirement.
       headers: {'Content-Type': 'application/json', 'Authorization': token},
     );
 

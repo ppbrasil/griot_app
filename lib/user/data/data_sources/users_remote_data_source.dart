@@ -16,10 +16,10 @@ class UsersRemoteDataSourceImpl implements UsersRemoteDataSource {
   final http.Client client;
   final TokenProvider tokenProvider;
 
-  UsersRemoteDataSourceImpl(
-      {required this.client,
-      required this.tokenProvider,
-      required Object networkInfo});
+  UsersRemoteDataSourceImpl({
+    required this.client,
+    required this.tokenProvider,
+  });
 
   @override
   Future<List<Account>> getBelovedAccountsListFromAPI() {
@@ -50,6 +50,6 @@ class UsersRemoteDataSourceImpl implements UsersRemoteDataSource {
   @override
   Future<void> storeMainAccountId({required int? mainAccountId}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('main_account_id', mainAccountId as String);
+    await prefs.setInt('main_account_id', mainAccountId ?? 0);
   }
 }
