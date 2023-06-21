@@ -52,6 +52,17 @@ class MockUsersRemoteDataSource extends _i1.Mock
         ),
         returnValue: _i3.Future<List<_i4.Account>>.value(<_i4.Account>[]),
       ) as _i3.Future<List<_i4.Account>>);
+  @override
+  _i3.Future<void> storeMainAccountId({required int? mainAccountId}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #storeMainAccountId,
+          [],
+          {#mainAccountId: mainAccountId},
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }
 
 /// A class which mocks [NetworkInfo].

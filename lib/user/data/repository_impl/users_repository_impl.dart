@@ -33,11 +33,11 @@ class UsersRepositoryImpl implements UsersRepository {
   Future<Either<Failure, List<Account>>> performGetOwnedAccountsList() async {
     if (await networkInfo.isConnected) {
       try {
-        List<Account> belovedAccountsList =
+        final List<Account> belovedAccountsList =
             await remoteDataSource.getOwnedAccountsListFromAPI();
 
-        final int? mainAccountid = belovedAccountsList[0].id;
-        remoteDataSource.storeMainAccountId(mainAccountId: mainAccountid);
+        remoteDataSource.storeMainAccountId(
+            mainAccountId: belovedAccountsList[0].id);
 
         return Right(belovedAccountsList);
       } on ServerException {
