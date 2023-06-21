@@ -7,8 +7,9 @@ import 'package:griot_app/accounts/data/models/beloved_one_model.dart';
 
 abstract class AccountsRemoteDataSource {
   Future<AccountModel> getAccountDetailsFromAPI({required int accountId});
-  Future<BelovedOneModel> getBelovedOneDetailsFromAPI(
+/*  Future<BelovedOneModel> getBelovedOneDetailsFromAPI(
       {required int belovedOneid});
+      */
   Future<List<BelovedOneModel>> getBelovedOnesListFromAPI(
       {required int accountId});
 }
@@ -38,13 +39,13 @@ class AccountsRemoteDataSourceImpl implements AccountsRemoteDataSource {
     }
   }
 
-  @override
+/*  @override
   Future<BelovedOneModel> getBelovedOneDetailsFromAPI(
       {required int belovedOneid}) {
     // TODO: implement getBelovedOneDetailsFromAPI
     throw UnimplementedError();
   }
-
+*/
   @override
   Future<List<BelovedOneModel>> getBelovedOnesListFromAPI(
       {required int accountId}) async {

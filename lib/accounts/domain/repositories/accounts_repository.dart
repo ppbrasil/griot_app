@@ -8,6 +8,6 @@ abstract class AccountsRepository {
       {required int accountId});
   Future<Either<Failure, Account>> performGetAccountDetails(
       {required int accountId});
-  Future<Either<Failure, BelovedOne>> performGetBelovedOneDetails(
-      {required int belovedOneId});
+/*  Future<Either<Failure, BelovedOne>> performGetBelovedOneDetails(
+      {required int belovedOneId});*/
 }
