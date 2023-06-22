@@ -2,11 +2,19 @@ import 'package:equatable/equatable.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 
 class Video extends Equatable {
-  final Memory memory;
+  final int? id;
   final String file;
+  final String? name;
+  final Memory? memory;
+  final int? length;
 
-  const Video({required this.memory, required this.file});
+  const Video(
+      {required this.id,
+      required this.file,
+      required this.name,
+      required this.memory,
+      required this.length});
 
   @override
-  List<Object> get props => [memory, file];
+  List<Object> get props => [file];
 }
