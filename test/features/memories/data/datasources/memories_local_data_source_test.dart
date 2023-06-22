@@ -23,7 +23,6 @@ void main() {
       file: '/path/to/file/1',
       name: 'Video Name 1',
       memory: null,
-      length: 1,
     );
 
     const VideoModel tVideoModel2 = VideoModel(
@@ -31,7 +30,6 @@ void main() {
       file: '/path/to/file/2',
       name: 'Video Name 2',
       memory: null,
-      length: 2,
     );
 
     final tVideoModelList = [tVideoModel1, tVideoModel2];

@@ -320,17 +320,17 @@ void main() {
 
   group('performGetVideoFromLibrary', () {
     const tVideo1 = VideoModel(
-        file: '/videos/myVideo1',
-        id: 1,
-        name: 'Video Name 1',
-        memory: null,
-        length: 36);
+      file: '/videos/myVideo1',
+      id: 1,
+      name: 'Video Name 1',
+      memory: null,
+    );
     const tVideo2 = VideoModel(
-        file: '/videos/myVideo2',
-        id: 2,
-        name: 'Video Name 2',
-        memory: null,
-        length: 12);
+      file: '/videos/myVideo2',
+      id: 2,
+      name: 'Video Name 2',
+      memory: null,
+    );
 
     const List<VideoModel> tVideosList = [tVideo1, tVideo2];
 

@@ -1,4 +1,5 @@
 import 'package:griot_app/memories/data/models/video_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class MediaService {
   Future<List<VideoModel>?> getMultipleVideos();
@@ -6,9 +7,24 @@ abstract class MediaService {
 }
 
 class MediaServiceImpl implements MediaService {
+  final ImagePicker imagePicker;
+
+  MediaServiceImpl({
+    required this.imagePicker,
+  });
+
   @override
   Future<List<VideoModel>?> getMultipleVideos() async {
-    throw Exception('No files selected');
+    final List<XFile> selectedImages = await imagePicker.pickMultipleMedia();
+    if (selectedImages.isNotEmpty) {
+      return Future.wait(selectedImages.map((file) async => VideoModel(
+            file: file.path,
+            id: null,
+            memory: null,
+            name: file.name,
+          )));
+    }
+    return null;
   }
 
   @override

@@ -4,6 +4,12 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Needed for you to upload your media</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Needed for you to create videos and photo memories</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Needed for you to add sound to your videos memories</string>
 	<key>CFBundleDisplayName</key>
 	<string>Griot App</string>
 	<key>CFBundleExecutable</key>

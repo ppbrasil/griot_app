@@ -6,14 +6,13 @@ class Video extends Equatable {
   final String file;
   final String? name;
   final Memory? memory;
-  final int? length;
 
-  const Video(
-      {required this.id,
-      required this.file,
-      required this.name,
-      required this.memory,
-      required this.length});
+  const Video({
+    required this.id,
+    required this.file,
+    required this.name,
+    required this.memory,
+  });
 
   @override
   List<Object> get props => [file];

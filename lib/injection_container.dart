@@ -32,6 +32,7 @@ import 'package:griot_app/user/data/repository_impl/users_repository_impl.dart';
 import 'package:griot_app/user/domain/repository/users_repository.dart';
 import 'package:griot_app/user/domain/use_cases/get_user_owned_accounts_list_usecase.dart';
 import 'package:griot_app/user/presentation/bloc/users_bloc_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
 
@@ -51,12 +52,14 @@ void init() {
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
   sl.registerLazySingleton<TokenProvider>(() => TokenProviderImpl());
-  sl.registerLazySingleton<MediaService>(() => MediaServiceImpl());
+  sl.registerLazySingleton<MediaService>(
+      () => MediaServiceImpl(imagePicker: sl()));
 
   sl.registerLazySingleton<MainAccountIdProvider>(
       () => MainAccountIdProviderImpl());
 
   // External Dependencies
+  sl.registerLazySingleton<ImagePicker>(() => ImagePicker());
   sl.registerLazySingleton<http.Client>(() => http.Client());
   sl.registerLazySingleton<InternetConnectionChecker>(
       () => InternetConnectionChecker());

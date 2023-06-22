@@ -101,20 +101,20 @@ class MockMemoriesRepository extends _i1.Mock
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>>>
+  _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>?>>
       performGetVideoFromLibrary() => (super.noSuchMethod(
             Invocation.method(
               #performGetVideoFromLibrary,
               [],
             ),
             returnValue:
-                _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>>>.value(
-                    _FakeEither_0<_i5.Failure, List<_i7.Video>>(
+                _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>?>>.value(
+                    _FakeEither_0<_i5.Failure, List<_i7.Video>?>(
               this,
               Invocation.method(
                 #performGetVideoFromLibrary,
                 [],
               ),
             )),
-          ) as _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>>>);
+          ) as _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>?>>);
 }

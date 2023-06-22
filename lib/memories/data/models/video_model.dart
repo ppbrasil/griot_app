@@ -6,6 +6,5 @@ class VideoModel extends Video {
     required super.file,
     required super.name,
     required super.memory,
-    required super.length,
   });
 }

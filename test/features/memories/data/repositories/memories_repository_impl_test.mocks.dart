@@ -103,14 +103,14 @@ class MockMemoriesLocalDataSource extends _i1.Mock
   }
 
   @override
-  _i4.Future<List<_i6.VideoModel>> getVideosFromLibraryFromDevice() =>
+  _i4.Future<List<_i6.VideoModel>?> getVideosFromLibraryFromDevice() =>
       (super.noSuchMethod(
         Invocation.method(
           #getVideosFromLibraryFromDevice,
           [],
         ),
-        returnValue: _i4.Future<List<_i6.VideoModel>>.value(<_i6.VideoModel>[]),
-      ) as _i4.Future<List<_i6.VideoModel>>);
+        returnValue: _i4.Future<List<_i6.VideoModel>?>.value(),
+      ) as _i4.Future<List<_i6.VideoModel>?>);
 }
 
 /// A class which mocks [NetworkInfo].
