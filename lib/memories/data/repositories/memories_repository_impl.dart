@@ -51,12 +51,13 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
   }
 
   @override
-  Future<Either<Failure, Memory>> performcreateMemory(
-      {required String title}) async {
+  Future<Either<Failure, Memory>> performcreateMemory({
+    required String? title,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
         final Memory memory =
-            await remoteDataSource.postMemoryToAPI(title: title);
+            await remoteDataSource.postMemoryToAPI(title: title, videos: null);
         return Right(memory);
       } on ServerException {
         return const Left(ServerFailure(message: 'Unable to retrieve data'));
@@ -73,6 +74,26 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
           await localDataSource.getVideosFromLibraryFromDevice();
       return Right(videosList);
     } on MediaServiceException {
+      return const Left(ServerFailure(message: 'Unable to retrieve data'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Memory>> performAddVideoFromLibraryToMemory(
+      {required Memory memory}) async {
+    if (!await networkInfo.isConnected) {
+      return const Left(ConnectivityFailure(message: 'No internet connection'));
+    }
+
+    try {
+      final List<Video>? videosList =
+          await localDataSource.getVideosFromLibraryFromDevice();
+      final Memory updatedMemory = await remoteDataSource.postMemoryToAPI(
+          title: memory.title, videos: videosList);
+      return Right(updatedMemory);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'Unable to retrieve data'));
+    } on Exception {
       return const Left(ServerFailure(message: 'Unable to retrieve data'));
     }
   }

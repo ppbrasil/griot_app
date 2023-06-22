@@ -3,26 +3,26 @@ import 'package:equatable/equatable.dart';
 import 'package:griot_app/core/error/failures.dart';
 import 'package:griot_app/core/usecases/usecases.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
+import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
 
-class CreateMemoriesUseCase implements UseCase<Memory, Params> {
+class AddVideoFromLibraryToMemory implements UseCase<Memory, Params> {
   final MemoriesRepository repository;
 
-  CreateMemoriesUseCase(this.repository);
+  AddVideoFromLibraryToMemory(this.repository);
 
   @override
   Future<Either<Failure, Memory>> call(Params params) async {
-    return await repository.performcreateMemory(
-      title: params.title,
-    );
+    return await repository.performAddVideoFromLibraryToMemory(
+        memory: params.memory);
   }
 }
 
 class Params extends Equatable {
-  final String? title;
+  final Memory memory;
 
   const Params({
-    required this.title,
+    required this.memory,
   });
 
   @override
