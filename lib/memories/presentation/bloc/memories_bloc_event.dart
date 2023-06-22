@@ -17,12 +17,12 @@ class GetMemoryDetailsEvent extends MemoriesBlocEvent {
 }
 
 class CreateMemoryEvent extends MemoriesBlocEvent {
-  final String title;
+  final String? title;
 
   const CreateMemoryEvent({required this.title});
 
   @override
-  List<Object> get props => [title];
+  List<Object> get props => [];
 }
 
 class GetMemoriesListEvent extends MemoriesBlocEvent {}
