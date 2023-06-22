@@ -28,6 +28,7 @@ dependencies:
 
   # local storage
   shared_preferences: ^2.0.8
+  image_picker: ^0.8.9
 
   # check connectivity
   internet_connection_checker: ^1.0.0+1

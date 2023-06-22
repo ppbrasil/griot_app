@@ -1,5 +1,7 @@
 class ServerException implements Exception {}
 
+class MediaServiceException implements Exception {}
+
 class CacheExceptions implements Exception {}
 
 class InvalidTokenException implements Exception {
@@ -14,3 +16,5 @@ class InvalidTokenException implements Exception {
 class NoTokenException implements Exception {}
 
 class NoMainAccountException implements Exception {}
+
+class MediaServiceError implements Exception {}
