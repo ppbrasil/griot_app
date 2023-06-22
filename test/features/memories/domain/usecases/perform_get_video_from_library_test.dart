@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
 import 'package:griot_app/memories/domain/usecases/get_video_from_library_usecase.dart';
