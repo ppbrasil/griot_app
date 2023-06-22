@@ -20,7 +20,7 @@ class MediaServiceImpl implements MediaService {
       return Future.wait(selectedImages.map((file) async => VideoModel(
             file: file.path,
             id: null,
-            memory: null,
+            memoryId: null,
             name: file.name,
           )));
     }

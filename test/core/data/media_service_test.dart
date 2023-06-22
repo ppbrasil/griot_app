@@ -23,13 +23,13 @@ void main() {
       id: null,
       file: tFile1,
       name: tName1,
-      memory: null,
+      memoryId: null,
     );
     VideoModel tVideoModel2 = VideoModel(
       id: null,
       file: tFile2,
       name: tName2,
-      memory: null,
+      memoryId: null,
     );
     final tVideoModelList = [tVideoModel1, tVideoModel2];
     final tXFile1 = XFile(tFile1, name: tName1);

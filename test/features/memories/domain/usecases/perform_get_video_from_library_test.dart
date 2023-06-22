@@ -23,13 +23,13 @@ void main() {
     file: '/videos/myVideo1',
     id: 1,
     name: 'Video Name 1',
-    memory: null,
+    memoryId: null,
   );
   const tVideo2 = Video(
     file: '/videos/myVideo2',
     id: 2,
     name: 'Video Name 2',
-    memory: null,
+    memoryId: null,
   );
   const List<Video> tVideosList = [tVideo1, tVideo2];
 
