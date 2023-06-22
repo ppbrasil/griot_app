@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:griot_app/core/error/failures.dart';
 import 'package:griot_app/core/usecases/usecases.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
-import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
 
 class AddVideoFromLibraryToMemory implements UseCase<Memory, Params> {

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:griot_app/memories/domain/entities/memory.dart';
 
 class Video extends Equatable {
   final int? id;
