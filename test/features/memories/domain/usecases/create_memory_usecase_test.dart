@@ -19,7 +19,7 @@ void main() {
   });
 
   const tTitle = "My Memory Title";
-  const tNewMemory = Memory(title: tTitle);
+  const tNewMemory = Memory(title: tTitle, videos: []);
 
   test('Should get a memory\'s details from the repository', () async {
     // arrange

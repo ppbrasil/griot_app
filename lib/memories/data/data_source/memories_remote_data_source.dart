@@ -3,12 +3,16 @@ import 'dart:convert';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/memories/data/models/memory_model.dart';
+import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:http/http.dart' as http;
 
 abstract class MemoriesRemoteDataSource {
   Future<List<MemoryModel>> getMemoriesListFromAPI();
   Future<MemoryModel> getMemoryDetailsFromAPI({required int memoryId});
-  Future<MemoryModel> postMemoryToAPI({required String title});
+  Future<MemoryModel> postMemoryToAPI({
+    required String? title,
+    required List<Video>? videos,
+  });
 }
 
 class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
@@ -54,13 +58,19 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
   }
 
   @override
-  Future<MemoryModel> postMemoryToAPI({required String title}) async {
+  Future<MemoryModel> postMemoryToAPI({
+    required String? title,
+    required List<Video>? videos,
+  }) async {
     final String token = await tokenProvider.getToken();
 
     final response = await client.post(
       Uri.parse('http://app.griot.me/api/memories/'),
       headers: {'Content-Type': 'application/json', 'Authorization': token},
-      body: jsonEncode({'title': title}),
+      body: jsonEncode({
+        'title': title,
+        'videos': videos,
+      }),
     );
 
     if (response.statusCode == 201) {

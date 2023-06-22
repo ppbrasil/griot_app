@@ -22,14 +22,14 @@ void main() {
       id: 1,
       file: '/path/to/file/1',
       name: 'Video Name 1',
-      memory: null,
+      memoryId: null,
     );
 
     const VideoModel tVideoModel2 = VideoModel(
       id: 2,
       file: '/path/to/file/2',
       name: 'Video Name 2',
-      memory: null,
+      memoryId: null,
     );
 
     final tVideoModelList = [tVideoModel1, tVideoModel2];

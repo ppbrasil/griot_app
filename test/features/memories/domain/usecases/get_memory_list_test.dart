@@ -19,8 +19,8 @@ void main() {
   });
 
   final tMemoryList = [
-    const Memory(title: 'Memory 1'),
-    const Memory(title: 'Memory 2'),
+    const Memory(title: 'Memory 1', videos: []),
+    const Memory(title: 'Memory 2', videos: []),
   ];
 
   test('Should get list of memories from the repository', () async {

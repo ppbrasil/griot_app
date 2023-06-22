@@ -37,8 +37,8 @@ void main() {
     const tMemoryId = 1;
     const tAccount = 2;
     const tTitle = "Test Memory Title";
-    const tMemoryModel =
-        MemoryModel(id: tMemoryId, account: tAccount, title: tTitle);
+    const tMemoryModel = MemoryModel(
+        id: tMemoryId, account: tAccount, title: tTitle, videos: []);
     const Memory tMemory = tMemoryModel;
 
     test('Should check connectivity when performGetMemoryDetails is called',
@@ -135,9 +135,9 @@ void main() {
     const tAccount2 = 2;
     const tTitle2 = "Test Memory Title 2";
     const tMemoryModel1 =
-        MemoryModel(id: 1, account: tAccount1, title: tTitle1);
+        MemoryModel(id: 1, account: tAccount1, title: tTitle1, videos: []);
     const tMemoryModel2 =
-        MemoryModel(id: 2, account: tAccount2, title: tTitle2);
+        MemoryModel(id: 2, account: tAccount2, title: tTitle2, videos: []);
     final List<MemoryModel> tMemoryModelList = [tMemoryModel1, tMemoryModel2];
     final List<Memory> tMemoryList = [tMemoryModel1, tMemoryModel2];
 
@@ -161,7 +161,8 @@ void main() {
         () async {
           // arrange
           final tMemoryModelList = tMemoryList
-              .map((e) => MemoryModel(id: 1, account: 1, title: e.title))
+              .map((e) =>
+                  MemoryModel(id: 1, account: 1, title: e.title, videos: []))
               .toList();
           when(mockMemoriesRemoteDataSource.getMemoriesListFromAPI())
               .thenAnswer((_) async => tMemoryModelList);
@@ -229,17 +230,21 @@ void main() {
   group('performCreateMemory', () {
     const tTitle = "New Memory Title";
     const tAccount = 2;
-    const tMemoryModel = MemoryModel(id: 1, account: tAccount, title: tTitle);
+    const tMemoryModel =
+        MemoryModel(id: 1, account: tAccount, title: tTitle, videos: null);
     const Memory tMemory = tMemoryModel;
 
     test('Should check connectivity when performCreateMemory is called',
         () async {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockMemoriesRemoteDataSource.postMemoryToAPI(title: tTitle))
+      when(mockMemoriesRemoteDataSource.postMemoryToAPI(
+              title: tTitle, videos: null))
           .thenAnswer((_) async => tMemoryModel);
       // act
-      repository.performcreateMemory(title: tTitle);
+      repository.performcreateMemory(
+        title: tTitle,
+      );
       // assert
       verify(mockNetworkInfo.isConnected);
     });
@@ -253,13 +258,15 @@ void main() {
         'Should return Entity when the call to remote data source is successful',
         () async {
           // arrange
-          when(mockMemoriesRemoteDataSource.postMemoryToAPI(title: tTitle))
+          when(mockMemoriesRemoteDataSource.postMemoryToAPI(
+                  title: tTitle, videos: null))
               .thenAnswer((_) async => tMemoryModel);
           // act
           final result = await repository.performcreateMemory(title: tTitle);
           // assert
           verify(mockNetworkInfo.isConnected);
-          verify(mockMemoriesRemoteDataSource.postMemoryToAPI(title: tTitle));
+          verify(mockMemoriesRemoteDataSource.postMemoryToAPI(
+              title: tTitle, videos: null));
           expect(result, equals(const Right(tMemory)));
         },
       );
@@ -268,12 +275,14 @@ void main() {
         'Should return ServerFailure when the call to remote data source is unsuccessful',
         () async {
           // arrange
-          when(mockMemoriesRemoteDataSource.postMemoryToAPI(title: tTitle))
+          when(mockMemoriesRemoteDataSource.postMemoryToAPI(
+                  title: tTitle, videos: null))
               .thenThrow(ServerException());
           // act
           final result = await repository.performcreateMemory(title: tTitle);
           // assert
-          verify(mockMemoriesRemoteDataSource.postMemoryToAPI(title: tTitle));
+          verify(mockMemoriesRemoteDataSource.postMemoryToAPI(
+              title: tTitle, videos: null));
           expect(
             result,
             equals(
@@ -311,8 +320,8 @@ void main() {
           // act
           await repository.performcreateMemory(title: tTitle);
           // assert
-          verifyNever(
-              mockMemoriesRemoteDataSource.postMemoryToAPI(title: tTitle));
+          verifyNever(mockMemoriesRemoteDataSource.postMemoryToAPI(
+              title: tTitle, videos: null));
         },
       );
     });
@@ -323,13 +332,13 @@ void main() {
       file: '/videos/myVideo1',
       id: 1,
       name: 'Video Name 1',
-      memory: null,
+      memoryId: null,
     );
     const tVideo2 = VideoModel(
       file: '/videos/myVideo2',
       id: 2,
       name: 'Video Name 2',
-      memory: null,
+      memoryId: null,
     );
 
     const List<VideoModel> tVideosList = [tVideo1, tVideo2];

@@ -170,7 +170,7 @@ void main() {
       'Content-Type': 'application/json',
       'Authorization': 'Token $tToken',
     };
-    const tBody = {"title": tTitle};
+    const tBody = {"title": tTitle, "videos": null};
 
     final tMemoryModel = MemoryModel.fromJson(
         json.decode(fixture('memory_details_success.json')));
@@ -189,7 +189,7 @@ void main() {
             http.Response(fixture('memory_details_success.json'), 201));
 
         // act
-        await datasource.postMemoryToAPI(title: tTitle);
+        await datasource.postMemoryToAPI(title: tTitle, videos: null);
 
         // assert
         verify(mockHttpClient.post(
@@ -213,7 +213,8 @@ void main() {
           http.Response(fixture('memory_details_success.json'), 201));
 
       // act
-      final result = await datasource.postMemoryToAPI(title: tTitle);
+      final result =
+          await datasource.postMemoryToAPI(title: tTitle, videos: null);
 
       // assert
       expect(result, equals(tMemoryModel));
@@ -234,7 +235,7 @@ void main() {
       final call = datasource.postMemoryToAPI;
 
       // assert
-      expect(() => call(title: tTitle),
+      expect(() => call(title: tTitle, videos: null),
           throwsA(const TypeMatcher<InvalidTokenException>()));
     });
   });

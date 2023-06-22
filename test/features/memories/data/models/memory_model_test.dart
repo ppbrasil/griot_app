@@ -11,6 +11,7 @@ void main() {
     id: 1,
     title: "My first memory",
     account: 1,
+    videos: [],
   );
 
   test(
@@ -42,6 +43,7 @@ void main() {
         "id": 1,
         "account": 1,
         "title": "My first memory",
+        "videos": [],
       };
       expect(result, expectedMap);
     });

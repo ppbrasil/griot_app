@@ -43,7 +43,10 @@ void main() {
 
   group('GetMemoryDetailsEvent', () {
     const tMemoryId = 1;
-    const tMemory = Memory(title: "My memory");
+    const tMemory = Memory(
+      title: "My memory",
+      videos: [],
+    );
 
     blocTest<MemoriesBlocBloc, MemoriesBlocState>(
       'should emit MemoryGetDetailsSuccess state when memory details retrieval is successful',
@@ -83,8 +86,8 @@ void main() {
 
   group('GetMemoriesListEvent', () {
     final tMemoryList = [
-      const Memory(title: "My memory"),
-      const Memory(title: "Another memory")
+      const Memory(title: "My memory", videos: []),
+      const Memory(title: "Another memory", videos: [])
     ];
 
     blocTest<MemoriesBlocBloc, MemoriesBlocState>(
@@ -112,14 +115,14 @@ void main() {
       act: (bloc) => bloc.add(GetMemoriesListEvent()),
       expect: () => [
         MemoriesGetListLoading(),
-        MemoriesGetListFailure(message: 'Failed to fetch memory list'),
+        const MemoriesGetListFailure(message: 'Failed to fetch memory list'),
       ],
     );
   });
 
   group('CreateMemoryEvent', () {
     const tTitle = 'My new memory';
-    const tMemory = Memory(title: tTitle);
+    const tMemory = Memory(title: tTitle, videos: []);
 
     blocTest<MemoriesBlocBloc, MemoriesBlocState>(
       'should emit MemoryCreationSuccess state when memory creation is successful',
