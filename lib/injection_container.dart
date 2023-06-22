@@ -11,8 +11,10 @@ import 'package:griot_app/authentication/domain/repositories/auth_repository.dar
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:griot_app/core/data/main_account_id_provider.dart';
+import 'package:griot_app/core/data/media_service.dart';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/network/network_info.dart';
+import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/repositories/memories_repository_impl.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
@@ -49,6 +51,7 @@ void init() {
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
   sl.registerLazySingleton<TokenProvider>(() => TokenProviderImpl());
+  sl.registerLazySingleton<MediaService>(() => MediaServiceImpl());
 
   sl.registerLazySingleton<MainAccountIdProvider>(
       () => MainAccountIdProviderImpl());
@@ -92,6 +95,7 @@ void initMemories() {
   sl.registerLazySingleton<MemoriesRepository>(() => MemoriesRepositoryImpl(
         remoteDataSource: sl(),
         networkInfo: sl(),
+        localDataSource: sl(),
       ));
 
   // Data Sources
@@ -99,6 +103,11 @@ void initMemories() {
       () => MemoriesRemoteDataSourceImpl(
             client: sl(),
             tokenProvider: sl(),
+          ));
+
+  sl.registerLazySingleton<MemoriesLocalDataSource>(
+      () => MemoriesLocalDataSourceImpl(
+            mediaService: sl(),
           ));
 }
 

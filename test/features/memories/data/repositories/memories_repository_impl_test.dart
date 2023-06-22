@@ -2,9 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/core/error/failures.dart';
 import 'package:griot_app/core/network/network_info.dart';
+import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
 import 'package:griot_app/memories/data/models/memory_model.dart';
+import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/data/repositories/memories_repository_impl.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
+import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:test/test.dart';
@@ -12,17 +15,21 @@ import 'package:griot_app/memories/data/data_source/memories_remote_data_source.
 
 import 'memories_repository_impl_test.mocks.dart';
 
-@GenerateMocks([MemoriesRemoteDataSource, NetworkInfo])
+@GenerateMocks([MemoriesRemoteDataSource, MemoriesLocalDataSource, NetworkInfo])
 void main() {
   late MemoriesRepositoryImpl repository;
   late MockMemoriesRemoteDataSource mockMemoriesRemoteDataSource;
+  late MockMemoriesLocalDataSource mockMemoriesLocalDataSource;
+
   late MockNetworkInfo mockNetworkInfo;
 
   setUp(() {
     mockMemoriesRemoteDataSource = MockMemoriesRemoteDataSource();
+    mockMemoriesLocalDataSource = MockMemoriesLocalDataSource();
     mockNetworkInfo = MockNetworkInfo();
     repository = MemoriesRepositoryImpl(
       remoteDataSource: mockMemoriesRemoteDataSource,
+      localDataSource: mockMemoriesLocalDataSource,
       networkInfo: mockNetworkInfo,
     );
   });
@@ -309,6 +316,52 @@ void main() {
               mockMemoriesRemoteDataSource.postMemoryToAPI(title: tTitle));
         },
       );
+    });
+  });
+
+  group('performGetVideoFromLibrary', () {
+    const tVideo1 = VideoModel(
+        file: '/videos/myVideo1',
+        id: 1,
+        name: 'Video Name 1',
+        memory: null,
+        length: 36);
+    const tVideo2 = VideoModel(
+        file: '/videos/myVideo2',
+        id: 2,
+        name: 'Video Name 2',
+        memory: null,
+        length: 12);
+
+    const List<VideoModel> tVideosList = [tVideo1, tVideo2];
+
+    test(
+        'Should return Videos list when the call to local data source is successful',
+        () async {
+      // arrange
+      when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
+          .thenAnswer((_) async => tVideosList);
+      // act
+      final result = await repository.performGetVideoFromLibrary();
+      // assert
+      verify(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice());
+      expect(result, equals(const Right(tVideosList)));
+    });
+
+    test(
+        'Should return ServerFailure when the call to remote data source is unsuccessful',
+        () async {
+      // arrange
+      when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
+          .thenThrow(MediaServiceException());
+      // act
+      final result = await repository.performGetVideoFromLibrary();
+      // assert
+      verify(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice());
+      expect(
+          result,
+          equals(
+              const Left(ServerFailure(message: 'Unable to retrieve data'))));
     });
   });
 }

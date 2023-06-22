@@ -7,10 +7,13 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:griot_app/core/network/network_info.dart' as _i5;
+import 'package:griot_app/core/network/network_info.dart' as _i7;
+import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart'
+    as _i5;
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart'
     as _i3;
 import 'package:griot_app/memories/data/models/memory_model.dart' as _i2;
+import 'package:griot_app/memories/data/models/video_model.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -90,10 +93,30 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
       ) as _i4.Future<_i2.MemoryModel>);
 }
 
+/// A class which mocks [MemoriesLocalDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMemoriesLocalDataSource extends _i1.Mock
+    implements _i5.MemoriesLocalDataSource {
+  MockMemoriesLocalDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<List<_i6.VideoModel>> getVideosFromLibraryFromDevice() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getVideosFromLibraryFromDevice,
+          [],
+        ),
+        returnValue: _i4.Future<List<_i6.VideoModel>>.value(<_i6.VideoModel>[]),
+      ) as _i4.Future<List<_i6.VideoModel>>);
+}
+
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i5.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i7.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }

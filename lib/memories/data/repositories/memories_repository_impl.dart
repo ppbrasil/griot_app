@@ -2,16 +2,22 @@ import 'package:dartz/dartz.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/core/error/failures.dart';
 import 'package:griot_app/core/network/network_info.dart';
+import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
+import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
 
 class MemoriesRepositoryImpl implements MemoriesRepository {
   final NetworkInfo networkInfo;
   final MemoriesRemoteDataSource remoteDataSource;
+  final MemoriesLocalDataSource localDataSource;
 
-  MemoriesRepositoryImpl(
-      {required this.networkInfo, required this.remoteDataSource});
+  MemoriesRepositoryImpl({
+    required this.networkInfo,
+    required this.remoteDataSource,
+    required this.localDataSource,
+  });
 
   @override
   Future<Either<Failure, List<Memory>>> getMemoriesList() async {
@@ -57,6 +63,17 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
       }
     } else {
       return const Left(ConnectivityFailure(message: 'No internet connection'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Video>?>> performGetVideoFromLibrary() async {
+    try {
+      final List<Video>? videosList =
+          await localDataSource.getVideosFromLibraryFromDevice();
+      return Right(videosList);
+    } on MediaServiceException {
+      return const Left(ServerFailure(message: 'Unable to retrieve data'));
     }
   }
 }
