@@ -326,7 +326,6 @@ void main() {
       );
     });
   });
-
   group('performGetVideoFromLibrary', () {
     const tVideo1 = VideoModel(
       file: '/videos/myVideo1',
@@ -371,5 +370,92 @@ void main() {
           equals(
               const Left(ServerFailure(message: 'Unable to retrieve data'))));
     });
+  });
+  group('performAddVideoFromLibraryToMemory', () {
+    String tTitle = 'My Title';
+    int tAccountId = 1;
+    int tMemoryId = 1;
+
+    const tVideo1 = VideoModel(
+      file: '/videos/myVideo1',
+      id: 1,
+      name: 'Video Name 1',
+      memoryId: null,
+    );
+    const tVideo2 = VideoModel(
+      file: '/videos/myVideo2',
+      id: 2,
+      name: 'Video Name 2',
+      memoryId: null,
+    );
+
+    const List<VideoModel> tVideosList = [
+      tVideo1,
+      tVideo2,
+    ];
+
+    MemoryModel tMemoryModel = MemoryModel(
+      title: tTitle,
+      videos: tVideosList,
+      account: tAccountId,
+      id: tMemoryId,
+    );
+
+    test(
+        'Should check connectivity when performAddVideoFromLibraryToMemory is called',
+        () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+
+      when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
+          .thenAnswer((_) async => tVideosList);
+
+      when(mockMemoriesRemoteDataSource.postMemoryToAPI(
+              title: tTitle, videos: tVideosList))
+          .thenAnswer((_) async => tMemoryModel);
+      // act
+      repository.performAddVideoFromLibraryToMemory(memory: tMemoryModel);
+      // assert
+      verify(mockNetworkInfo.isConnected);
+    });
+    test(
+        'Should return Videos list when the call to local data source is successful',
+        () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+
+      when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
+          .thenAnswer((_) async => tVideosList);
+
+      when(mockMemoriesRemoteDataSource.postMemoryToAPI(
+              title: tTitle, videos: tVideosList))
+          .thenAnswer((_) async => tMemoryModel);
+      // act
+      final result = await repository.performAddVideoFromLibraryToMemory(
+          memory: tMemoryModel);
+      // assert
+      verify(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice());
+      verify(mockMemoriesRemoteDataSource.postMemoryToAPI(
+          title: tTitle, videos: tVideosList));
+      expect(result, equals(Right(tMemoryModel)));
+    });
+
+    /*
+    test(
+        'Should return ServerFailure when the call to remote data source is unsuccessful',
+        () async {
+      // arrange
+      when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
+          .thenThrow(MediaServiceException());
+      // act
+      final result = await repository.performGetVideoFromLibrary();
+      // assert
+      verify(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice());
+      expect(
+          result,
+          equals(
+              const Left(ServerFailure(message: 'Unable to retrieve data'))));
+    });
+  */
   });
 }

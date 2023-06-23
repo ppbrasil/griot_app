@@ -49,3 +49,11 @@ class ConnectivityFailure extends Failure {
   @override
   List<Object> get props => [message];
 }
+
+class MediaServiceFailure extends Failure {
+  final String message;
+  const MediaServiceFailure({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
