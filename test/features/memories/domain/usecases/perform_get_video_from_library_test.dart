@@ -11,12 +11,12 @@ import 'create_memory_usecase_test.mocks.dart';
 
 @GenerateMocks([MemoriesRepository])
 void main() {
-  late GetVideoFromLibrary usecase;
+  late GetVideoFromLibraryUseCase usecase;
   late MockMemoriesRepository mockMemoriesRepository;
 
   setUp(() {
     mockMemoriesRepository = MockMemoriesRepository();
-    usecase = GetVideoFromLibrary(mockMemoriesRepository);
+    usecase = GetVideoFromLibraryUseCase(mockMemoriesRepository);
   });
 
   const tVideo1 = Video(

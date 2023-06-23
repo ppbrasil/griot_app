@@ -5,10 +5,10 @@ import 'package:griot_app/core/usecases/usecases.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
 
-class GetVideoFromLibrary implements UseCase<List<Video>?, NoParams> {
+class GetVideoFromLibraryUseCase implements UseCase<List<Video>?, NoParams> {
   final MemoriesRepository repository;
 
-  GetVideoFromLibrary(this.repository);
+  GetVideoFromLibraryUseCase(this.repository);
 
   @override
   Future<Either<Failure, List<Video>?>> call(NoParams params) async {

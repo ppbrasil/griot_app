@@ -119,40 +119,4 @@ void main() {
       ],
     );
   });
-
-  group('CreateMemoryEvent', () {
-    const tTitle = 'My new memory';
-    const tMemory = Memory(title: tTitle, videos: []);
-
-    blocTest<MemoriesBlocBloc, MemoriesBlocState>(
-      'should emit MemoryCreationSuccess state when memory creation is successful',
-      build: () {
-        when(mockCreateMemoriesUseCase
-                .call(const createMemoryUseCase.Params(title: tTitle)))
-            .thenAnswer((_) async => const Right(tMemory));
-        return bloc;
-      },
-      act: (bloc) => bloc.add(const CreateMemoryEvent(title: tTitle)),
-      expect: () => [
-        MemoryCreationLoading(),
-        MemoryCreationSuccess(memory: tMemory),
-      ],
-    );
-
-    blocTest<MemoriesBlocBloc, MemoriesBlocState>(
-      'should emit MemoryCreationFailure state when memory creation fails',
-      build: () {
-        when(mockCreateMemoriesUseCase
-                .call(const createMemoryUseCase.Params(title: tTitle)))
-            .thenAnswer((_) async =>
-                const Left(ServerFailure(message: 'Failed to create memory')));
-        return bloc;
-      },
-      act: (bloc) => bloc.add(const CreateMemoryEvent(title: tTitle)),
-      expect: () => [
-        MemoryCreationLoading(),
-        MemoryCreationFailure(message: 'Failed to create memory'),
-      ],
-    );
-  });
 }

@@ -16,7 +16,7 @@ class MemoryGetDetailsLoading extends MemoriesBlocState {}
 class MemoryGetDetailsSuccess extends MemoriesBlocState {
   final Memory memory;
 
-  MemoryGetDetailsSuccess({required this.memory});
+  const MemoryGetDetailsSuccess({required this.memory});
 
   @override
   List<Object> get props => [memory];
@@ -25,7 +25,7 @@ class MemoryGetDetailsSuccess extends MemoriesBlocState {
 class MemoryGetDetailsFailure extends MemoriesBlocState {
   final String message;
 
-  MemoryGetDetailsFailure({required this.message});
+  const MemoryGetDetailsFailure({required this.message});
 
   @override
   List<Object> get props => [message];
@@ -36,7 +36,7 @@ class MemoryCreationLoading extends MemoriesBlocState {}
 class MemoryCreationSuccess extends MemoriesBlocState {
   final Memory memory;
 
-  MemoryCreationSuccess({required this.memory});
+  const MemoryCreationSuccess({required this.memory});
 
   @override
   List<Object> get props => [memory];
@@ -45,7 +45,7 @@ class MemoryCreationSuccess extends MemoriesBlocState {
 class MemoryCreationFailure extends MemoriesBlocState {
   final String message;
 
-  MemoryCreationFailure({required this.message});
+  const MemoryCreationFailure({required this.message});
 
   @override
   List<Object> get props => [message];

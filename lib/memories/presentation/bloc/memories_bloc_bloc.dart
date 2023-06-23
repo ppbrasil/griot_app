@@ -26,20 +26,9 @@ class MemoriesBlocBloc extends Bloc<MemoriesBlocEvent, MemoriesBlocState> {
       final memoryEither =
           await getMemory(getMemoryUseCase.Params(memoryId: event.memoryId));
       memoryEither.fold(
-        (failure) => emit(
-            MemoryGetDetailsFailure(message: 'Failed to fetch memory details')),
+        (failure) => emit(const MemoryGetDetailsFailure(
+            message: 'Failed to fetch memory details')),
         (memory) => emit(MemoryGetDetailsSuccess(memory: memory)),
-      );
-    });
-
-    on<CreateMemoryEvent>((event, emit) async {
-      emit(MemoryCreationLoading());
-      final memoryEither =
-          await createMemory(createMemoryUseCase.Params(title: event.title));
-      memoryEither.fold(
-        (failure) =>
-            emit(MemoryCreationFailure(message: 'Failed to create memory')),
-        (memory) => emit(MemoryCreationSuccess(memory: memory)),
       );
     });
 

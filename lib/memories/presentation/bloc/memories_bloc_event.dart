@@ -16,13 +16,4 @@ class GetMemoryDetailsEvent extends MemoriesBlocEvent {
   List<Object> get props => [memoryId];
 }
 
-class CreateMemoryEvent extends MemoriesBlocEvent {
-  final String? title;
-
-  const CreateMemoryEvent({required this.title});
-
-  @override
-  List<Object> get props => [];
-}
-
 class GetMemoriesListEvent extends MemoriesBlocEvent {}
