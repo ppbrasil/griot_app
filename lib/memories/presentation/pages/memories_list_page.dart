@@ -106,13 +106,12 @@ class _MemoriesListPageState extends State<MemoriesListPage> with RouteAware {
                           ),
                           Expanded(
                             child: Text(
-                              memory.title,
+                              memory.title ?? 'New Memory',
                               style: const TextStyle(
                                 fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500, // Use 500 weight
-                                fontSize: 14.0, // Font size is 14
-                                height: 21 /
-                                    14, // Line height (leading) is 21, so height is 21 / font size
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                                height: 21 / 14,
                               ),
                             ),
                           ),

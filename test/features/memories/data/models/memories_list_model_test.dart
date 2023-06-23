@@ -7,12 +7,24 @@ import 'package:test/test.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  const tMemoryModel1 =
-      MemoryModel(title: "My first memory", id: 1, account: 1, videos: []);
-  const tMemoryModel2 =
-      MemoryModel(title: "My second memory", id: 2, account: 1, videos: []);
-  const tMemoryModel3 =
-      MemoryModel(title: "My third memory", id: 3, account: 1, videos: []);
+  const tMemoryModel1 = MemoryModel(
+    title: "My first memory",
+    id: 1,
+    videos: [],
+    accountId: 1,
+  );
+  const tMemoryModel2 = MemoryModel(
+    title: "My second memory",
+    id: 2,
+    videos: [],
+    accountId: 1,
+  );
+  const tMemoryModel3 = MemoryModel(
+    title: "My third memory",
+    id: 3,
+    videos: [],
+    accountId: 1,
+  );
 
   group('fromList', () {
     test('Should return a valid MemoryListModel from a valid JSON list',

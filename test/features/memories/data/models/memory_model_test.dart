@@ -10,7 +10,7 @@ void main() {
   const tMemoryModelone = MemoryModel(
     id: 1,
     title: "My first memory",
-    account: 1,
+    accountId: 1,
     videos: [],
   );
 

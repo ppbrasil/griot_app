@@ -163,14 +163,17 @@ void main() {
   });
 
   group('postMemoryToAPI', () {
-    const tTitle = 'Test Title';
-    const tEndpoint = 'http://app.griot.me/api/memories/';
+    const tTitle = 'new';
+    const tEndpoint = 'http://app.griot.me/api/memory/create/';
     const tToken = "yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk";
     const tHeaders = {
       'Content-Type': 'application/json',
       'Authorization': 'Token $tToken',
     };
-    const tBody = {"title": tTitle, "videos": null};
+    const tBody = {
+      "account": 1,
+      "title": tTitle,
+    };
 
     final tMemoryModel = MemoryModel.fromJson(
         json.decode(fixture('memory_details_success.json')));
@@ -189,7 +192,7 @@ void main() {
             http.Response(fixture('memory_details_success.json'), 201));
 
         // act
-        await datasource.postMemoryToAPI(title: tTitle, videos: null);
+        await datasource.postMemoryToAPI(memory: tMemoryModel);
 
         // assert
         verify(mockHttpClient.post(
@@ -213,8 +216,7 @@ void main() {
           http.Response(fixture('memory_details_success.json'), 201));
 
       // act
-      final result =
-          await datasource.postMemoryToAPI(title: tTitle, videos: null);
+      final result = await datasource.postMemoryToAPI(memory: tMemoryModel);
 
       // assert
       expect(result, equals(tMemoryModel));
@@ -235,7 +237,7 @@ void main() {
       final call = datasource.postMemoryToAPI;
 
       // assert
-      expect(() => call(title: tTitle, videos: null),
+      expect(() => call(memory: tMemoryModel),
           throwsA(const TypeMatcher<InvalidTokenException>()));
     });
   });

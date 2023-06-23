@@ -12,12 +12,10 @@ import 'package:griot_app/core/error/failures.dart' as _i6;
 import 'package:griot_app/memories/domain/entities/memory.dart' as _i7;
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart'
     as _i2;
-import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
-    as _i4;
 import 'package:griot_app/memories/domain/usecases/get_memories_list.dart'
-    as _i8;
+    as _i4;
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart'
-    as _i9;
+    as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -52,45 +50,10 @@ class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
         );
 }
 
-/// A class which mocks [CreateMemoriesUseCase].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockCreateMemoriesUseCase extends _i1.Mock
-    implements _i4.CreateMemoriesUseCase {
-  MockCreateMemoriesUseCase() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i2.MemoriesRepository get repository => (super.noSuchMethod(
-        Invocation.getter(#repository),
-        returnValue: _FakeMemoriesRepository_0(
-          this,
-          Invocation.getter(#repository),
-        ),
-      ) as _i2.MemoriesRepository);
-  @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>> call(_i4.Params? params) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #call,
-          [params],
-        ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>.value(
-            _FakeEither_1<_i6.Failure, _i7.Memory>(
-          this,
-          Invocation.method(
-            #call,
-            [params],
-          ),
-        )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>);
-}
-
 /// A class which mocks [GetMemoriesList].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetMemoriesList extends _i1.Mock implements _i8.GetMemoriesList {
+class MockGetMemoriesList extends _i1.Mock implements _i4.GetMemoriesList {
   MockGetMemoriesList() {
     _i1.throwOnMissingStub(this);
   }
@@ -105,7 +68,7 @@ class MockGetMemoriesList extends _i1.Mock implements _i8.GetMemoriesList {
       ) as _i2.MemoriesRepository);
   @override
   _i5.Future<_i3.Either<_i6.Failure, List<_i7.Memory>>> call(
-          _i8.NoParams? params) =>
+          _i4.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -127,7 +90,7 @@ class MockGetMemoriesList extends _i1.Mock implements _i8.GetMemoriesList {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetMemoriesUseCase extends _i1.Mock
-    implements _i9.GetMemoriesUseCase {
+    implements _i8.GetMemoriesUseCase {
   MockGetMemoriesUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -141,7 +104,7 @@ class MockGetMemoriesUseCase extends _i1.Mock
         ),
       ) as _i2.MemoriesRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>> call(_i9.Params? params) =>
+  _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>> call(_i8.Params? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

@@ -8,15 +8,15 @@
 import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
+import 'package:griot_app/core/data/main_account_id_provider.dart' as _i9;
 import 'package:griot_app/core/error/failures.dart' as _i6;
 import 'package:griot_app/memories/domain/entities/memory.dart' as _i7;
-import 'package:griot_app/memories/domain/entities/video.dart' as _i9;
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart'
     as _i2;
+import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart'
+    as _i8;
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
     as _i4;
-import 'package:griot_app/memories/domain/usecases/get_video_from_library_usecase.dart'
-    as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -86,12 +86,12 @@ class MockCreateMemoriesUseCase extends _i1.Mock
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>);
 }
 
-/// A class which mocks [GetVideoFromLibraryUseCase].
+/// A class which mocks [AddVideoFromLibraryToMemoryUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetVideoFromLibraryUseCase extends _i1.Mock
-    implements _i8.GetVideoFromLibraryUseCase {
-  MockGetVideoFromLibraryUseCase() {
+class MockAddVideoFromLibraryToMemoryUseCase extends _i1.Mock
+    implements _i8.AddVideoFromLibraryToMemoryUseCase {
+  MockAddVideoFromLibraryToMemoryUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -104,21 +104,38 @@ class MockGetVideoFromLibraryUseCase extends _i1.Mock
         ),
       ) as _i2.MemoriesRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, List<_i9.Video>?>> call(
-          _i8.NoParams? params) =>
+  _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>> call(_i8.Params? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue:
-            _i5.Future<_i3.Either<_i6.Failure, List<_i9.Video>?>>.value(
-                _FakeEither_1<_i6.Failure, List<_i9.Video>?>(
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>.value(
+            _FakeEither_1<_i6.Failure, _i7.Memory>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i9.Video>?>>);
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>);
+}
+
+/// A class which mocks [MainAccountIdProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMainAccountIdProvider extends _i1.Mock
+    implements _i9.MainAccountIdProvider {
+  MockMainAccountIdProvider() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<int> getMainAccountId() => (super.noSuchMethod(
+        Invocation.method(
+          #getMainAccountId,
+          [],
+        ),
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
 }

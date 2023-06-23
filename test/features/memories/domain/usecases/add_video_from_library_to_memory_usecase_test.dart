@@ -19,7 +19,13 @@ void main() {
   });
 
   const tTitle = 'My Title';
-  const tMemory = Memory(title: tTitle, videos: null);
+  const tAccoutnId = 1;
+  const tMemory = Memory(
+    title: tTitle,
+    videos: [],
+    accountId: tAccoutnId,
+    id: null,
+  );
 
   test('Should get a memory\'s detials from the repository', () async {
     // arrange

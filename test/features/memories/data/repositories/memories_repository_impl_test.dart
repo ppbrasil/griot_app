@@ -38,7 +38,11 @@ void main() {
     const tAccount = 2;
     const tTitle = "Test Memory Title";
     const tMemoryModel = MemoryModel(
-        id: tMemoryId, account: tAccount, title: tTitle, videos: []);
+      id: tMemoryId,
+      accountId: tAccount,
+      title: tTitle,
+      videos: [],
+    );
     const Memory tMemory = tMemoryModel;
 
     test('Should check connectivity when performGetMemoryDetails is called',
@@ -129,15 +133,16 @@ void main() {
       );
     });
   });
+
   group('getMemoriesList', () {
     const tAccount1 = 1;
     const tTitle1 = "Test Memory Title 1";
     const tAccount2 = 2;
     const tTitle2 = "Test Memory Title 2";
     const tMemoryModel1 =
-        MemoryModel(id: 1, account: tAccount1, title: tTitle1, videos: []);
+        MemoryModel(id: 1, accountId: tAccount1, title: tTitle1, videos: []);
     const tMemoryModel2 =
-        MemoryModel(id: 2, account: tAccount2, title: tTitle2, videos: []);
+        MemoryModel(id: 2, accountId: tAccount2, title: tTitle2, videos: []);
     final List<MemoryModel> tMemoryModelList = [tMemoryModel1, tMemoryModel2];
     final List<Memory> tMemoryList = [tMemoryModel1, tMemoryModel2];
 
@@ -162,7 +167,7 @@ void main() {
           // arrange
           final tMemoryModelList = tMemoryList
               .map((e) =>
-                  MemoryModel(id: 1, account: 1, title: e.title, videos: []))
+                  MemoryModel(id: 1, accountId: 1, title: e.title, videos: []))
               .toList();
           when(mockMemoriesRemoteDataSource.getMemoriesListFromAPI())
               .thenAnswer((_) async => tMemoryModelList);
@@ -227,150 +232,7 @@ void main() {
       );
     });
   });
-  group('performCreateMemory', () {
-    const tTitle = "New Memory Title";
-    const tAccount = 2;
-    const tMemoryModel =
-        MemoryModel(id: 1, account: tAccount, title: tTitle, videos: null);
-    const Memory tMemory = tMemoryModel;
 
-    test('Should check connectivity when performCreateMemory is called',
-        () async {
-      // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockMemoriesRemoteDataSource.postMemoryToAPI(
-              title: tTitle, videos: null))
-          .thenAnswer((_) async => tMemoryModel);
-      // act
-      repository.performcreateMemory(
-        title: tTitle,
-      );
-      // assert
-      verify(mockNetworkInfo.isConnected);
-    });
-
-    group('Device is online', () {
-      setUp(() {
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      });
-
-      test(
-        'Should return Entity when the call to remote data source is successful',
-        () async {
-          // arrange
-          when(mockMemoriesRemoteDataSource.postMemoryToAPI(
-                  title: tTitle, videos: null))
-              .thenAnswer((_) async => tMemoryModel);
-          // act
-          final result = await repository.performcreateMemory(title: tTitle);
-          // assert
-          verify(mockNetworkInfo.isConnected);
-          verify(mockMemoriesRemoteDataSource.postMemoryToAPI(
-              title: tTitle, videos: null));
-          expect(result, equals(const Right(tMemory)));
-        },
-      );
-
-      test(
-        'Should return ServerFailure when the call to remote data source is unsuccessful',
-        () async {
-          // arrange
-          when(mockMemoriesRemoteDataSource.postMemoryToAPI(
-                  title: tTitle, videos: null))
-              .thenThrow(ServerException());
-          // act
-          final result = await repository.performcreateMemory(title: tTitle);
-          // assert
-          verify(mockMemoriesRemoteDataSource.postMemoryToAPI(
-              title: tTitle, videos: null));
-          expect(
-            result,
-            equals(
-                const Left(ServerFailure(message: 'Unable to retrieve data'))),
-          );
-        },
-      );
-    });
-
-    group('Device is offline', () {
-      setUp(() {
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      });
-
-      test(
-        'Should return ConnectivityFailure when performCreateMemory is called and device is offline',
-        () async {
-          // arrange
-          // act
-          final result = await repository.performcreateMemory(title: tTitle);
-          // assert
-          verify(mockNetworkInfo.isConnected);
-          expect(
-            result,
-            equals(const Left(
-                ConnectivityFailure(message: 'No internet connection'))),
-          );
-        },
-      );
-
-      test(
-        'Should not call the remote data source when performCreateMemory is called and device is offline',
-        () async {
-          // arrange
-          // act
-          await repository.performcreateMemory(title: tTitle);
-          // assert
-          verifyNever(mockMemoriesRemoteDataSource.postMemoryToAPI(
-              title: tTitle, videos: null));
-        },
-      );
-    });
-  });
-  group('performGetVideoFromLibrary', () {
-    const tVideo1 = VideoModel(
-      file: '/videos/myVideo1',
-      id: 1,
-      name: 'Video Name 1',
-      memoryId: null,
-    );
-    const tVideo2 = VideoModel(
-      file: '/videos/myVideo2',
-      id: 2,
-      name: 'Video Name 2',
-      memoryId: null,
-    );
-
-    const List<VideoModel> tVideosList = [tVideo1, tVideo2];
-
-    test(
-        'Should return Videos list when the call to local data source is successful',
-        () async {
-      // arrange
-      when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
-          .thenAnswer((_) async => tVideosList);
-      // act
-      final result = await repository.performGetVideoFromLibrary();
-      // assert
-      verify(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice());
-      expect(result, equals(const Right(tVideosList)));
-    });
-
-    test(
-        'Should return ServerFailure when the call to remote data source is unsuccessful',
-        () async {
-      // arrange
-      when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
-          .thenThrow(MediaServiceException());
-      // act
-      final result = await repository.performGetVideoFromLibrary();
-      // assert
-      verify(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice());
-      expect(
-          result,
-          equals(
-              const Left(ServerFailure(message: 'Unable to retrieve data'))));
-    });
-  });
   group('performAddVideoFromLibraryToMemory', () {
     String tTitle = 'My Title';
     int tAccountId = 1;
@@ -382,22 +244,21 @@ void main() {
       name: 'Video Name 1',
       memoryId: null,
     );
-    const tVideo2 = VideoModel(
-      file: '/videos/myVideo2',
-      id: 2,
-      name: 'Video Name 2',
-      memoryId: null,
-    );
 
     const List<VideoModel> tVideosList = [
       tVideo1,
-      tVideo2,
     ];
 
-    MemoryModel tMemoryModel = MemoryModel(
+    MemoryModel tMemoryModelBefore = MemoryModel(
+      title: tTitle,
+      videos: const [],
+      accountId: tAccountId,
+      id: tMemoryId,
+    );
+    MemoryModel tMemoryModelAfter = MemoryModel(
       title: tTitle,
       videos: tVideosList,
-      account: tAccountId,
+      accountId: tAccountId,
       id: tMemoryId,
     );
 
@@ -410,11 +271,10 @@ void main() {
       when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
           .thenAnswer((_) async => tVideosList);
 
-      when(mockMemoriesRemoteDataSource.postMemoryToAPI(
-              title: tTitle, videos: tVideosList))
-          .thenAnswer((_) async => tMemoryModel);
+      when(mockMemoriesRemoteDataSource.postVideoToAPI(video: tVideo1))
+          .thenAnswer((_) async => tMemoryModelAfter);
       // act
-      repository.performAddVideoFromLibraryToMemory(memory: tMemoryModel);
+      repository.performAddVideoFromLibraryToMemory(memory: tMemoryModelBefore);
       // assert
       verify(mockNetworkInfo.isConnected);
     });
@@ -427,17 +287,15 @@ void main() {
       when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
           .thenAnswer((_) async => tVideosList);
 
-      when(mockMemoriesRemoteDataSource.postMemoryToAPI(
-              title: tTitle, videos: tVideosList))
-          .thenAnswer((_) async => tMemoryModel);
+      when(mockMemoriesRemoteDataSource.postVideoToAPI(video: tVideo1))
+          .thenAnswer((_) async => tMemoryModelAfter);
       // act
       final result = await repository.performAddVideoFromLibraryToMemory(
-          memory: tMemoryModel);
+          memory: tMemoryModelAfter);
       // assert
       verify(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice());
-      verify(mockMemoriesRemoteDataSource.postMemoryToAPI(
-          title: tTitle, videos: tVideosList));
-      expect(result, equals(Right(tMemoryModel)));
+      verify(mockMemoriesRemoteDataSource.postVideoToAPI(video: tVideo1));
+      expect(result, equals(Right(tMemoryModelAfter)));
     });
 
     /*

@@ -37,7 +37,7 @@ class _MemoryDetailsPageState extends State<MemoryDetailsPage> {
             ),
             body: Center(
               child: Text(
-                memory.title,
+                memory.title ?? 'New Memory',
                 style: const TextStyle(fontSize: 24.0),
               ),
             ),

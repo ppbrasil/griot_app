@@ -7,6 +7,7 @@ import 'package:griot_app/core/app_theme.dart';
 import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
 import 'package:griot_app/injection_container.dart';
 import 'package:griot_app/memories/presentation/bloc/memories_bloc_bloc.dart';
+import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
 import 'package:griot_app/profile/presentation/bloc/profile_bloc_bloc.dart';
 import 'package:griot_app/user/presentation/bloc/users_bloc_bloc.dart';
 
@@ -27,14 +28,17 @@ class GriotApp extends StatelessWidget {
           child: BlocProvider(
             create: (context) => sl<MemoriesBlocBloc>(),
             child: BlocProvider(
-              create: (context) => sl<BelovedOnesBlocBloc>(),
+              create: (context) => sl<MemoryManipulationBlocBloc>(),
               child: BlocProvider(
-                create: (context) => sl<ProfileBlocBloc>(),
-                child: MaterialApp(
-                  title: 'Griot App',
-                  theme: AppTheme.lightTheme,
-                  navigatorObservers: [routeObserver],
-                  onGenerateRoute: AppRouter().onGenerateRoute,
+                create: (context) => sl<BelovedOnesBlocBloc>(),
+                child: BlocProvider(
+                  create: (context) => sl<ProfileBlocBloc>(),
+                  child: MaterialApp(
+                    title: 'Griot App',
+                    theme: AppTheme.lightTheme,
+                    navigatorObservers: [routeObserver],
+                    onGenerateRoute: AppRouter().onGenerateRoute,
+                  ),
                 ),
               ),
             ),

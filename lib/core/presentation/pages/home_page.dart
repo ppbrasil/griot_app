@@ -7,6 +7,7 @@ import 'package:griot_app/core/presentation/widgets/griot_bottom_navigation_bar.
 import 'package:griot_app/memories/presentation/pages/memories_creation_page.dart';
 import 'package:griot_app/memories/presentation/pages/memories_list_page.dart';
 import 'package:griot_app/profile/presentation/pages/profile_details_page.dart';
+import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -51,6 +52,9 @@ class _HomePageState extends State<HomePage> {
                   context
                       .read<NavigationBloc>()
                       .add(MemoriesCreationClickedEvent());
+                  context
+                      .read<MemoryManipulationBlocBloc>()
+                      .add(const CreateMemoryEvent(title: '', videos: []));
                   break;
                 case 3:
                   context

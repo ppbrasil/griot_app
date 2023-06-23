@@ -14,13 +14,11 @@ part 'memories_bloc_state.dart';
 class MemoriesBlocBloc extends Bloc<MemoriesBlocEvent, MemoriesBlocState> {
   final getMemoryUseCase.GetMemoriesUseCase getMemory;
   final getMemoriesUseCase.GetMemoriesList getMemories;
-  final createMemoryUseCase.CreateMemoriesUseCase createMemory;
 
-  MemoriesBlocBloc(
-      {required this.getMemory,
-      required this.getMemories,
-      required this.createMemory})
-      : super(MemoriesInitial()) {
+  MemoriesBlocBloc({
+    required this.getMemory,
+    required this.getMemories,
+  }) : super(MemoriesInitial()) {
     on<GetMemoryDetailsEvent>((event, emit) async {
       emit(MemoryGetDetailsLoading());
       final memoryEither =

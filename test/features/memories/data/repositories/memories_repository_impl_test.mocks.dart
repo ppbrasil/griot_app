@@ -7,14 +7,15 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:griot_app/core/network/network_info.dart' as _i8;
+import 'package:griot_app/core/network/network_info.dart' as _i9;
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart'
-    as _i6;
+    as _i7;
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart'
     as _i3;
 import 'package:griot_app/memories/data/models/memory_model.dart' as _i2;
-import 'package:griot_app/memories/data/models/video_model.dart' as _i7;
-import 'package:griot_app/memories/domain/entities/video.dart' as _i5;
+import 'package:griot_app/memories/data/models/video_model.dart' as _i8;
+import 'package:griot_app/memories/domain/entities/memory.dart' as _i5;
+import 'package:griot_app/memories/domain/entities/video.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -76,28 +77,36 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
         )),
       ) as _i4.Future<_i2.MemoryModel>);
   @override
-  _i4.Future<_i2.MemoryModel> postMemoryToAPI({
-    required String? title,
-    required List<_i5.Video>? videos,
-  }) =>
+  _i4.Future<_i2.MemoryModel> postMemoryToAPI({required _i5.Memory? memory}) =>
       (super.noSuchMethod(
         Invocation.method(
           #postMemoryToAPI,
           [],
-          {
-            #title: title,
-            #videos: videos,
-          },
+          {#memory: memory},
         ),
         returnValue: _i4.Future<_i2.MemoryModel>.value(_FakeMemoryModel_0(
           this,
           Invocation.method(
             #postMemoryToAPI,
             [],
-            {
-              #title: title,
-              #videos: videos,
-            },
+            {#memory: memory},
+          ),
+        )),
+      ) as _i4.Future<_i2.MemoryModel>);
+  @override
+  _i4.Future<_i2.MemoryModel> postVideoToAPI({required _i6.Video? video}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #postVideoToAPI,
+          [],
+          {#video: video},
+        ),
+        returnValue: _i4.Future<_i2.MemoryModel>.value(_FakeMemoryModel_0(
+          this,
+          Invocation.method(
+            #postVideoToAPI,
+            [],
+            {#video: video},
           ),
         )),
       ) as _i4.Future<_i2.MemoryModel>);
@@ -107,26 +116,26 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMemoriesLocalDataSource extends _i1.Mock
-    implements _i6.MemoriesLocalDataSource {
+    implements _i7.MemoriesLocalDataSource {
   MockMemoriesLocalDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<List<_i7.VideoModel>?> getVideosFromLibraryFromDevice() =>
+  _i4.Future<List<_i8.VideoModel>?> getVideosFromLibraryFromDevice() =>
       (super.noSuchMethod(
         Invocation.method(
           #getVideosFromLibraryFromDevice,
           [],
         ),
-        returnValue: _i4.Future<List<_i7.VideoModel>?>.value(),
-      ) as _i4.Future<List<_i7.VideoModel>?>);
+        returnValue: _i4.Future<List<_i8.VideoModel>?>.value(),
+      ) as _i4.Future<List<_i8.VideoModel>?>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i8.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i9.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }

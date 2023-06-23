@@ -2,18 +2,16 @@ import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 
 class MemoryModel extends Memory {
-  final int account;
-
   const MemoryModel({
     required super.id,
-    required this.account,
     required super.title,
     required super.videos,
+    required super.accountId,
   });
 
   factory MemoryModel.fromJson(Map<String, dynamic> json) {
     return MemoryModel(
-      account: json['account'],
+      accountId: json['account'],
       id: json['id'],
       title: json['title'],
       videos: (json['videos'] as List<dynamic>?)
@@ -27,7 +25,7 @@ class MemoryModel extends Memory {
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
-      'account': account,
+      'account': accountId,
       'title': title,
       'videos': videos,
     };

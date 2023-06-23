@@ -18,10 +18,12 @@ import 'package:griot_app/memories/data/data_source/memories_local_data_source.d
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/repositories/memories_repository_impl.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
+import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart';
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart';
 import 'package:griot_app/memories/domain/usecases/get_memories_list.dart';
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart';
 import 'package:griot_app/memories/presentation/bloc/memories_bloc_bloc.dart';
+import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
 import 'package:griot_app/profile/data/data_sources/profiles_remote_data_source.dart';
 import 'package:griot_app/profile/data/repository_impl/profiles_respository_impl.dart';
 import 'package:griot_app/profile/domain/repositories/profile_respository.dart';
@@ -51,12 +53,11 @@ void init() {
   // Core stuff
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
+  sl.registerLazySingleton<MainAccountIdProvider>(
+      () => MainAccountIdProviderImpl());
   sl.registerLazySingleton<TokenProvider>(() => TokenProviderImpl());
   sl.registerLazySingleton<MediaService>(
       () => MediaServiceImpl(imagePicker: sl()));
-
-  sl.registerLazySingleton<MainAccountIdProvider>(
-      () => MainAccountIdProviderImpl());
 
   // External Dependencies
   sl.registerLazySingleton<ImagePicker>(() => ImagePicker());
@@ -86,13 +87,21 @@ void initAuth() {
 
 void initMemories() {
   // Bloc
-  sl.registerFactory(() =>
-      MemoriesBlocBloc(getMemory: sl(), getMemories: sl(), createMemory: sl()));
+  sl.registerFactory(() => MemoriesBlocBloc(
+        getMemory: sl(),
+        getMemories: sl(),
+      ));
+  sl.registerFactory(() => MemoryManipulationBlocBloc(
+        createMemory: sl(),
+        accountIdProvider: sl(),
+        addVideos: sl(),
+      ));
 
   // Use Cases
   sl.registerLazySingleton(() => CreateMemoriesUseCase(sl()));
   sl.registerLazySingleton(() => GetMemoriesUseCase(sl()));
   sl.registerLazySingleton(() => GetMemoriesList(sl()));
+  sl.registerLazySingleton(() => AddVideoFromLibraryToMemoryUseCase(sl()));
 
   // Repository
   sl.registerLazySingleton<MemoriesRepository>(() => MemoriesRepositoryImpl(

@@ -19,19 +19,30 @@ void main() {
   });
 
   const tTitle = "My Memory Title";
-  const tNewMemory = Memory(title: tTitle, videos: []);
+  const tAccountId = 1;
+  const tNewMemory = Memory(
+    title: tTitle,
+    videos: [],
+    accountId: tAccountId,
+    id: null,
+  );
 
   test('Should get a memory\'s details from the repository', () async {
     // arrange
-    when(mockMemoriesRepository.performcreateMemory(title: tTitle))
+    when(mockMemoriesRepository.performcreateMemory(memory: tNewMemory))
         .thenAnswer((_) async => const Right(tNewMemory));
 
     // act
-    final result = await usecase(const Params(title: tTitle));
+    final result = await usecase(const Params(
+      title: tTitle,
+      accountId: tAccountId,
+      id: null,
+      videos: [],
+    ));
 
     // assert
     expect(result, equals(const Right(tNewMemory)));
-    verify(mockMemoriesRepository.performcreateMemory(title: tTitle));
+    verify(mockMemoriesRepository.performcreateMemory(memory: tNewMemory));
     verifyNoMoreInteractions(mockMemoriesRepository);
   });
 }

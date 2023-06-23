@@ -10,7 +10,6 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:griot_app/core/error/failures.dart' as _i5;
 import 'package:griot_app/memories/domain/entities/memory.dart' as _i6;
-import 'package:griot_app/memories/domain/entities/video.dart' as _i7;
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -45,6 +44,44 @@ class MockMemoriesRepository extends _i1.Mock
     _i1.throwOnMissingStub(this);
   }
 
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>> performcreateMemory(
+          {required _i6.Memory? memory}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #performcreateMemory,
+          [],
+          {#memory: memory},
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Memory>(
+          this,
+          Invocation.method(
+            #performcreateMemory,
+            [],
+            {#memory: memory},
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>
+      performAddVideoFromLibraryToMemory({required _i6.Memory? memory}) =>
+          (super.noSuchMethod(
+            Invocation.method(
+              #performAddVideoFromLibraryToMemory,
+              [],
+              {#memory: memory},
+            ),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Memory>(
+              this,
+              Invocation.method(
+                #performAddVideoFromLibraryToMemory,
+                [],
+                {#memory: memory},
+              ),
+            )),
+          ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
   @override
   _i4.Future<_i2.Either<_i5.Failure, List<_i6.Memory>>> getMemoriesList() =>
       (super.noSuchMethod(
@@ -81,59 +118,4 @@ class MockMemoriesRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>> performcreateMemory(
-          {required String? title}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #performcreateMemory,
-          [],
-          {#title: title},
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>.value(
-            _FakeEither_0<_i5.Failure, _i6.Memory>(
-          this,
-          Invocation.method(
-            #performcreateMemory,
-            [],
-            {#title: title},
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>?>>
-      performGetVideoFromLibrary() => (super.noSuchMethod(
-            Invocation.method(
-              #performGetVideoFromLibrary,
-              [],
-            ),
-            returnValue:
-                _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>?>>.value(
-                    _FakeEither_0<_i5.Failure, List<_i7.Video>?>(
-              this,
-              Invocation.method(
-                #performGetVideoFromLibrary,
-                [],
-              ),
-            )),
-          ) as _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>?>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>
-      performAddVideoFromLibraryToMemory({required _i6.Memory? memory}) =>
-          (super.noSuchMethod(
-            Invocation.method(
-              #performAddVideoFromLibraryToMemory,
-              [],
-              {#memory: memory},
-            ),
-            returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>.value(
-                _FakeEither_0<_i5.Failure, _i6.Memory>(
-              this,
-              Invocation.method(
-                #performAddVideoFromLibraryToMemory,
-                [],
-                {#memory: memory},
-              ),
-            )),
-          ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
 }

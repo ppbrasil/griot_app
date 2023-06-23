@@ -5,6 +5,7 @@ import 'package:griot_app/core/network/network_info.dart';
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/models/memory_model.dart';
+import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
@@ -53,29 +54,18 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
 
   @override
   Future<Either<Failure, Memory>> performcreateMemory({
-    required String? title,
+    required Memory memory,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final Memory memory =
-            await remoteDataSource.postMemoryToAPI(title: title, videos: null);
-        return Right(memory);
+        final Memory savedMemory =
+            await remoteDataSource.postMemoryToAPI(memory: memory);
+        return Right(savedMemory);
       } on ServerException {
         return const Left(ServerFailure(message: 'Unable to retrieve data'));
       }
     } else {
       return const Left(ConnectivityFailure(message: 'No internet connection'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Video>?>> performGetVideoFromLibrary() async {
-    try {
-      final List<Video>? videosList =
-          await localDataSource.getVideosFromLibraryFromDevice();
-      return Right(videosList);
-    } on MediaServiceException {
-      return const Left(ServerFailure(message: 'Unable to retrieve data'));
     }
   }
 
@@ -87,14 +77,22 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
     }
 
     try {
-      final List<Video>? videosList =
+      final List<VideoModel>? videosList =
           await localDataSource.getVideosFromLibraryFromDevice();
-      final MemoryModel updatedMemory = await remoteDataSource.postMemoryToAPI(
-          title: memory.title, videos: videosList);
-      return Right(updatedMemory);
+      if (videosList == null) {
+        return const Left(MediaServiceFailure(
+            message: 'Unable to retrieve media from library'));
+      }
+
+      for (final video in videosList) {
+        memory = await remoteDataSource.postVideoToAPI(video: video);
+        // You can do something with updatedMemory if needed
+      }
+
+      return Right(memory);
     } on ServerException {
       return const Left(ServerFailure(message: 'Unable to POST data to API'));
-    } on MediaServiceError {
+    } on MediaServiceException {
       return const Left(MediaServiceFailure(
           message: 'Unable to retrieve media from library'));
     }

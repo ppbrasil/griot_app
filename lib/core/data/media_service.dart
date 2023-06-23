@@ -15,16 +15,20 @@ class MediaServiceImpl implements MediaService {
 
   @override
   Future<List<VideoModel>?> getMultipleVideos() async {
-    final List<XFile> selectedImages = await imagePicker.pickMultipleMedia();
-    if (selectedImages.isNotEmpty) {
-      return Future.wait(selectedImages.map((file) async => VideoModel(
-            file: file.path,
-            id: null,
-            memoryId: null,
-            name: file.name,
-          )));
+    try {
+      final List<XFile> selectedImages = await imagePicker.pickMultipleMedia();
+      if (selectedImages.isNotEmpty) {
+        return Future.wait(selectedImages.map((file) async => VideoModel(
+              file: file.path,
+              id: null,
+              memoryId: null,
+              name: file.name,
+            )));
+      }
+      return null;
+    } on Exception {
+      return null;
     }
-    return null;
   }
 
   @override

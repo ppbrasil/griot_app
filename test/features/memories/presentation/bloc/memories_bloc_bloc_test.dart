@@ -6,8 +6,7 @@ import 'package:griot_app/memories/presentation/bloc/memories_bloc_bloc.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:test/test.dart';
-import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
-    as createMemoryUseCase;
+
 import 'package:griot_app/memories/domain/usecases/get_memories_list.dart'
     as getMemoriesUseCase;
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart'
@@ -16,24 +15,21 @@ import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.da
 import 'memories_bloc_bloc_test.mocks.dart';
 
 @GenerateMocks([
-  createMemoryUseCase.CreateMemoriesUseCase,
   getMemoriesUseCase.GetMemoriesList,
-  getMemoryUseCase.GetMemoriesUseCase
+  getMemoryUseCase.GetMemoriesUseCase,
 ])
 void main() {
   late MemoriesBlocBloc bloc;
-  late MockCreateMemoriesUseCase mockCreateMemoriesUseCase;
+
   late MockGetMemoriesList mockGetMemoriesListUseCase;
   late MockGetMemoriesUseCase mockGetMemoryUseCase;
 
   setUp(() {
-    mockCreateMemoriesUseCase = MockCreateMemoriesUseCase();
     mockGetMemoriesListUseCase = MockGetMemoriesList();
     mockGetMemoryUseCase = MockGetMemoriesUseCase();
     bloc = MemoriesBlocBloc(
       getMemory: mockGetMemoryUseCase,
       getMemories: mockGetMemoriesListUseCase,
-      createMemory: mockCreateMemoriesUseCase,
     );
   });
 
@@ -43,9 +39,12 @@ void main() {
 
   group('GetMemoryDetailsEvent', () {
     const tMemoryId = 1;
+    const tAccountId = 1;
     const tMemory = Memory(
       title: "My memory",
       videos: [],
+      accountId: tAccountId,
+      id: tMemoryId,
     );
 
     blocTest<MemoriesBlocBloc, MemoriesBlocState>(
@@ -61,7 +60,7 @@ void main() {
       act: (bloc) => bloc.add(const GetMemoryDetailsEvent(memoryId: tMemoryId)),
       expect: () => [
         MemoryGetDetailsLoading(),
-        MemoryGetDetailsSuccess(memory: tMemory),
+        const MemoryGetDetailsSuccess(memory: tMemory),
       ],
     );
 
@@ -79,16 +78,29 @@ void main() {
       act: (bloc) => bloc.add(const GetMemoryDetailsEvent(memoryId: tMemoryId)),
       expect: () => [
         MemoryGetDetailsLoading(),
-        MemoryGetDetailsFailure(message: 'Failed to fetch memory details'),
+        const MemoryGetDetailsFailure(
+            message: 'Failed to fetch memory details'),
       ],
     );
   });
 
   group('GetMemoriesListEvent', () {
-    final tMemoryList = [
-      const Memory(title: "My memory", videos: []),
-      const Memory(title: "Another memory", videos: [])
-    ];
+    const tMemoryId1 = 1;
+    const tMemoryId2 = 2;
+    const tAccountId = 1;
+    const tMemory1 = Memory(
+      title: "My memory",
+      videos: [],
+      accountId: tAccountId,
+      id: tMemoryId1,
+    );
+    const tMemory2 = Memory(
+      title: "My other memory",
+      videos: [],
+      accountId: tAccountId,
+      id: tMemoryId2,
+    );
+    final tMemoryList = [tMemory1, tMemory2];
 
     blocTest<MemoriesBlocBloc, MemoriesBlocState>(
       'should emit MemoriesGetListSuccess state when memory list retrieval is successful',
