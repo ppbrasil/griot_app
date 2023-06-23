@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/memories/data/models/memory_model.dart';
+import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,7 @@ abstract class MemoriesRemoteDataSource {
   Future<List<MemoryModel>> getMemoriesListFromAPI();
   Future<MemoryModel> getMemoryDetailsFromAPI({required int memoryId});
   Future<MemoryModel> postMemoryToAPI({required Memory memory});
-  Future<MemoryModel> postVideoToAPI(
+  Future<VideoModel> postVideoToAPI(
       {required Video video, required int memoryId});
 }
 
@@ -81,7 +82,7 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
   }
 
   @override
-  Future<MemoryModel> postVideoToAPI({
+  Future<VideoModel> postVideoToAPI({
     required Video video,
     required int memoryId,
   }) async {
@@ -111,7 +112,7 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
     if (response.statusCode == 201) {
       // http.Response.fromStream() returns a Future that completes after the response body is read.
       final responseBody = await http.Response.fromStream(response);
-      return MemoryModel.fromJson(json.decode(responseBody.body));
+      return VideoModel.fromJson(json.decode(responseBody.body));
     } else {
       throw InvalidTokenException();
     }

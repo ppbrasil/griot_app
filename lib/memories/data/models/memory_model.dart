@@ -2,7 +2,7 @@ import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 
 class MemoryModel extends Memory {
-  const MemoryModel({
+  MemoryModel({
     required super.id,
     required super.title,
     required super.videos,
