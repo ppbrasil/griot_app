@@ -4,6 +4,7 @@ import 'package:griot_app/core/error/failures.dart';
 import 'package:griot_app/core/network/network_info.dart';
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
+import 'package:griot_app/memories/data/models/memory_model.dart';
 import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
@@ -82,14 +83,18 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
         return Right(memory);
       }
 
-      List<Video> updatedVideoList = memory.videos ?? [];
-
       for (final video in videosList) {
-        updatedVideoList.add(await remoteDataSource.postVideoToAPI(
-            video: video, memoryId: memory.id!));
+        await remoteDataSource.postVideoToAPI(
+            video: video, memoryId: memory.id!);
       }
 
-      Memory updatedMemory = memory.copyWith(videos: updatedVideoList);
+      for (final video in videosList) {
+        await remoteDataSource.postVideoToAPI(
+            video: video, memoryId: memory.id!);
+      }
+
+      final MemoryModel updatedMemory =
+          await remoteDataSource.getMemoryDetailsFromAPI(memoryId: memory.id!);
 
       return Right(updatedMemory);
     } on ServerException {

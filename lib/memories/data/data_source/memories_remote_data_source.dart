@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
+import 'package:griot_app/core/services/thumbnail_services.dart';
 import 'package:griot_app/memories/data/models/memory_model.dart';
 import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
@@ -20,9 +21,13 @@ abstract class MemoriesRemoteDataSource {
 class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
   final http.Client client;
   final TokenProvider tokenProvider;
+  final ThumbnailService thumbnailService;
 
-  MemoriesRemoteDataSourceImpl(
-      {required this.tokenProvider, required this.client});
+  MemoriesRemoteDataSourceImpl({
+    required this.client,
+    required this.tokenProvider,
+    required this.thumbnailService,
+  });
 
   @override
   Future<List<MemoryModel>> getMemoriesListFromAPI() async {
@@ -88,6 +93,14 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
   }) async {
     final String token = await tokenProvider.getToken();
 
+    // Generate the thumbnail
+    final thumbnailBytes =
+        await thumbnailService.generateThumbnail(videoUrl: video.file);
+
+    if (thumbnailBytes == null) {
+      throw Exception('Failed to generate thumbnail.');
+    }
+
     var request = http.MultipartRequest(
       'POST',
       Uri.parse('http://app.griot.me/api/memory/video/upload/'),
@@ -99,11 +112,22 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
 
     request.fields['memory'] = memoryId.toString();
 
+    // Add the video file
     request.files.add(
       await http.MultipartFile.fromPath(
         'file',
         video.file,
         contentType: MediaType('video', 'mp4'),
+      ),
+    );
+
+    // Add the thumbnail
+    request.files.add(
+      http.MultipartFile.fromBytes(
+        'thumbnail',
+        thumbnailBytes,
+        filename: '${video.file.split('/').last}_thumbnail.png',
+        contentType: MediaType('image', 'png'),
       ),
     );
 
@@ -114,7 +138,8 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       final responseBody = await http.Response.fromStream(response);
       return VideoModel.fromJson(json.decode(responseBody.body));
     } else {
-      throw InvalidTokenException();
+      throw Exception(
+          'Failed to upload video. Server responded with status code ${response.statusCode}.');
     }
   }
 }

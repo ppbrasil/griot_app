@@ -37,13 +37,13 @@ void main() {
     const tMemoryId = 1;
     const tAccount = 2;
     const tTitle = "Test Memory Title";
-    const tMemoryModel = MemoryModel(
+    MemoryModel tMemoryModel = MemoryModel(
       id: tMemoryId,
       accountId: tAccount,
       title: tTitle,
-      videos: [],
+      videos: const [],
     );
-    const Memory tMemory = tMemoryModel;
+    Memory tMemory = tMemoryModel;
 
     test('Should check connectivity when performGetMemoryDetails is called',
         () async {
@@ -76,7 +76,7 @@ void main() {
         verify(mockNetworkInfo.isConnected);
         verify(mockMemoriesRemoteDataSource.getMemoryDetailsFromAPI(
             memoryId: tMemoryId));
-        expect(result, equals(const Right(tMemory)));
+        expect(result, equals(Right(tMemory)));
       });
       test(
           'Should return ServerFailure when the call to remote data source is unsuccessful',
@@ -139,9 +139,9 @@ void main() {
     const tTitle1 = "Test Memory Title 1";
     const tAccount2 = 2;
     const tTitle2 = "Test Memory Title 2";
-    const tMemoryModel1 =
+    MemoryModel tMemoryModel1 =
         MemoryModel(id: 1, accountId: tAccount1, title: tTitle1, videos: []);
-    const tMemoryModel2 =
+    MemoryModel tMemoryModel2 =
         MemoryModel(id: 2, accountId: tAccount2, title: tTitle2, videos: []);
     final List<MemoryModel> tMemoryModelList = [tMemoryModel1, tMemoryModel2];
     final List<Memory> tMemoryList = [tMemoryModel1, tMemoryModel2];
@@ -271,8 +271,9 @@ void main() {
       when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
           .thenAnswer((_) async => tVideosList);
 
-      when(mockMemoriesRemoteDataSource.postVideoToAPI(video: tVideo1))
-          .thenAnswer((_) async => tMemoryModelAfter);
+      when(mockMemoriesRemoteDataSource.postVideoToAPI(
+              video: tVideo1, memoryId: tMemoryId))
+          .thenAnswer((_) async => tVideo1);
       // act
       repository.performAddVideoFromLibraryToMemory(memory: tMemoryModelBefore);
       // assert
@@ -287,14 +288,16 @@ void main() {
       when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
           .thenAnswer((_) async => tVideosList);
 
-      when(mockMemoriesRemoteDataSource.postVideoToAPI(video: tVideo1))
-          .thenAnswer((_) async => tMemoryModelAfter);
+      when(mockMemoriesRemoteDataSource.postVideoToAPI(
+              video: tVideo1, memoryId: tMemoryId))
+          .thenAnswer((_) async => tVideo1);
       // act
       final result = await repository.performAddVideoFromLibraryToMemory(
           memory: tMemoryModelAfter);
       // assert
       verify(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice());
-      verify(mockMemoriesRemoteDataSource.postVideoToAPI(video: tVideo1));
+      verify(mockMemoriesRemoteDataSource.postVideoToAPI(
+          video: tVideo1, memoryId: tMemoryId));
       expect(result, equals(Right(tMemoryModelAfter)));
     });
 

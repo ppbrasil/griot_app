@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  const tMemoryModelone = MemoryModel(
+  MemoryModel tMemoryModelone = MemoryModel(
     id: 1,
     title: "My first memory",
     accountId: 1,

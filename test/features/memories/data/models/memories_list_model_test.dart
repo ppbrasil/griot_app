@@ -7,19 +7,19 @@ import 'package:test/test.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  const tMemoryModel1 = MemoryModel(
+  MemoryModel tMemoryModel1 = MemoryModel(
     title: "My first memory",
     id: 1,
     videos: [],
     accountId: 1,
   );
-  const tMemoryModel2 = MemoryModel(
+  MemoryModel tMemoryModel2 = MemoryModel(
     title: "My second memory",
     id: 2,
     videos: [],
     accountId: 1,
   );
-  const tMemoryModel3 = MemoryModel(
+  MemoryModel tMemoryModel3 = MemoryModel(
     title: "My third memory",
     id: 3,
     videos: [],

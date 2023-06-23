@@ -14,6 +14,7 @@ import 'package:griot_app/core/data/main_account_id_provider.dart';
 import 'package:griot_app/core/data/media_service.dart';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/network/network_info.dart';
+import 'package:griot_app/core/services/thumbnail_services.dart';
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/repositories/memories_repository_impl.dart';
@@ -52,12 +53,13 @@ void init() {
 
   // Core stuff
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-
   sl.registerLazySingleton<MainAccountIdProvider>(
       () => MainAccountIdProviderImpl());
   sl.registerLazySingleton<TokenProvider>(() => TokenProviderImpl());
   sl.registerLazySingleton<MediaService>(
       () => MediaServiceImpl(imagePicker: sl()));
+  sl.registerLazySingleton<ThumbnailService>(
+      () => VideoCompressThumbnailService());
 
   // External Dependencies
   sl.registerLazySingleton<ImagePicker>(() => ImagePicker());
@@ -115,6 +117,7 @@ void initMemories() {
       () => MemoriesRemoteDataSourceImpl(
             client: sl(),
             tokenProvider: sl(),
+            thumbnailService: sl(),
           ));
 
   sl.registerLazySingleton<MemoriesLocalDataSource>(
