@@ -40,7 +40,7 @@ void main() {
   group('GetMemoryDetailsEvent', () {
     const tMemoryId = 1;
     const tAccountId = 1;
-    const tMemory = Memory(
+    Memory tMemory = Memory(
       title: "My memory",
       videos: [],
       accountId: tAccountId,
@@ -53,14 +53,14 @@ void main() {
         when(mockGetMemoryUseCase
                 .call(const getMemoryUseCase.Params(memoryId: tMemoryId)))
             .thenAnswer(
-          (_) async => const Right(tMemory),
+          (_) async => Right(tMemory),
         );
         return bloc;
       },
       act: (bloc) => bloc.add(const GetMemoryDetailsEvent(memoryId: tMemoryId)),
       expect: () => [
         MemoryGetDetailsLoading(),
-        const MemoryGetDetailsSuccess(memory: tMemory),
+        MemoryGetDetailsSuccess(memory: tMemory),
       ],
     );
 
@@ -88,13 +88,13 @@ void main() {
     const tMemoryId1 = 1;
     const tMemoryId2 = 2;
     const tAccountId = 1;
-    const tMemory1 = Memory(
+    Memory tMemory1 = Memory(
       title: "My memory",
       videos: [],
       accountId: tAccountId,
       id: tMemoryId1,
     );
-    const tMemory2 = Memory(
+    Memory tMemory2 = Memory(
       title: "My other memory",
       videos: [],
       accountId: tAccountId,

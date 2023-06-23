@@ -20,7 +20,7 @@ void main() {
 
   const tTitle = "My Memory Title";
   const tAccountId = 1;
-  const tNewMemory = Memory(
+  Memory tNewMemory = Memory(
     title: tTitle,
     videos: [],
     accountId: tAccountId,
@@ -30,7 +30,7 @@ void main() {
   test('Should get a memory\'s details from the repository', () async {
     // arrange
     when(mockMemoriesRepository.performcreateMemory(memory: tNewMemory))
-        .thenAnswer((_) async => const Right(tNewMemory));
+        .thenAnswer((_) async => Right(tNewMemory));
 
     // act
     final result = await usecase(const Params(
@@ -41,7 +41,7 @@ void main() {
     ));
 
     // assert
-    expect(result, equals(const Right(tNewMemory)));
+    expect(result, equals(Right(tNewMemory)));
     verify(mockMemoriesRepository.performcreateMemory(memory: tNewMemory));
     verifyNoMoreInteractions(mockMemoriesRepository);
   });

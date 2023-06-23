@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
+import 'package:griot_app/core/services/thumbnail_services.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/models/memory_model.dart';
 import 'package:mockito/annotations.dart';
@@ -12,17 +13,22 @@ import 'package:http/http.dart' as http;
 import '../../../../fixtures/fixture_reader.dart';
 import 'memories_remote_data_source_test.mocks.dart';
 
-@GenerateMocks([http.Client, TokenProvider])
+@GenerateMocks([http.Client, TokenProvider, ThumbnailService])
 void main() {
   late MemoriesRemoteDataSourceImpl datasource;
   late MockClient mockHttpClient;
   late MockTokenProvider mockTokenProvider;
+  late MockThumbnailService mockThumbnailService;
 
   setUp(() {
     mockHttpClient = MockClient();
     mockTokenProvider = MockTokenProvider();
+    mockThumbnailService = MockThumbnailService();
     datasource = MemoriesRemoteDataSourceImpl(
-        tokenProvider: mockTokenProvider, client: mockHttpClient);
+      tokenProvider: mockTokenProvider,
+      client: mockHttpClient,
+      thumbnailService: mockThumbnailService,
+    );
   });
 
   group('getMemoryDetailsFromAPI', () {

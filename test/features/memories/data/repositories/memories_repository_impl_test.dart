@@ -274,6 +274,10 @@ void main() {
       when(mockMemoriesRemoteDataSource.postVideoToAPI(
               video: tVideo1, memoryId: tMemoryId))
           .thenAnswer((_) async => tVideo1);
+
+      when(mockMemoriesRemoteDataSource.getMemoryDetailsFromAPI(
+              memoryId: tMemoryId))
+          .thenAnswer((_) async => tMemoryModelAfter);
       // act
       repository.performAddVideoFromLibraryToMemory(memory: tMemoryModelBefore);
       // assert
@@ -291,6 +295,11 @@ void main() {
       when(mockMemoriesRemoteDataSource.postVideoToAPI(
               video: tVideo1, memoryId: tMemoryId))
           .thenAnswer((_) async => tVideo1);
+
+      when(mockMemoriesRemoteDataSource.getMemoryDetailsFromAPI(
+              memoryId: tMemoryId))
+          .thenAnswer((_) async => tMemoryModelAfter);
+
       // act
       final result = await repository.performAddVideoFromLibraryToMemory(
           memory: tMemoryModelAfter);
@@ -298,6 +307,8 @@ void main() {
       verify(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice());
       verify(mockMemoriesRemoteDataSource.postVideoToAPI(
           video: tVideo1, memoryId: tMemoryId));
+      verify(mockMemoriesRemoteDataSource.getMemoryDetailsFromAPI(
+          memoryId: tMemoryId));
       expect(result, equals(Right(tMemoryModelAfter)));
     });
 

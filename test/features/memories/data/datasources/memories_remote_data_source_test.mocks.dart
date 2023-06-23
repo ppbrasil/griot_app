@@ -10,6 +10,7 @@ import 'dart:convert' as _i4;
 import 'dart:typed_data' as _i5;
 
 import 'package:griot_app/core/data/token_provider.dart' as _i6;
+import 'package:griot_app/core/services/thumbnail_services.dart' as _i7;
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -281,4 +282,24 @@ class MockTokenProvider extends _i1.Mock implements _i6.TokenProvider {
         ),
         returnValue: _i3.Future<String>.value(''),
       ) as _i3.Future<String>);
+}
+
+/// A class which mocks [ThumbnailService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockThumbnailService extends _i1.Mock implements _i7.ThumbnailService {
+  MockThumbnailService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<_i5.Uint8List?> generateThumbnail({required String? videoUrl}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #generateThumbnail,
+          [],
+          {#videoUrl: videoUrl},
+        ),
+        returnValue: _i3.Future<_i5.Uint8List?>.value(),
+      ) as _i3.Future<_i5.Uint8List?>);
 }

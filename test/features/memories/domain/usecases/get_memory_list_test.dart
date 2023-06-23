@@ -20,8 +20,8 @@ void main() {
 
   const tAccountId = 1;
   final tMemoryList = [
-    const Memory(title: 'Memory 1', videos: [], id: 1, accountId: tAccountId),
-    const Memory(title: 'Memory 2', videos: [], id: 1, accountId: tAccountId),
+    Memory(title: 'Memory 1', videos: [], id: 1, accountId: tAccountId),
+    Memory(title: 'Memory 2', videos: [], id: 1, accountId: tAccountId),
   ];
 
   test('Should get list of memories from the repository', () async {

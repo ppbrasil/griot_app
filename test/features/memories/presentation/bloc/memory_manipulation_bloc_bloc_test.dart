@@ -43,7 +43,7 @@ void main() {
   group('CreateMemoryEvent', () {
     const tTitle = '';
     const tAccountId = 1;
-    const tMemory = Memory(
+    Memory tMemory = Memory(
       title: tTitle,
       videos: [],
       accountId: tAccountId,
@@ -59,14 +59,14 @@ void main() {
             title: tTitle,
             id: null,
             accountId: tAccountId,
-            videos: []))).thenAnswer((_) async => const Right(tMemory));
+            videos: []))).thenAnswer((_) async => Right(tMemory));
         return bloc;
       },
       act: (bloc) =>
           bloc.add(const CreateMemoryEvent(title: tTitle, videos: [])),
       expect: () => [
         MemoryCreationBlocLoading(),
-        const MemoryUpdateSuccessState(memory: tMemory),
+        MemoryUpdateSuccessState(memory: tMemory),
       ],
     );
 
