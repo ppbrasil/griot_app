@@ -4,10 +4,8 @@ import 'package:griot_app/core/error/failures.dart';
 import 'package:griot_app/core/network/network_info.dart';
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
-import 'package:griot_app/memories/data/models/memory_model.dart';
 import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
-import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
 
 class MemoriesRepositoryImpl implements MemoriesRepository {
@@ -80,12 +78,12 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
       final List<VideoModel>? videosList =
           await localDataSource.getVideosFromLibraryFromDevice();
       if (videosList == null) {
-        return const Left(MediaServiceFailure(
-            message: 'Unable to retrieve media from library'));
+        return Right(memory);
       }
 
       for (final video in videosList) {
-        memory = await remoteDataSource.postVideoToAPI(video: video);
+        memory = await remoteDataSource.postVideoToAPI(
+            video: video, memoryId: memory.id!);
         // You can do something with updatedMemory if needed
       }
 

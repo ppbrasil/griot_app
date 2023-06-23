@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:griot_app/accounts/domain/entities/account.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
 
 class Memory extends Equatable {

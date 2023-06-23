@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
-import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
-    as createMemoryUseCase;
 import 'package:griot_app/memories/domain/usecases/get_memories_list.dart'
     as getMemoriesUseCase;
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart'

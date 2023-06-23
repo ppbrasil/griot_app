@@ -6,12 +6,14 @@ import 'package:griot_app/memories/data/models/memory_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 abstract class MemoriesRemoteDataSource {
   Future<List<MemoryModel>> getMemoriesListFromAPI();
   Future<MemoryModel> getMemoryDetailsFromAPI({required int memoryId});
   Future<MemoryModel> postMemoryToAPI({required Memory memory});
-  Future<MemoryModel> postVideoToAPI({required Video video});
+  Future<MemoryModel> postVideoToAPI(
+      {required Video video, required int memoryId});
 }
 
 class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
@@ -81,7 +83,37 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
   @override
   Future<MemoryModel> postVideoToAPI({
     required Video video,
+    required int memoryId,
   }) async {
-    throw InvalidTokenException();
+    final String token = await tokenProvider.getToken();
+
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://app.griot.me/api/memory/video/upload/'),
+    );
+
+    request.headers.addAll({
+      'Authorization': token,
+    });
+
+    request.fields['memory'] = memoryId.toString();
+
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'file',
+        video.file,
+        contentType: MediaType('video', 'mp4'),
+      ),
+    );
+
+    var response = await request.send();
+
+    if (response.statusCode == 201) {
+      // http.Response.fromStream() returns a Future that completes after the response body is read.
+      final responseBody = await http.Response.fromStream(response);
+      return MemoryModel.fromJson(json.decode(responseBody.body));
+    } else {
+      throw InvalidTokenException();
+    }
   }
 }

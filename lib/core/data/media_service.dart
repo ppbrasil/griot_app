@@ -17,6 +17,7 @@ class MediaServiceImpl implements MediaService {
   Future<List<VideoModel>?> getMultipleVideos() async {
     try {
       final List<XFile> selectedImages = await imagePicker.pickMultipleMedia();
+      var check = selectedImages.isNotEmpty;
       if (selectedImages.isNotEmpty) {
         return Future.wait(selectedImages.map((file) async => VideoModel(
               file: file.path,
@@ -26,7 +27,8 @@ class MediaServiceImpl implements MediaService {
             )));
       }
       return null;
-    } on Exception {
+    } catch (e) {
+      print('Exception: $e');
       return null;
     }
   }

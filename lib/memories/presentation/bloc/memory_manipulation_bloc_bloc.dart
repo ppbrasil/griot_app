@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:griot_app/core/data/main_account_id_provider.dart';
-import 'package:griot_app/core/error/failures.dart';
+
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'

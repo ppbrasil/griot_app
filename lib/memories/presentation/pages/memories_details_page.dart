@@ -35,11 +35,34 @@ class _MemoryDetailsPageState extends State<MemoryDetailsPage> {
             appBar: AppBar(
               title: const Text('Memory Details'),
             ),
-            body: Center(
-              child: Text(
-                memory.title ?? 'New Memory',
-                style: const TextStyle(fontSize: 24.0),
-              ),
+            body: Column(
+              children: [
+                Text(
+                  memory.title ?? 'New Memory',
+                  style: const TextStyle(fontSize: 24.0),
+                ),
+                state.memory.videos != null
+                    ? Expanded(
+                        child: ListView.builder(
+                          itemCount: state.memory.videos!.length,
+                          itemBuilder: (context, index) {
+                            final video = state.memory.videos![index];
+                            return ListTile(
+                              title: Text(
+                                video.file,
+                                style: const TextStyle(fontSize: 8),
+                              ),
+                              // Add more widgets or customize the list item as needed
+                            );
+                          },
+                        ),
+                      )
+                    : const Expanded(
+                        child: Center(
+                          child: Text('No videos available'),
+                        ),
+                      ) // Display a message if the videos list is null,
+              ],
             ),
           );
         } else if (state is MemoryGetDetailsFailure) {
