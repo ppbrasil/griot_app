@@ -7,7 +7,6 @@ import 'package:griot_app/memories/data/data_source/memories_remote_data_source.
 import 'package:griot_app/memories/data/models/memory_model.dart';
 import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
-import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
 
 class MemoriesRepositoryImpl implements MemoriesRepository {
@@ -81,11 +80,6 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
           await localDataSource.getVideosFromLibraryFromDevice();
       if (videosList == null) {
         return Right(memory);
-      }
-
-      for (final video in videosList) {
-        await remoteDataSource.postVideoToAPI(
-            video: video, memoryId: memory.id!);
       }
 
       for (final video in videosList) {
