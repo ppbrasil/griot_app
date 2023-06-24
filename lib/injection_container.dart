@@ -79,6 +79,7 @@ void initAuth() {
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
         remoteDataSource: sl(),
         networkInfo: sl(),
+        usersRemoteDataSource: sl(),
       ));
 
   // Data Sources
@@ -97,6 +98,7 @@ void initMemories() {
         createMemory: sl(),
         accountIdProvider: sl(),
         addVideos: sl(),
+        getMemoryDetails: sl(),
       ));
 
   // Use Cases
@@ -174,7 +176,7 @@ void initAccounts() {
   // Bloc
   sl.registerFactory(() => BelovedOnesBlocBloc(
         getBelovedOnesList: sl(),
-        mainsAccountIdProvider: sl(),
+        mainAccountIdProvider: sl(),
       ));
 
   // Use Cases

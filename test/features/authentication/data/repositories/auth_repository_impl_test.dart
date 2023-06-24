@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:dartz/dartz.dart';
+import 'package:griot_app/accounts/domain/entities/account.dart';
 import 'package:griot_app/authentication/data/data_sources/auth_data_source.dart';
 import 'package:griot_app/authentication/data/models/token_model.dart';
 import 'package:griot_app/authentication/data/repositories/auth_repository_impl.dart';
@@ -6,31 +9,38 @@ import 'package:griot_app/authentication/domain/entities/token.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/core/error/failures.dart';
 import 'package:griot_app/core/network/network_info.dart';
+import 'package:griot_app/user/data/data_sources/users_remote_data_source.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'auth_repository_impl_test.mocks.dart';
 
-//class MockRemoteDataSource extends Mock implements AuthRemoteDataSource{}
-
-//class MockNetworkInfo extends Mock implements NetworkInfo{}
-
-@GenerateMocks([AuthRemoteDataSource, NetworkInfo, ServerException])
+@GenerateMocks(
+    [AuthRemoteDataSource, UsersRemoteDataSource, NetworkInfo, ServerException])
 void main() {
   late AuthRepositoryImpl repository;
-  late MockAuthRemoteDataSource mockRemoteDataSource;
+  late MockAuthRemoteDataSource mockAuthRemoteDataSource;
+  late MockUsersRemoteDataSource mockUsersRemoteDataSource;
   late MockNetworkInfo mockNetworkInfo;
 
   const tEmail = 'ppbrasil@gmail.com';
   const tPassword = 'q1w2e3r4t5';
   const tTokenModel = TokenModel(tokenString: 'q1w2io8yvoihpedvefdv');
   const Token tToken = tTokenModel;
+  List<Account> tAccountList = [
+    const Account(name: 'a'),
+    const Account(name: 'b'),
+  ];
 
   setUp(() {
-    mockRemoteDataSource = MockAuthRemoteDataSource();
+    mockAuthRemoteDataSource = MockAuthRemoteDataSource();
+    mockUsersRemoteDataSource = MockUsersRemoteDataSource();
     mockNetworkInfo = MockNetworkInfo();
+
     repository = AuthRepositoryImpl(
-      remoteDataSource: mockRemoteDataSource,
+      remoteDataSource: mockAuthRemoteDataSource,
+      usersRemoteDataSource: mockUsersRemoteDataSource,
       networkInfo: mockNetworkInfo,
     );
   });
@@ -44,8 +54,13 @@ void main() {
       () async {
         //arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(mockRemoteDataSource.login(tEmail, tPassword))
+        when(mockAuthRemoteDataSource.login(tEmail, tPassword))
             .thenAnswer((_) async => tTokenModel);
+        when(mockUsersRemoteDataSource.getOwnedAccountsListFromAPI())
+            .thenAnswer((_) async => tAccountList);
+        when(mockUsersRemoteDataSource.storeMainAccountId(
+                mainAccountId: tAccountList[0].id))
+            .thenAnswer((_) async => Void);
         //act
         await repository.login(username: tEmail, password: tPassword);
         //assert
@@ -63,13 +78,19 @@ void main() {
         'should return data when auth call to remote data source is successfull',
         () async {
       // arrange
-      when(mockRemoteDataSource.login(tEmail, tPassword))
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockAuthRemoteDataSource.login(tEmail, tPassword))
           .thenAnswer((_) async => tTokenModel);
+      when(mockUsersRemoteDataSource.getOwnedAccountsListFromAPI())
+          .thenAnswer((_) async => tAccountList);
+      when(mockUsersRemoteDataSource.storeMainAccountId(
+              mainAccountId: tAccountList[0].id))
+          .thenAnswer((_) async => Void);
       // act
       final result =
           await repository.login(username: tEmail, password: tPassword);
       // assert
-      verify(mockRemoteDataSource.login(tEmail, tPassword));
+      verify(mockAuthRemoteDataSource.login(tEmail, tPassword));
       expect(result, equals(const Right(tToken)));
     });
 
@@ -77,13 +98,19 @@ void main() {
         'should perssit token when auth call to remote data source is successfull',
         () async {
       // arrange
-      when(mockRemoteDataSource.login(tEmail, tPassword))
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockAuthRemoteDataSource.login(tEmail, tPassword))
           .thenAnswer((_) async => tTokenModel);
+      when(mockUsersRemoteDataSource.getOwnedAccountsListFromAPI())
+          .thenAnswer((_) async => tAccountList);
+      when(mockUsersRemoteDataSource.storeMainAccountId(
+              mainAccountId: tAccountList[0].id))
+          .thenAnswer((_) async => Void);
       // act
       await repository.login(username: tEmail, password: tPassword);
       // assert
-      verify(mockRemoteDataSource.login(tEmail, tPassword));
-      verify(mockRemoteDataSource.storeToken(tTokenModel));
+      verify(mockAuthRemoteDataSource.login(tEmail, tPassword));
+      verify(mockAuthRemoteDataSource.storeToken(tTokenModel));
     });
   });
 
@@ -92,13 +119,13 @@ void main() {
       () async {
     // arrange
     when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-    when(mockRemoteDataSource.login(tEmail, tPassword))
+    when(mockAuthRemoteDataSource.login(tEmail, tPassword))
         .thenThrow(ServerException());
     // act
     final result =
         await repository.login(username: tEmail, password: tPassword);
     // assert
-    verify(mockRemoteDataSource.login(tEmail, tPassword));
+    verify(mockAuthRemoteDataSource.login(tEmail, tPassword));
     expect(result,
         equals(const Left(ServerFailure(message: 'Authentication failed'))));
   });

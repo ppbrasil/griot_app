@@ -7,11 +7,14 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:griot_app/accounts/domain/entities/account.dart' as _i6;
 import 'package:griot_app/authentication/data/data_sources/auth_data_source.dart'
     as _i3;
 import 'package:griot_app/authentication/data/models/token_model.dart' as _i2;
-import 'package:griot_app/core/error/exceptions.dart' as _i6;
-import 'package:griot_app/core/network/network_info.dart' as _i5;
+import 'package:griot_app/core/error/exceptions.dart' as _i8;
+import 'package:griot_app/core/network/network_info.dart' as _i7;
+import 'package:griot_app/user/data/data_sources/users_remote_data_source.dart'
+    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -80,10 +83,50 @@ class MockAuthRemoteDataSource extends _i1.Mock
       ) as _i4.Future<void>);
 }
 
+/// A class which mocks [UsersRemoteDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUsersRemoteDataSource extends _i1.Mock
+    implements _i5.UsersRemoteDataSource {
+  MockUsersRemoteDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<List<_i6.Account>> getBelovedAccountsListFromAPI() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getBelovedAccountsListFromAPI,
+          [],
+        ),
+        returnValue: _i4.Future<List<_i6.Account>>.value(<_i6.Account>[]),
+      ) as _i4.Future<List<_i6.Account>>);
+  @override
+  _i4.Future<List<_i6.Account>> getOwnedAccountsListFromAPI() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getOwnedAccountsListFromAPI,
+          [],
+        ),
+        returnValue: _i4.Future<List<_i6.Account>>.value(<_i6.Account>[]),
+      ) as _i4.Future<List<_i6.Account>>);
+  @override
+  _i4.Future<void> storeMainAccountId({required int? mainAccountId}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #storeMainAccountId,
+          [],
+          {#mainAccountId: mainAccountId},
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+}
+
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i5.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i7.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
@@ -98,7 +141,7 @@ class MockNetworkInfo extends _i1.Mock implements _i5.NetworkInfo {
 /// A class which mocks [ServerException].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockServerException extends _i1.Mock implements _i6.ServerException {
+class MockServerException extends _i1.Mock implements _i8.ServerException {
   MockServerException() {
     _i1.throwOnMissingStub(this);
   }
