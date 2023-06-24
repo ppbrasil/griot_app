@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
-import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
 
 class GriotBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -57,9 +56,6 @@ class GriotBottomNavigationBar extends StatelessWidget {
                 context
                     .read<NavigationBloc>()
                     .add(MemoriesCreationClickedEvent());
-                context
-                    .read<MemoryManipulationBlocBloc>()
-                    .add(const CreateMemoryEvent(title: '', videos: []));
               }),
         )
       ],

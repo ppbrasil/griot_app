@@ -4,6 +4,7 @@ import 'package:griot_app/accounts/presentation/pages/beloved_ones_details_page.
 import 'package:griot_app/accounts/presentation/pages/beloved_ones_list_page.dart';
 import 'package:griot_app/core/presentation/pages/dashboard.dart';
 import 'package:griot_app/core/presentation/pages/home_page.dart';
+import 'package:griot_app/griot_app.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/presentation/pages/memories_creation_page.dart';
 import 'package:griot_app/memories/presentation/pages/memories_details_page.dart';
@@ -20,6 +21,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case '/home_page':
         return MaterialPageRoute(builder: (_) => const HomePage());
+      case '/auth_layer':
+        return MaterialPageRoute(builder: (_) => const AuthenticationLayer());
+      case '/app_layer':
+        return MaterialPageRoute(builder: (_) => const AppLayer());
       case '/dashboard':
         return MaterialPageRoute(builder: (_) => const Dashboard());
       case '/memories_list_page':

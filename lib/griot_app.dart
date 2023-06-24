@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/accounts/presentation/bloc/beloved_ones_bloc_bloc.dart';
 import 'package:griot_app/app_router.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:griot_app/authentication/presentation/pages/login_page.dart';
 import 'package:griot_app/core/app_theme.dart';
 import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
+import 'package:griot_app/core/presentation/pages/home_page.dart';
 import 'package:griot_app/injection_container.dart';
 import 'package:griot_app/memories/presentation/bloc/memories_bloc_bloc.dart';
-import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
 import 'package:griot_app/profile/presentation/bloc/profile_bloc_bloc.dart';
 import 'package:griot_app/user/presentation/bloc/users_bloc_bloc.dart';
 
@@ -20,31 +21,60 @@ class GriotApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<AuthBloc>(),
-      child: BlocProvider(
-        create: (context) => NavigationBloc(),
-        child: BlocProvider(
-          create: (context) =>
-              sl<UsersBlocBloc>()..add(GetOwnedAccountsListEvent()),
-          child: BlocProvider(
-            create: (context) => sl<MemoriesBlocBloc>(),
-            child: BlocProvider(
-              create: (context) => sl<MemoryManipulationBlocBloc>(),
-              child: BlocProvider(
-                create: (context) => sl<BelovedOnesBlocBloc>(),
-                child: BlocProvider(
-                  create: (context) => sl<ProfileBlocBloc>(),
-                  child: MaterialApp(
-                    title: 'Griot App',
-                    theme: AppTheme.lightTheme,
-                    navigatorObservers: [routeObserver],
-                    onGenerateRoute: AppRouter().onGenerateRoute,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+      child: MaterialApp(
+        title: 'Griot App',
+        theme: AppTheme.lightTheme,
+        navigatorObservers: [routeObserver],
+        onGenerateRoute: AppRouter().onGenerateRoute,
+        initialRoute: '/',
       ),
+    );
+  }
+}
+
+class AuthenticationLayer extends StatelessWidget {
+  const AuthenticationLayer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, authState) {
+        if (authState is Success) {
+          return BlocProvider(
+            create: (context) =>
+                sl<UsersBlocBloc>()..add(GetOwnedAccountsListEvent()),
+            child: BlocBuilder<UsersBlocBloc, UsersBlocState>(
+              builder: (context, userBlocState) {
+                if (userBlocState is UsersBlocSuccess) {
+                  return const AppLayer();
+                } else {
+                  return const CircularProgressIndicator(); // or another suitable placeholder
+                }
+              },
+            ),
+          );
+        } else {
+          return const LoginPage();
+        }
+      },
+    );
+  }
+}
+
+class AppLayer extends StatelessWidget {
+  const AppLayer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => NavigationBloc()),
+        BlocProvider(create: (context) => sl<MemoriesBlocBloc>()),
+        BlocProvider(create: (context) => sl<BelovedOnesBlocBloc>()),
+        BlocProvider(create: (context) => sl<ProfileBlocBloc>()),
+      ],
+      child: const HomePage(),
+      // Put your home screen or any other screen that will be shown after login here
     );
   }
 }

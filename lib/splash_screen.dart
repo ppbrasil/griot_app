@@ -6,7 +6,7 @@ class SplashPage extends StatelessWidget {
   Future<void> _loadDependencies(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 3));
 
-    Navigator.of(context).pushReplacementNamed('/login');
+    Navigator.of(context).pushReplacementNamed('/auth_layer');
   }
 
   @override
