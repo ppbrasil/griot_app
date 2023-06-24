@@ -45,6 +45,25 @@ class MockMemoriesRepository extends _i1.Mock
   }
 
   @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>
+      performCreateDraftMemoryLocally({required int? accountId}) =>
+          (super.noSuchMethod(
+            Invocation.method(
+              #performCreateDraftMemoryLocally,
+              [],
+              {#accountId: accountId},
+            ),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Memory>(
+              this,
+              Invocation.method(
+                #performCreateDraftMemoryLocally,
+                [],
+                {#accountId: accountId},
+              ),
+            )),
+          ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
+  @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>> performcreateMemory(
           {required _i6.Memory? memory}) =>
       (super.noSuchMethod(

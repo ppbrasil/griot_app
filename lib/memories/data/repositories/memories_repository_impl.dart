@@ -98,4 +98,15 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
           message: 'Unable to retrieve media from library'));
     }
   }
+
+  @override
+  Future<Either<Failure, Memory>> performCreateDraftMemoryLocally(
+      {required int accountId}) async {
+    return Right(Memory(
+      accountId: accountId,
+      id: null,
+      title: null,
+      videos: const [],
+    ));
+  }
 }

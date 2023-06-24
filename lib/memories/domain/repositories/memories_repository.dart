@@ -3,6 +3,8 @@ import 'package:griot_app/core/error/failures.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 
 abstract class MemoriesRepository {
+  Future<Either<Failure, Memory>> performCreateDraftMemoryLocally(
+      {required int accountId});
   Future<Either<Failure, Memory>> performcreateMemory({
     required Memory memory,
   });
