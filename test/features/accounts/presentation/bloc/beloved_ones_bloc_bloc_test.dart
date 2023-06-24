@@ -23,7 +23,7 @@ void main() {
     mockGetBelovedOnesListUseCase = MockGetBelovedOnesListUseCase();
     mockMainAccountIdProvider = MockMainAccountIdProvider();
     bloc = BelovedOnesBlocBloc(
-        mainsAccountIdProvider: mockMainAccountIdProvider,
+        mainAccountIdProvider: mockMainAccountIdProvider,
         getBelovedOnesList: mockGetBelovedOnesListUseCase);
   });
 

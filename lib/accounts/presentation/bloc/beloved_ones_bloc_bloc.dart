@@ -11,15 +11,15 @@ part 'beloved_ones_bloc_state.dart';
 class BelovedOnesBlocBloc
     extends Bloc<BelovedOnesBlocEvent, BelovedOnesBlocState> {
   final getBelovedOnesListUseCase.GetBelovedOnesListUseCase getBelovedOnesList;
-  final MainAccountIdProvider mainsAccountIdProvider;
+  final MainAccountIdProvider mainAccountIdProvider;
 
   BelovedOnesBlocBloc({
-    required this.mainsAccountIdProvider,
+    required this.mainAccountIdProvider,
     required this.getBelovedOnesList,
   }) : super(BelovedOnesBlocInitial()) {
     on<GetBelovedOnesListEvent>((event, emit) async {
       emit(BelovedOnesBlocLoading());
-      int accountId = await mainsAccountIdProvider.getMainAccountId();
+      int accountId = await mainAccountIdProvider.getMainAccountId();
       final belovedListEither = await getBelovedOnesList(
           getBelovedOnesListUseCase.Params(accountId: accountId));
       belovedListEither.fold(
