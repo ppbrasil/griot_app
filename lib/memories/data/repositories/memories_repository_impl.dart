@@ -7,6 +7,7 @@ import 'package:griot_app/memories/data/data_source/memories_remote_data_source.
 import 'package:griot_app/memories/data/models/memory_model.dart';
 import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
+import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
 
 class MemoriesRepositoryImpl implements MemoriesRepository {
@@ -108,5 +109,26 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
       title: null,
       videos: const [],
     ));
+  }
+
+  @override
+  Future<Either<Failure, List<Video>>>
+      performRetrieveVideoListFromLibrary() async {
+    if (!await networkInfo.isConnected) {
+      return const Left(ConnectivityFailure(message: 'No internet connection'));
+    }
+    try {
+      final List<VideoModel>? videosList =
+          await localDataSource.getVideosFromLibraryFromDevice();
+      if (videosList == null) {
+        return const Right([]);
+      }
+      return Right(videosList);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'Unable to POST data to API'));
+    } on MediaServiceException {
+      return const Left(MediaServiceFailure(
+          message: 'Unable to retrieve media from library'));
+    }
   }
 }

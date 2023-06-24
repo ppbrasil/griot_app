@@ -10,6 +10,7 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:griot_app/core/error/failures.dart' as _i5;
 import 'package:griot_app/memories/domain/entities/memory.dart' as _i6;
+import 'package:griot_app/memories/domain/entities/video.dart' as _i7;
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -137,4 +138,21 @@ class MockMemoriesRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>>>
+      performRetrieveVideoListFromLibrary() => (super.noSuchMethod(
+            Invocation.method(
+              #performRetrieveVideoListFromLibrary,
+              [],
+            ),
+            returnValue:
+                _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>>>.value(
+                    _FakeEither_0<_i5.Failure, List<_i7.Video>>(
+              this,
+              Invocation.method(
+                #performRetrieveVideoListFromLibrary,
+                [],
+              ),
+            )),
+          ) as _i4.Future<_i2.Either<_i5.Failure, List<_i7.Video>>>);
 }
