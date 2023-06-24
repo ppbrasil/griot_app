@@ -15,19 +15,21 @@ void main() {
   MediaService mediaService = MediaServiceImpl(imagePicker: myImagePicker);
 
   group('getMultipleVideos', () {
-    String tName1 = 'Video Name 1';
-    String tName2 = 'Video Name 1';
+    String tName1 = '1';
+    String tName2 = '2';
     String tFile1 = '/path/to/file/1';
     String tFile2 = '/path/to/file/2';
     VideoModel tVideoModel1 = VideoModel(
       id: null,
       file: tFile1,
+      thumbnail: null,
       name: tName1,
       memoryId: null,
     );
     VideoModel tVideoModel2 = VideoModel(
       id: null,
       file: tFile2,
+      thumbnail: null,
       name: tName2,
       memoryId: null,
     );

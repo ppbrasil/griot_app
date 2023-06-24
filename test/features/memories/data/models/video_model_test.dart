@@ -15,6 +15,7 @@ void main() {
   VideoModel tVideoModel = const VideoModel(
     id: tId,
     file: tFile,
+    thumbnail: null,
     name: tName,
     memoryId: null,
   );
@@ -48,6 +49,7 @@ void main() {
       final expectedMap = {
         "id": tId,
         "url": tFile,
+        "thumbnail": null,
         "name": tName,
         "memory": null,
       };

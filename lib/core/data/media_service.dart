@@ -19,8 +19,9 @@ class MediaServiceImpl implements MediaService {
       final List<XFile> selectedImages = await imagePicker.pickMultipleMedia();
       if (selectedImages.isNotEmpty) {
         return Future.wait(selectedImages.map((file) async => VideoModel(
-              file: file.path,
               id: null,
+              file: file.path,
+              thumbnail: null,
               memoryId: null,
               name: file.name,
             )));
