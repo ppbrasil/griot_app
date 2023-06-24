@@ -21,13 +21,4 @@ class MemoryModel extends Memory {
           [],
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      if (id != null) 'id': id,
-      'account': accountId,
-      'title': title,
-      'videos': videos,
-    };
-  }
 }
