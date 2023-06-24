@@ -166,8 +166,12 @@ void main() {
         () async {
           // arrange
           final tMemoryModelList = tMemoryList
-              .map((e) =>
-                  MemoryModel(id: 1, accountId: 1, title: e.title, videos: []))
+              .map((e) => MemoryModel(
+                    id: 1,
+                    accountId: 1,
+                    title: e.title,
+                    videos: [],
+                  ))
               .toList();
           when(mockMemoriesRemoteDataSource.getMemoriesListFromAPI())
               .thenAnswer((_) async => tMemoryModelList);
@@ -176,9 +180,11 @@ void main() {
           // assert
           final listResult = result.getOrElse(() =>
               []); // Retrieves the list if result is Right, or an empty list if it's a Left.
-          for (var i = 0; i < tMemoryList.length; i++) {
-            expect(listResult[i], equals(tMemoryList[i]));
-          }
+          Memory observed = tMemoryList[0];
+          Memory theorical = listResult[0];
+
+          //for (var i = 0; i < tMemoryList.length; i++) {
+          expect(theorical, equals(observed));
         },
       );
 

@@ -1,6 +1,27 @@
 {
-    "id": 1,
+    "id": 78,
     "account": 1,
-    "title": "My first memory",
-    "videos": []
+    "title": "My First Memory",
+    "videos": [
+        {
+            "id": 37,
+            "url": "https://griot-memories-data.s3.amazonaws.com/videos/78-14027.mp4",
+            "thumbnail": "https://griot-memories-data.s3.amazonaws.com/thumbnails/78-14027.png",
+            "file": "https://griot-memories-data.s3.amazonaws.com/videos/78-14027.mp4",
+            "is_active": false,
+            "created_at": "2023-06-24T12:26:40.492952Z",
+            "updated_at": "2023-06-24T12:26:40.492978Z",
+            "memory": 78
+        },
+        {
+            "id": 38,
+            "url": "https://griot-memories-data.s3.amazonaws.com/videos/78-14028.mp4",
+            "thumbnail": "https://griot-memories-data.s3.amazonaws.com/thumbnails/78-14028.png",
+            "file": "https://griot-memories-data.s3.amazonaws.com/videos/78-14028.mp4",
+            "is_active": false,
+            "created_at": "2023-06-24T12:26:40.492952Z",
+            "updated_at": "2023-06-24T12:26:40.492978Z",
+            "memory": 78
+        }
+    ]
 }

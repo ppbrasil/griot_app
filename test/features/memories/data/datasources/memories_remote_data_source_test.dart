@@ -5,6 +5,7 @@ import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/core/services/thumbnail_services.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/models/memory_model.dart';
+import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -32,7 +33,39 @@ void main() {
   });
 
   group('getMemoryDetailsFromAPI', () {
-    const tMemoryId = 1;
+    const tVideoOneId = 37;
+    const tVideoOneFile =
+        "https://griot-memories-data.s3.amazonaws.com/videos/78-14027.mp4";
+    const tVideoOneMemorId = 78;
+
+    VideoModel tVideoOne = const VideoModel(
+      id: tVideoOneId,
+      file: tVideoOneFile,
+      memoryId: tVideoOneMemorId,
+    );
+
+    const tVideoTwoId = 38;
+    const tVideoTwoFile =
+        "https://griot-memories-data.s3.amazonaws.com/videos/78-14028.mp4";
+    const tVideoTwoMemorId = 78;
+
+    VideoModel tVideoTwo = const VideoModel(
+      id: tVideoTwoId,
+      file: tVideoTwoFile,
+      memoryId: tVideoTwoMemorId,
+    );
+
+    const tMemoryId = 78;
+    const tAccountid = 1;
+    const tTitle = "My First Memory";
+
+    MemoryModel tMemoryModel = MemoryModel(
+      id: tMemoryId,
+      accountId: tAccountid,
+      title: tTitle,
+      videos: [tVideoOne, tVideoTwo],
+    );
+
     const tEndpoint = 'http://app.griot.me/api/memory/retrieve/$tMemoryId/';
     const tToken = 'yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk';
     const tHeaders = {
@@ -40,8 +73,8 @@ void main() {
       'Authorization': 'Token $tToken',
     };
 
-    final tMemoryModel = MemoryModel.fromJson(
-        json.decode(fixture('memory_details_success.json')));
+//    final tMemoryModel = MemoryModel.fromJson(
+//        json.decode(fixture('memory_details_success.json')));
 
     test(
       'Should perform a GET request with memories/{id} endpoint and application/json header',
