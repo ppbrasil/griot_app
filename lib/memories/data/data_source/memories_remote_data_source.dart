@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
@@ -112,11 +113,14 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
 
     request.fields['memory'] = memoryId.toString();
 
+    int randInt = Random().nextInt(1000000);
+
     // Add the video file
     request.files.add(
       await http.MultipartFile.fromPath(
         'file',
         video.file,
+        filename: '$memoryId-$randInt.mp4',
         contentType: MediaType('video', 'mp4'),
       ),
     );
@@ -126,7 +130,7 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       http.MultipartFile.fromBytes(
         'thumbnail',
         thumbnailBytes,
-        filename: '${video.file.split('/').last}_thumbnail.png',
+        filename: '$memoryId-$randInt.png',
         contentType: MediaType('image', 'png'),
       ),
     );
