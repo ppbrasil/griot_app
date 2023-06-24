@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:griot_app/core/services/chewie_fullscreen.dart';
+import 'package:griot_app/core/services/video_streaming_service.dart';
 import 'package:griot_app/injection_container.dart';
 import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
 
@@ -45,7 +47,11 @@ class _MemoriesCreationPageState extends State<MemoriesCreationPage> {
                             children: List.generate(state.memory.videos!.length,
                                 (index) {
                               final video = state.memory.videos![index];
-                              return videoThumbnailImage(video.thumbnail!);
+                              return videoThumbnail(
+                                context,
+                                thumbnailUrl: video.thumbnail!,
+                                videoUrl: video.file,
+                              );
                             }),
                           ),
                         )
@@ -73,16 +79,32 @@ class _MemoriesCreationPageState extends State<MemoriesCreationPage> {
   }
 }
 
-Widget videoThumbnailImage(String thumbnailUrl) {
-  return Padding(
-    padding: const EdgeInsets.all(45.0),
-    child: Image.network(
-      thumbnailUrl,
-      fit: BoxFit.cover, // Adjust the fit property according to your needs
-      errorBuilder: (context, error, stackTrace) {
-        // Placeholder image or error handling widget
-        return const Icon(Icons.error);
-      },
+Widget videoThumbnail(BuildContext context,
+    {required String thumbnailUrl, required String videoUrl}) {
+  final chewieServiceFactory = ChewieServiceFactory();
+  final chewieService = chewieServiceFactory.createChewieService(
+    url: videoUrl,
+    autoPlay: true,
+    looping: false,
+  );
+
+  return GestureDetector(
+    onTap: () {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) {
+          return ChewiePlayer(chewieService: chewieService);
+        }),
+      );
+    },
+    child: Padding(
+      padding: const EdgeInsets.all(45.0),
+      child: Image.network(
+        thumbnailUrl,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return const Icon(Icons.error);
+        },
+      ),
     ),
   );
 }

@@ -63,6 +63,7 @@ class ChewieServiceFactory {
       videoPlayerController: videoPlayerController,
       autoPlay: autoPlay,
       looping: looping,
+      fullScreenByDefault: true,
       errorBuilder: (context, errorMessage) {
         return Center(
           child: Text(
