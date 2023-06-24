@@ -45,11 +45,7 @@ class _MemoriesCreationPageState extends State<MemoriesCreationPage> {
                             children: List.generate(state.memory.videos!.length,
                                 (index) {
                               final video = state.memory.videos![index];
-                              return Text(
-                                video.file,
-                                style: const TextStyle(fontSize: 8),
-                                // Add more widgets or customize the list item as needed
-                              );
+                              return videoThumbnailImage(video.thumbnail!);
                             }),
                           ),
                         )
@@ -75,4 +71,18 @@ class _MemoriesCreationPageState extends State<MemoriesCreationPage> {
       ),
     );
   }
+}
+
+Widget videoThumbnailImage(String thumbnailUrl) {
+  return Padding(
+    padding: const EdgeInsets.all(45.0),
+    child: Image.network(
+      thumbnailUrl,
+      fit: BoxFit.cover, // Adjust the fit property according to your needs
+      errorBuilder: (context, error, stackTrace) {
+        // Placeholder image or error handling widget
+        return const Icon(Icons.error);
+      },
+    ),
+  );
 }
