@@ -7,6 +7,17 @@ abstract class MemoryManipulationBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class GetMemoryDetailsEvent extends MemoryManipulationBlocEvent {
+  /// This event would be triggered when a details page is rendered,
+  /// resulting in a memory being retrieved from the data provider
+  final int memoryId;
+
+  const GetMemoryDetailsEvent({required this.memoryId});
+
+  @override
+  List<Object> get props => [memoryId];
+}
+
 class CreateMemoryEvent extends MemoryManipulationBlocEvent {
   /// This event would be triggered when the user clickes to create a new Memory,
   /// resulting in a new memory being created and the user being redirected to the MemoryCreationPage

@@ -9,19 +9,19 @@ abstract class MemoryManipulationBlocState extends Equatable {
 
 class MemoryCreationBlocInitial extends MemoryManipulationBlocState {}
 
-class MemoryCreationBlocLoading extends MemoryManipulationBlocState {}
+class MemoryLoading extends MemoryManipulationBlocState {}
 
 class MemoryCreationBlocFailure extends MemoryManipulationBlocState {}
 
 class VideoUploadingState extends MemoryManipulationBlocState {}
 
-class MemoryUpdateSuccessState extends MemoryManipulationBlocState {
+class MemorySuccessState extends MemoryManipulationBlocState {
   final Memory memory;
 
-  const MemoryUpdateSuccessState({required this.memory});
+  const MemorySuccessState({required this.memory});
 
   @override
   List<Object> get props => [memory];
 }
 
-class MemoryUpdateErrorState extends MemoryManipulationBlocState {}
+class MemoryFailureState extends MemoryManipulationBlocState {}

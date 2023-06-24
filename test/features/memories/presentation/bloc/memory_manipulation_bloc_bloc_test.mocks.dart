@@ -8,7 +8,7 @@
 import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
-import 'package:griot_app/core/data/main_account_id_provider.dart' as _i9;
+import 'package:griot_app/core/data/main_account_id_provider.dart' as _i10;
 import 'package:griot_app/core/error/failures.dart' as _i6;
 import 'package:griot_app/memories/domain/entities/memory.dart' as _i7;
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart'
@@ -17,6 +17,8 @@ import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_mem
     as _i8;
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
     as _i4;
+import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart'
+    as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -121,11 +123,46 @@ class MockAddVideoFromLibraryToMemoryUseCase extends _i1.Mock
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>);
 }
 
+/// A class which mocks [GetMemoriesUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetMemoriesUseCase extends _i1.Mock
+    implements _i9.GetMemoriesUseCase {
+  MockGetMemoriesUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.MemoriesRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeMemoriesRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.MemoriesRepository);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>> call(_i9.Params? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>.value(
+            _FakeEither_1<_i6.Failure, _i7.Memory>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>);
+}
+
 /// A class which mocks [MainAccountIdProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMainAccountIdProvider extends _i1.Mock
-    implements _i9.MainAccountIdProvider {
+    implements _i10.MainAccountIdProvider {
   MockMainAccountIdProvider() {
     _i1.throwOnMissingStub(this);
   }

@@ -8,6 +8,8 @@ import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
     as createMemoryUseCase;
 import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart'
     as addLibraryVideosUseCase;
+import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart'
+    as getMemoryUseCase;
 
 part 'memory_manipulation_bloc_event.dart';
 part 'memory_manipulation_bloc_state.dart';
@@ -16,15 +18,17 @@ class MemoryManipulationBlocBloc
     extends Bloc<MemoryManipulationBlocEvent, MemoryManipulationBlocState> {
   final createMemoryUseCase.CreateMemoriesUseCase createMemory;
   final addLibraryVideosUseCase.AddVideoFromLibraryToMemoryUseCase addVideos;
+  final getMemoryUseCase.GetMemoriesUseCase getMemoryDetails;
   final MainAccountIdProvider accountIdProvider;
 
   MemoryManipulationBlocBloc({
     required this.createMemory,
     required this.addVideos,
     required this.accountIdProvider,
+    required this.getMemoryDetails,
   }) : super(MemoryCreationBlocInitial()) {
     on<CreateMemoryEvent>((event, emit) async {
-      emit(MemoryCreationBlocLoading());
+      emit(MemoryLoading());
       ;
       final memoryEither = await createMemory(createMemoryUseCase.Params(
         id: null,
@@ -34,7 +38,7 @@ class MemoryManipulationBlocBloc
       ));
       memoryEither.fold(
         (failure) => emit(MemoryCreationBlocFailure()),
-        (memory) => emit(MemoryUpdateSuccessState(memory: memory)),
+        (memory) => emit(MemorySuccessState(memory: memory)),
       );
     });
     on<AddVideoClickedEvent>((event, emit) async {
@@ -43,7 +47,16 @@ class MemoryManipulationBlocBloc
       ));
       updatedMemory.fold(
         (failure) => emit(MemoryCreationBlocFailure()),
-        (memory) => emit(MemoryUpdateSuccessState(memory: memory)),
+        (memory) => emit(MemorySuccessState(memory: memory)),
+      );
+    });
+    on<GetMemoryDetailsEvent>((event, emit) async {
+      emit(MemoryLoading());
+      final memoryEither = await getMemoryDetails(
+          getMemoryUseCase.Params(memoryId: event.memoryId));
+      memoryEither.fold(
+        (failure) => emit(MemoryFailureState()),
+        (memory) => emit(MemorySuccessState(memory: memory)),
       );
     });
   }
