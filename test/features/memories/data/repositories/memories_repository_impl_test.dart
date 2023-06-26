@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dartz/dartz.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/core/error/failures.dart';
@@ -432,22 +430,6 @@ void main() {
       id: 2,
       name: 'Video Name 2',
       memoryId: null,
-    );
-
-    Video tVideo1 = Video(
-      file: '/videos/myVideo1',
-      thumbnail: 'myThumbnail 1',
-      id: 1,
-      name: 'Video Name 1',
-      memoryId: tMemoryId,
-    );
-
-    Video tVideo2 = Video(
-      file: '/videos/myVideo2',
-      thumbnail: 'myThumbnail 2',
-      id: 2,
-      name: 'Video Name 2',
-      memoryId: tMemoryId,
     );
 
     List<VideoModel> tVideoModelListToBeAdded = [tVideoModel1, tVideoModel2];

@@ -281,10 +281,8 @@ void main() {
     });
   });
   group('deteleVideoFromAPI', () {
-    const tFile = 'MyUrl';
     const int tId = 1;
 
-    const Video = VideoModel(id: tId, file: tFile);
     const tToken = "yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk";
     const tEndpoint = 'http://app.griot.me/api/video/delete/$tId/';
     const tHeaders = {
