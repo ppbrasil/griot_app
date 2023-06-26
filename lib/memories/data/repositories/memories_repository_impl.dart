@@ -112,23 +112,110 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Video>>>
-      performRetrieveVideoListFromLibrary() async {
-    if (!await networkInfo.isConnected) {
-      return const Left(ConnectivityFailure(message: 'No internet connection'));
-    }
+  Future<Either<Failure, Memory>> performAddVideoListFromLibraryToDraftMemory(
+      {required Memory memory}) async {
     try {
       final List<VideoModel>? videosList =
           await localDataSource.getVideosFromLibraryFromDevice();
       if (videosList == null) {
-        return const Right([]);
+        return Right(memory);
       }
-      return Right(videosList);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'Unable to POST data to API'));
+
+      List<Video> mergedVideoList = [];
+      if (memory.videos != null) {
+        mergedVideoList.addAll(memory.videos!);
+      }
+      mergedVideoList.addAll(videosList);
+
+      Memory updatedMemory = memory.copyWith(videos: mergedVideoList);
+
+      return Right(updatedMemory);
     } on MediaServiceException {
       return const Left(MediaServiceFailure(
           message: 'Unable to retrieve media from library'));
     }
   }
+
+  @override
+  Future<Either<Failure, Memory>> performCommitChangesToMemory({
+    required Memory memory,
+  }) async {
+    // Return Failure if no internet connection available
+    if (!await networkInfo.isConnected) {
+      return const Left(ConnectivityFailure(message: 'No internet connection'));
+    }
+    // Check if it's an existing or new memory creating it if new
+    if (memory.id == null) {
+      final postedMemory =
+          await remoteDataSource.postMemoryToAPI(memory: memory);
+      // Add each video to the new memory
+      if (memory.videos != null) {
+        for (final video in memory.videos!) {
+          await remoteDataSource.postVideoToAPI(
+            memoryId: postedMemory.id!,
+            video: video,
+          );
+        }
+      }
+      final commitedMemory = await remoteDataSource.getMemoryDetailsFromAPI(
+          memoryId: postedMemory.id!);
+      return Right(commitedMemory);
+
+      // Update the memory if it's an exsisting one
+    } else {
+      // Retrieve original memory for comparisson
+      final retrievedMemory =
+          await remoteDataSource.getMemoryDetailsFromAPI(memoryId: memory.id!);
+
+      // Define changes to perform in Videos List
+      List<Video> videosToDelete = [];
+      retrievedMemory.videos != null
+          ? videosToDelete = findMissingItems(
+              retrievedMemory.videos!, assignOrCreateList(memory.videos))
+          : [];
+
+      List<Video> videosToAdd = [];
+      memory.videos != null
+          ? videosToAdd = findMissingItems(
+              memory.videos!, assignOrCreateList(retrievedMemory.videos))
+          : [];
+
+      // Delete videos
+      for (final video in videosToDelete) {
+        await remoteDataSource.deleteVideoFromAPI(videoId: video.id!);
+      }
+
+      // Create new videos
+      for (final video in videosToAdd) {
+        await remoteDataSource.postVideoToAPI(
+            video: video, memoryId: memory.id!);
+      }
+
+      // Fetch updated data from server and return
+      return Right(
+          await remoteDataSource.getMemoryDetailsFromAPI(memoryId: memory.id!));
+    }
+  }
+}
+
+///
+/// Some Helpers function I'm not sure should be here
+
+List<T> findMissingItems<T>(List<T> items, List<T> list) {
+  final missingItems = <T>[];
+  for (final item in items) {
+    if (isItemMissing(item, list)) {
+      missingItems.add(item);
+    }
+  }
+
+  return missingItems;
+}
+
+bool isItemMissing<T>(T item, List<T> list) {
+  return !list.contains(item);
+}
+
+List<T> assignOrCreateList<T>(List<T>? list) {
+  return list ?? [];
 }

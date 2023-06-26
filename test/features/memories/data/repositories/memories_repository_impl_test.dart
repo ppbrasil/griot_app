@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dartz/dartz.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/core/error/failures.dart';
@@ -320,8 +322,8 @@ void main() {
     });
   });
 
-  group('performRetrieveVideoListFromLibrary', () {
-    const tVideo1 = VideoModel(
+  group('performAddVideoListFromLibraryToDraftMemory', () {
+    const tVideo1 = Video(
       file: '/videos/myVideo1',
       thumbnail: 'myThumbnail 1',
       id: 1,
@@ -337,39 +339,42 @@ void main() {
       memoryId: null,
     );
 
-    const List<VideoModel> tVideosModelList = [tVideo1, tVideo2];
+    const List<Video> tInitialVideoList = [tVideo1];
+    const List<VideoModel> tVideoListToBeAdded = [tVideo2];
+    const List<Video> tFinalVideoList = [tVideo1, tVideo2];
 
-    const List<Video> tVideosList = tVideosModelList;
+    Memory tInitialMemory = Memory(
+      id: 1,
+      title: "MyTitle",
+      accountId: 1,
+      videos: tInitialVideoList,
+    );
+
+    Memory tFinalMemory = Memory(
+      id: 1,
+      title: "MyTitle",
+      accountId: 1,
+      videos: tFinalVideoList,
+    );
 
     test(
-        'Should check connectivity when performRetrieveVideoListFromLibrary is called',
+        'Should return a Memory with an updated Videos list when the call to local data source is successful',
         () async {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
-          .thenAnswer((_) async => tVideosModelList);
+          .thenAnswer((_) async => tVideoListToBeAdded);
 
       // act
-      repository.performRetrieveVideoListFromLibrary();
-      // assert
-      verify(mockNetworkInfo.isConnected);
-    });
-
-    test(
-        'Should return Videos list when the call to local data source is successful',
-        () async {
-      // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice())
-          .thenAnswer((_) async => tVideosModelList);
-
-      // act
-      final result = await repository.performRetrieveVideoListFromLibrary();
+      final result =
+          await repository.performAddVideoListFromLibraryToDraftMemory(
+        memory: tInitialMemory,
+      );
 
       // assert
       verify(mockMemoriesLocalDataSource.getVideosFromLibraryFromDevice());
 
-      expect(result, equals(const Right(tVideosList)));
+      expect(result, equals(Right(tFinalMemory)));
     });
   });
 
@@ -391,6 +396,213 @@ void main() {
           accountId: tAccountId);
       // assert
       expect(result, equals(Right(tMemory)));
+    });
+  });
+
+  group('performCommitChangesToMemory', () {
+    int tAccountId = 1;
+    int tMemoryId = 1;
+
+    const tVideoModel1 = VideoModel(
+      file: '/videos/myVideo1Model1',
+      thumbnail: 'myThumbnail 1',
+      id: null,
+      name: 'Video Name 1',
+      memoryId: null,
+    );
+
+    const tVideoModel2 = VideoModel(
+      file: '/videos/myVideoModel2',
+      thumbnail: 'myThumbnail 2',
+      id: null,
+      name: 'Video Name 2',
+      memoryId: null,
+    );
+    const tVSavedVideoModel1 = VideoModel(
+      file: '/videos/myVideo1Model1',
+      thumbnail: 'myThumbnail 1',
+      id: 1,
+      name: 'Video Name 1',
+      memoryId: null,
+    );
+
+    const tVSavedVideoModel2 = VideoModel(
+      file: '/videos/myVideoModel2',
+      thumbnail: 'myThumbnail 2',
+      id: 2,
+      name: 'Video Name 2',
+      memoryId: null,
+    );
+
+    Video tVideo1 = Video(
+      file: '/videos/myVideo1',
+      thumbnail: 'myThumbnail 1',
+      id: 1,
+      name: 'Video Name 1',
+      memoryId: tMemoryId,
+    );
+
+    Video tVideo2 = Video(
+      file: '/videos/myVideo2',
+      thumbnail: 'myThumbnail 2',
+      id: 2,
+      name: 'Video Name 2',
+      memoryId: tMemoryId,
+    );
+
+    List<VideoModel> tVideoModelListToBeAdded = [tVideoModel1, tVideoModel2];
+    List<VideoModel> tVideoModelListAdded = [
+      tVSavedVideoModel1,
+      tVSavedVideoModel2
+    ];
+
+    Memory tMemoryDraftNoVideo = Memory(
+      id: null,
+      title: 'MyTittle',
+      accountId: tAccountId,
+      videos: null,
+    );
+
+    Memory tMemoryDraftWithNewVideos = Memory(
+      id: null,
+      title: 'MyTittle',
+      accountId: tAccountId,
+      videos: tVideoModelListToBeAdded,
+    );
+
+    MemoryModel tMemoryModelNoVideo = MemoryModel(
+      id: tMemoryId,
+      title: 'MyTittle',
+      accountId: tAccountId,
+      videos: null,
+    );
+
+    MemoryModel tMemoryModelWithVideo = MemoryModel(
+      id: tMemoryId,
+      title: 'MyTittle',
+      accountId: tAccountId,
+      videos: tVideoModelListAdded,
+    );
+
+    MemoryModel tMemoryModelWitVideoOne = MemoryModel(
+      id: tMemoryId,
+      title: 'MyTittle',
+      accountId: tAccountId,
+      videos: const [tVSavedVideoModel1],
+    );
+
+    MemoryModel tMemoryModelWitVideoTwo = MemoryModel(
+      id: tMemoryId,
+      title: 'New Tittle',
+      accountId: tAccountId,
+      videos: const [tVSavedVideoModel2],
+    );
+
+    group('offline', () {
+      test('Should return a ConnectivityFailure when offline', () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+        when(mockMemoriesRemoteDataSource.postMemoryToAPI(
+                memory: tMemoryDraftNoVideo))
+            .thenAnswer((_) async => tMemoryModelNoVideo);
+
+        // act
+        final result = await repository.performCommitChangesToMemory(
+          memory: tMemoryDraftNoVideo,
+        );
+
+        // assert
+        expect(
+            result,
+            equals(const Left(
+                ConnectivityFailure(message: 'No internet connection'))));
+      });
+    });
+    group('Online and Memory w/ NO ID', () {
+      test(
+          'Should return a new Memory whithout vidos when a MemoryDraft(no Id) with no video is passed to remotedatasource',
+          () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockMemoriesRemoteDataSource.postMemoryToAPI(
+                memory: tMemoryDraftNoVideo))
+            .thenAnswer((_) async => tMemoryModelNoVideo);
+        when(mockMemoriesRemoteDataSource.getMemoryDetailsFromAPI(
+                memoryId: tMemoryModelNoVideo.id))
+            .thenAnswer((_) async => tMemoryModelNoVideo);
+        // act
+        final result = await repository.performCommitChangesToMemory(
+          memory: tMemoryDraftNoVideo,
+        );
+        // assert
+        verify(mockMemoriesRemoteDataSource.postMemoryToAPI(
+          memory: tMemoryDraftNoVideo,
+        ));
+        verifyNever(mockMemoriesRemoteDataSource.postVideoToAPI(
+          memoryId: anyNamed('memoryId'),
+          video: anyNamed('video'),
+        ));
+        expect(result, equals(Right(tMemoryModelNoVideo)));
+      });
+      test(
+          'Should return a new Memory with videos when a MemoryDraft(no Id) with no id is passed to remotedatasource',
+          () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockMemoriesRemoteDataSource.postMemoryToAPI(
+                memory: tMemoryDraftWithNewVideos))
+            .thenAnswer((_) async => tMemoryModelNoVideo);
+        when(mockMemoriesRemoteDataSource.postVideoToAPI(
+                video: tVideoModel1, memoryId: tMemoryId))
+            .thenAnswer((_) async => tVSavedVideoModel1);
+        when(mockMemoriesRemoteDataSource.postVideoToAPI(
+                video: tVideoModel2, memoryId: tMemoryId))
+            .thenAnswer((_) async => tVSavedVideoModel2);
+        when(mockMemoriesRemoteDataSource.getMemoryDetailsFromAPI(
+                memoryId: tMemoryId))
+            .thenAnswer((_) async => tMemoryModelWithVideo);
+
+        // act
+        final result = await repository.performCommitChangesToMemory(
+          memory: tMemoryDraftWithNewVideos,
+        );
+
+        // assert
+        verify(mockMemoriesRemoteDataSource.postMemoryToAPI(
+          memory: tMemoryDraftWithNewVideos,
+        ));
+        expect(result, equals(Right(tMemoryModelWithVideo)));
+      });
+    });
+    group('Online and Memory HAVING ID', () {
+      test(
+          'Should return an updated Memory when a MemoryDraftw/ID is passed to remotedatasource w/ new content',
+          () async {
+        // arrange
+        var answerForGetMemoryDetails = [
+          tMemoryModelWitVideoOne,
+          tMemoryModelWitVideoTwo
+        ];
+
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockMemoriesRemoteDataSource.getMemoryDetailsFromAPI(
+                memoryId: tMemoryId))
+            .thenAnswer((_) async => answerForGetMemoryDetails.removeAt(0));
+        when(mockMemoriesRemoteDataSource.deleteVideoFromAPI(
+                videoId: tMemoryModelWitVideoOne.videos!.first.id!))
+            .thenAnswer((_) async => 0);
+
+        when(mockMemoriesRemoteDataSource.postVideoToAPI(
+          memoryId: tMemoryId,
+          video: tVideoModel2,
+        )).thenAnswer((_) async => tVSavedVideoModel2);
+
+        // act
+        final result = await repository.performCommitChangesToMemory(
+            memory: tMemoryModelWitVideoOne);
+        // assert
+        expect(result, equals(Right(tMemoryModelWitVideoTwo)));
+      });
     });
   });
 }

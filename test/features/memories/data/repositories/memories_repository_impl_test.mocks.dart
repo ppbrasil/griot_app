@@ -129,6 +129,16 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
           ),
         )),
       ) as _i5.Future<_i3.VideoModel>);
+  @override
+  _i5.Future<int> deleteVideoFromAPI({required int? videoId}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteVideoFromAPI,
+          [],
+          {#videoId: videoId},
+        ),
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
 }
 
 /// A class which mocks [MemoriesLocalDataSource].
