@@ -146,54 +146,79 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
     }
     // Check if it's an existing or new memory creating it if new
     if (memory.id == null) {
-      final postedMemory =
-          await remoteDataSource.postMemoryToAPI(memory: memory);
-      // Add each video to the new memory
-      if (memory.videos != null) {
-        for (final video in memory.videos!) {
-          await remoteDataSource.postVideoToAPI(
-            memoryId: postedMemory.id!,
-            video: video,
-          );
+      try {
+        final postedMemory =
+            await remoteDataSource.postMemoryToAPI(memory: memory);
+        // Add each video to the new memory
+        if (memory.videos != null) {
+          for (final video in memory.videos!) {
+            try {
+              await remoteDataSource.postVideoToAPI(
+                memoryId: postedMemory.id!,
+                video: video,
+              );
+            } on Exception {
+              return const Left(
+                  ServerFailure(message: 'Unable to Post Video to API'));
+            }
+          }
         }
+        final commitedMemory = await remoteDataSource.getMemoryDetailsFromAPI(
+            memoryId: postedMemory.id!);
+        return Right(commitedMemory);
+      } on Exception {
+        return const Left(
+            ServerFailure(message: 'Unable to Post Memory to API'));
       }
-      final commitedMemory = await remoteDataSource.getMemoryDetailsFromAPI(
-          memoryId: postedMemory.id!);
-      return Right(commitedMemory);
 
       // Update the memory if it's an exsisting one
     } else {
       // Retrieve original memory for comparisson
-      final retrievedMemory =
-          await remoteDataSource.getMemoryDetailsFromAPI(memoryId: memory.id!);
+      try {
+        final retrievedMemory = await remoteDataSource.getMemoryDetailsFromAPI(
+            memoryId: memory.id!);
 
-      // Define changes to perform in Videos List
-      List<Video> videosToDelete = [];
-      retrievedMemory.videos != null
-          ? videosToDelete = findMissingItems(
-              retrievedMemory.videos!, assignOrCreateList(memory.videos))
-          : [];
+        // Define changes to perform in Videos List
+        List<Video> videosToDelete = [];
+        retrievedMemory.videos != null
+            ? videosToDelete = findMissingItems(
+                retrievedMemory.videos!, assignOrCreateList(memory.videos))
+            : [];
 
-      List<Video> videosToAdd = [];
-      memory.videos != null
-          ? videosToAdd = findMissingItems(
-              memory.videos!, assignOrCreateList(retrievedMemory.videos))
-          : [];
+        List<Video> videosToAdd = [];
+        memory.videos != null
+            ? videosToAdd = findMissingItems(
+                memory.videos!, assignOrCreateList(retrievedMemory.videos))
+            : [];
 
-      // Delete videos
-      for (final video in videosToDelete) {
-        await remoteDataSource.deleteVideoFromAPI(videoId: video.id!);
+        // Delete videos
+        try {
+          for (final video in videosToDelete) {
+            await remoteDataSource.deleteVideoFromAPI(videoId: video.id!);
+          }
+        } on Exception {
+          return const Left(
+              ServerFailure(message: 'Unable to Delete Videos from Memory'));
+        }
+
+        // Create new videos
+        try {
+          for (final video in videosToAdd) {
+            await remoteDataSource.postVideoToAPI(
+                video: video, memoryId: memory.id!);
+          }
+        } on Exception {
+          return const Left(
+              ServerFailure(message: 'Unable to Post Video to API'));
+        }
+
+        // Fetch updated data from server and return
+        return Right(await remoteDataSource.getMemoryDetailsFromAPI(
+            memoryId: memory.id!));
+      } on Exception {
+        return const Left(
+            ServerFailure(message: 'Unable to Retrieve Memory from API'));
       }
-
-      // Create new videos
-      for (final video in videosToAdd) {
-        await remoteDataSource.postVideoToAPI(
-            video: video, memoryId: memory.id!);
-      }
-
-      // Fetch updated data from server and return
-      return Right(
-          await remoteDataSource.getMemoryDetailsFromAPI(memoryId: memory.id!));
     }
   }
 }

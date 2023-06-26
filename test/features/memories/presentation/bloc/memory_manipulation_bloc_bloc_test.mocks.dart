@@ -8,19 +8,21 @@
 import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
-import 'package:griot_app/core/data/main_account_id_provider.dart' as _i10;
-import 'package:griot_app/core/error/failures.dart' as _i6;
-import 'package:griot_app/memories/domain/entities/memory.dart' as _i7;
+import 'package:griot_app/core/data/main_account_id_provider.dart' as _i4;
+import 'package:griot_app/core/error/failures.dart' as _i7;
+import 'package:griot_app/memories/domain/entities/memory.dart' as _i8;
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart'
     as _i2;
 import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart'
-    as _i8;
+    as _i9;
 import 'package:griot_app/memories/domain/usecases/add_video_list_from_library_to_draft_memory_usecase.dart'
     as _i11;
+import 'package:griot_app/memories/domain/usecases/commit_changes_to_memory_usecase.dart'
+    as _i12;
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
-    as _i4;
+    as _i6;
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart'
-    as _i9;
+    as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -55,11 +57,30 @@ class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
         );
 }
 
+/// A class which mocks [MainAccountIdProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMainAccountIdProvider extends _i1.Mock
+    implements _i4.MainAccountIdProvider {
+  MockMainAccountIdProvider() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<int> getMainAccountId() => (super.noSuchMethod(
+        Invocation.method(
+          #getMainAccountId,
+          [],
+        ),
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
+}
+
 /// A class which mocks [CreateMemoriesUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCreateMemoriesUseCase extends _i1.Mock
-    implements _i4.CreateMemoriesUseCase {
+    implements _i6.CreateMemoriesUseCase {
   MockCreateMemoriesUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -73,28 +94,28 @@ class MockCreateMemoriesUseCase extends _i1.Mock
         ),
       ) as _i2.MemoriesRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>> call(_i4.Params? params) =>
+  _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>> call(_i6.Params? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>.value(
-            _FakeEither_1<_i6.Failure, _i7.Memory>(
+        returnValue: _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>>.value(
+            _FakeEither_1<_i7.Failure, _i8.Memory>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>);
+      ) as _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>>);
 }
 
 /// A class which mocks [AddVideoFromLibraryToMemoryUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAddVideoFromLibraryToMemoryUseCase extends _i1.Mock
-    implements _i8.AddVideoFromLibraryToMemoryUseCase {
+    implements _i9.AddVideoFromLibraryToMemoryUseCase {
   MockAddVideoFromLibraryToMemoryUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -108,28 +129,28 @@ class MockAddVideoFromLibraryToMemoryUseCase extends _i1.Mock
         ),
       ) as _i2.MemoriesRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>> call(_i8.Params? params) =>
+  _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>> call(_i9.Params? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>.value(
-            _FakeEither_1<_i6.Failure, _i7.Memory>(
+        returnValue: _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>>.value(
+            _FakeEither_1<_i7.Failure, _i8.Memory>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>);
+      ) as _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>>);
 }
 
 /// A class which mocks [GetMemoriesUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetMemoriesUseCase extends _i1.Mock
-    implements _i9.GetMemoriesUseCase {
+    implements _i10.GetMemoriesUseCase {
   MockGetMemoriesUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -143,40 +164,21 @@ class MockGetMemoriesUseCase extends _i1.Mock
         ),
       ) as _i2.MemoriesRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>> call(_i9.Params? params) =>
+  _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>> call(_i10.Params? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>.value(
-            _FakeEither_1<_i6.Failure, _i7.Memory>(
+        returnValue: _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>>.value(
+            _FakeEither_1<_i7.Failure, _i8.Memory>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>);
-}
-
-/// A class which mocks [MainAccountIdProvider].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockMainAccountIdProvider extends _i1.Mock
-    implements _i10.MainAccountIdProvider {
-  MockMainAccountIdProvider() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i5.Future<int> getMainAccountId() => (super.noSuchMethod(
-        Invocation.method(
-          #getMainAccountId,
-          [],
-        ),
-        returnValue: _i5.Future<int>.value(0),
-      ) as _i5.Future<int>);
+      ) as _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>>);
 }
 
 /// A class which mocks [AddVideoListFromLibraryToDraftMemoryUseCase].
@@ -197,19 +199,54 @@ class MockAddVideoListFromLibraryToDraftMemoryUseCase extends _i1.Mock
         ),
       ) as _i2.MemoriesRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>> call(_i11.Params? params) =>
+  _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>> call(_i11.Params? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>.value(
-            _FakeEither_1<_i6.Failure, _i7.Memory>(
+        returnValue: _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>>.value(
+            _FakeEither_1<_i7.Failure, _i8.Memory>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>);
+      ) as _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>>);
+}
+
+/// A class which mocks [CommitChangesToMemoryUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCommitChangesToMemoryUseCase extends _i1.Mock
+    implements _i12.CommitChangesToMemoryUseCase {
+  MockCommitChangesToMemoryUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.MemoriesRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeMemoriesRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.MemoriesRepository);
+  @override
+  _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>> call(_i12.Params? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>>.value(
+            _FakeEither_1<_i7.Failure, _i8.Memory>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i7.Failure, _i8.Memory>>);
 }

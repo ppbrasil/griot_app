@@ -23,6 +23,7 @@ import 'package:griot_app/memories/data/repositories/memories_repository_impl.da
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
 import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart';
 import 'package:griot_app/memories/domain/usecases/add_video_list_from_library_to_draft_memory_usecase.dart';
+import 'package:griot_app/memories/domain/usecases/commit_changes_to_memory_usecase.dart';
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart';
 import 'package:griot_app/memories/domain/usecases/get_memories_list.dart';
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart';
@@ -106,6 +107,7 @@ void initMemories() {
         getMemoryDetails: sl(),
         validationService: sl(),
         addVideosToDraft: sl(),
+        commitMemory: sl(),
       ));
 
   // Use Cases
@@ -115,6 +117,9 @@ void initMemories() {
   sl.registerLazySingleton(() => AddVideoFromLibraryToMemoryUseCase(sl()));
   sl.registerLazySingleton(
       () => AddVideoListFromLibraryToDraftMemoryUseCase(sl()));
+  sl.registerLazySingleton(
+      () => AddVideoListFromLibraryToDraftMemoryUseCase(sl()));
+  sl.registerLazySingleton(() => CommitChangesToMemoryUseCase(sl()));
 
   // Repository
   sl.registerLazySingleton<MemoriesRepository>(() => MemoriesRepositoryImpl(

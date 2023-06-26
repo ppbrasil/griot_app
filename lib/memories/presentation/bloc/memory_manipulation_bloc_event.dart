@@ -37,17 +37,6 @@ class MemoryTitleChangedEvent extends MemoryManipulationBlocEvent {
       [title, videoAddingErrorMesssage, savingErrorMesssage, memory];
 }
 
-class GetMemoryDetailsEvent extends MemoryManipulationBlocEvent {
-  /// This event would be triggered when a details page is rendered,
-  /// resulting in a memory being retrieved from the data provider
-  final int memoryId;
-
-  const GetMemoryDetailsEvent({required this.memoryId});
-
-  @override
-  List<Object> get props => [memoryId];
-}
-
 class AddVideoClickedEvent extends MemoryManipulationBlocEvent {
   /// This event would be triggered when the user wants to access the device's library to select media files,
   /// resulting in the selected videos being upload to the API.
@@ -61,11 +50,24 @@ class AddVideoClickedEvent extends MemoryManipulationBlocEvent {
   List<Object> get props => [];
 }
 
-class TitleEditedEvent extends MemoryManipulationBlocEvent {
-  /// This event would be triggered when the user leaves (lose focus) of the Title field,
-  /// resulting in the new title being preserved in the new memory entity.
-  const TitleEditedEvent();
+class GetMemoryDetailsEvent extends MemoryManipulationBlocEvent {
+  /// This event would be triggered when a details page is rendered,
+  /// resulting in a memory being retrieved from the data provider
+  final int memoryId;
+
+  const GetMemoryDetailsEvent({required this.memoryId});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [memoryId];
+}
+
+class CommitMemoryEvent extends MemoryManipulationBlocEvent {
+  /// This event would be triggered when a update page is commited,
+  /// it should take a draft memory and return an updated memory persisted in the server
+  final Memory memory;
+
+  const CommitMemoryEvent({required this.memory});
+
+  @override
+  List<Object> get props => [memory];
 }

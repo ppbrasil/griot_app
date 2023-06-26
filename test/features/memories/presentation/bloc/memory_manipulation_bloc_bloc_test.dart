@@ -6,6 +6,8 @@ import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/usecases/add_video_list_from_library_to_draft_memory_usecase.dart'
     as addVideosToDraft;
+import 'package:griot_app/memories/domain/usecases/commit_changes_to_memory_usecase.dart'
+    as commitMemoryUseCase;
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
     as createMemory;
 import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart'
@@ -27,6 +29,7 @@ import 'memory_manipulation_bloc_bloc_test.mocks.dart';
   addVideosToMemory.AddVideoFromLibraryToMemoryUseCase,
   getMemoryDetails.GetMemoriesUseCase,
   addVideosToDraft.AddVideoListFromLibraryToDraftMemoryUseCase,
+  commitMemoryUseCase.CommitChangesToMemoryUseCase
 ])
 void main() {
   late ValidationService validator;
@@ -35,26 +38,33 @@ void main() {
   late MockAddVideoFromLibraryToMemoryUseCase
       mockAddVideoFromLibraryToMemoryUseCase;
   late MockGetMemoriesUseCase mockGetMemoriesUseCase;
+  late MockCommitChangesToMemoryUseCase mockCommitChangesToMemoryUseCase;
   late MockMainAccountIdProvider mockMainAccountIdProvider;
-  late MockAddVideoListFromLibraryToDraftMemoryUseCase mockAddVideosToDraft;
+  late MockAddVideoListFromLibraryToDraftMemoryUseCase
+      mockAddVideosToDraftUseCase;
 
   setUp(() {
+    // Other dependencies
     mockMainAccountIdProvider = MockMainAccountIdProvider();
     validator = ValidationService();
+    // UseCases
     mockCreateMemoriesUseCase = MockCreateMemoriesUseCase();
+    mockAddVideosToDraftUseCase =
+        MockAddVideoListFromLibraryToDraftMemoryUseCase();
     mockAddVideoFromLibraryToMemoryUseCase =
         MockAddVideoFromLibraryToMemoryUseCase();
     mockGetMemoriesUseCase = MockGetMemoriesUseCase();
-    mockAddVideosToDraft = MockAddVideoListFromLibraryToDraftMemoryUseCase();
+    mockCommitChangesToMemoryUseCase = MockCommitChangesToMemoryUseCase();
 
     bloc = MemoryManipulationBlocBloc(
-      createMemory: mockCreateMemoriesUseCase,
-      addVideos: mockAddVideoFromLibraryToMemoryUseCase,
-      accountIdProvider: mockMainAccountIdProvider,
-      getMemoryDetails: mockGetMemoriesUseCase,
-      validationService: validator,
-      addVideosToDraft: mockAddVideosToDraft,
-    );
+        accountIdProvider: mockMainAccountIdProvider,
+        validationService: validator,
+        //UseCases
+        createMemory: mockCreateMemoriesUseCase,
+        addVideosToDraft: mockAddVideosToDraftUseCase,
+        addVideos: mockAddVideoFromLibraryToMemoryUseCase,
+        getMemoryDetails: mockGetMemoriesUseCase,
+        commitMemory: mockCommitChangesToMemoryUseCase);
   });
 
   group('CreateNewMemoryClickedEvent', () {
@@ -242,7 +252,7 @@ void main() {
       'should emit MemoryManipulationSuccessState when succefully retrieving videos from library',
       // arrange
       build: () {
-        when(mockAddVideosToDraft
+        when(mockAddVideosToDraftUseCase
                 .call(addVideosToDraft.Params(memory: tMemory)))
             .thenAnswer((_) async => Right(tUpdatedMemory));
         return bloc;
@@ -259,7 +269,7 @@ void main() {
       'should emit MemoryManipulationFailureState when fails to retrieve videos from library',
       // arrange
       build: () {
-        when(mockAddVideosToDraft
+        when(mockAddVideosToDraftUseCase
                 .call(addVideosToDraft.Params(memory: tMemory)))
             .thenAnswer((_) async => const Left(MediaServiceFailure(
                 message: 'Unable to retrieve media from library')));
@@ -317,6 +327,125 @@ void main() {
       expect: () => [
         MemoryLoading(),
         MemoryRetrievalFailureState(),
+      ],
+    );
+  });
+
+  group('CommitMemoryEvent', () {
+    // Define needed variables
+    int tAccoountId = 1;
+    int tMemoryId = 1;
+
+    Memory tOriginalSimpleDraftMemory = Memory(
+      accountId: tAccoountId,
+      id: null,
+      title: 'My Title',
+      videos: const [],
+    );
+
+    Memory tReturningSimpleMemory = Memory(
+      accountId: tAccoountId,
+      id: tMemoryId,
+      title: 'My Title',
+      videos: const [],
+    );
+
+    Memory tOriginalCompleteDraftMemory = Memory(
+      accountId: tAccoountId,
+      id: null,
+      title: 'My Title',
+      videos: [
+        Video(
+            id: null,
+            file: 'path1',
+            thumbnail: 'thumbnail1',
+            name: 'Video Name1',
+            memoryId: tMemoryId),
+        Video(
+            id: null,
+            file: 'path2',
+            thumbnail: 'thumbnail2',
+            name: 'Video Name2',
+            memoryId: tMemoryId),
+      ],
+    );
+
+    Memory tReturningCompleteMemory = Memory(
+      accountId: tAccoountId,
+      id: 1,
+      title: 'My Title',
+      videos: [
+        Video(
+            id: 1,
+            file: 'path1',
+            thumbnail: 'thumbnail1',
+            name: 'Video Name1',
+            memoryId: tMemoryId),
+        Video(
+            id: 2,
+            file: 'path2',
+            thumbnail: 'thumbnail2',
+            name: 'Video Name2',
+            memoryId: tMemoryId),
+      ],
+    );
+
+    // Implement bloctest scenarios
+    blocTest<MemoryManipulationBlocBloc, MemoryManipulationBlocState>(
+      'should emit MemoryManipulationSuccessState when succefully commiting a memory with only a title to API',
+      // arrange
+      build: () {
+        when(mockCommitChangesToMemoryUseCase.call(
+                commitMemoryUseCase.Params(memory: tOriginalSimpleDraftMemory)))
+            .thenAnswer((_) async => Right(tReturningSimpleMemory));
+        return bloc;
+      },
+      //act
+      act: (bloc) =>
+          bloc.add(CommitMemoryEvent(memory: tOriginalSimpleDraftMemory)),
+      //assert
+      expect: () => [
+        MemoryManipulationSuccessState(memory: tReturningSimpleMemory),
+      ],
+    );
+
+    blocTest<MemoryManipulationBlocBloc, MemoryManipulationBlocState>(
+      'should emit MemoryManipulationSuccessState when succefully commiting a memory with title AND VIDEO to API',
+      // arrange
+      build: () {
+        when(mockCommitChangesToMemoryUseCase.call(commitMemoryUseCase.Params(
+                memory: tOriginalCompleteDraftMemory)))
+            .thenAnswer((_) async => Right(tReturningCompleteMemory));
+        return bloc;
+      },
+      //act
+      act: (bloc) =>
+          bloc.add(CommitMemoryEvent(memory: tOriginalCompleteDraftMemory)),
+      //assert
+      expect: () => [
+        MemoryManipulationSuccessState(memory: tReturningCompleteMemory),
+      ],
+    );
+    blocTest<MemoryManipulationBlocBloc, MemoryManipulationBlocState>(
+      'should emit MemoryManipulationFailureState when failed commiting a memory to API',
+      // arrange
+      build: () {
+        when(mockCommitChangesToMemoryUseCase.call(commitMemoryUseCase.Params(
+                memory: tOriginalCompleteDraftMemory)))
+            .thenAnswer((_) async => const Left(
+                ServerFailure(message: 'Unable to Delete Videos from Memory')));
+        return bloc;
+      },
+      //act
+      act: (bloc) =>
+          bloc.add(CommitMemoryEvent(memory: tOriginalCompleteDraftMemory)),
+      //assert
+      expect: () => [
+        const MemoryManipulationFailureState(
+          savingErrorMesssage: 'Unable to save changes',
+          titleErrorMesssage: '',
+          videoAddingErrorMesssage: '',
+        ),
       ],
     );
   });

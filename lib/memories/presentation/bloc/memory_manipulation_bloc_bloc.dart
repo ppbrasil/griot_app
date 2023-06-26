@@ -6,6 +6,8 @@ import 'package:griot_app/core/services/field_validation.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/usecases/add_video_list_from_library_to_draft_memory_usecase.dart'
     as addLibraryVideosToDraftUseCase;
+import 'package:griot_app/memories/domain/usecases/commit_changes_to_memory_usecase.dart'
+    as CommitMemoryUseCase;
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
     as createMemoryUseCase;
 import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart'
@@ -23,6 +25,7 @@ class MemoryManipulationBlocBloc
   final addLibraryVideosToDraftUseCase
       .AddVideoListFromLibraryToDraftMemoryUseCase addVideosToDraft;
   final getMemoryUseCase.GetMemoriesUseCase getMemoryDetails;
+  final CommitMemoryUseCase.CommitChangesToMemoryUseCase commitMemory;
   final MainAccountIdProvider accountIdProvider;
   final ValidationService validationService;
 
@@ -33,6 +36,7 @@ class MemoryManipulationBlocBloc
     required this.getMemoryDetails,
     required this.validationService,
     required this.addVideosToDraft,
+    required this.commitMemory,
   }) : super(MemoryCreationBlocInitial()) {
     // Evaluate a Create new draft memory trial
     on<CreateNewMemoryClickedEvent>((event, emit) async {
@@ -99,6 +103,33 @@ class MemoryManipulationBlocBloc
               titleErrorMesssage: '',
               videoAddingErrorMesssage: 'Unable to retrieve media from library',
               savingErrorMesssage: '',
+            ));
+          }
+        },
+        (memory) => emit(MemoryManipulationSuccessState(memory: memory)),
+      );
+    });
+
+    // Evaluate a trial to Commmit changes
+    on<CommitMemoryEvent>((event, emit) async {
+      final updatedMemory =
+          await commitMemory(CommitMemoryUseCase.Params(memory: event.memory));
+
+      updatedMemory.fold(
+        (failure) {
+          // Check if previous state was a MemoryManipulationFailureState
+          if (state is MemoryManipulationFailureState) {
+            final previousState = state as MemoryManipulationFailureState;
+            emit(MemoryManipulationFailureState(
+              titleErrorMesssage: previousState.titleErrorMesssage,
+              videoAddingErrorMesssage: previousState.videoAddingErrorMesssage,
+              savingErrorMesssage: 'Unable to save changes',
+            ));
+          } else {
+            emit(const MemoryManipulationFailureState(
+              titleErrorMesssage: '',
+              videoAddingErrorMesssage: '',
+              savingErrorMesssage: 'Unable to save changes',
             ));
           }
         },
