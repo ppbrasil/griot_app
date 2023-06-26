@@ -46,7 +46,7 @@ void main() {
       addVideos: mockAddVideoFromLibraryToMemoryUseCase,
       accountIdProvider: mockMainAccountIdProvider,
       getMemoryDetails: mockGetMemoriesUseCase,
-      validator: validator,
+      validationService: validator,
     );
   });
 
