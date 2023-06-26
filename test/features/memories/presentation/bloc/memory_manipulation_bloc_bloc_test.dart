@@ -277,4 +277,47 @@ void main() {
       ],
     );
   });
+
+  group('GetMemoryDetailsEvent', () {
+    const tTitle = '';
+    const tAccountId = 1;
+    const tMemoryId = 1;
+    Memory tMemory = Memory(
+      id: tMemoryId,
+      accountId: tAccountId,
+      title: tTitle,
+      videos: const [],
+    );
+
+    blocTest<MemoryManipulationBlocBloc, MemoryManipulationBlocState>(
+      'should emit MemoryManipulationSuccessState state when memory retrieval is successful',
+      build: () {
+        when(mockGetMemoriesUseCase
+                .call(const getMemoryDetails.Params(memoryId: tMemoryId)))
+            .thenAnswer((_) async => Right(tMemory));
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const GetMemoryDetailsEvent(memoryId: tMemoryId)),
+      expect: () => [
+        MemoryLoading(),
+        MemoryManipulationSuccessState(memory: tMemory),
+      ],
+    );
+
+    blocTest<MemoryManipulationBlocBloc, MemoryManipulationBlocState>(
+      'should emit MemoryManipulationFailureState when fails to retrieve memory from API',
+      build: () {
+        when(mockGetMemoriesUseCase
+                .call(const getMemoryDetails.Params(memoryId: tMemoryId)))
+            .thenAnswer((_) async =>
+                const Left(ServerFailure(message: 'Unable to retrieve data')));
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const GetMemoryDetailsEvent(memoryId: tMemoryId)),
+      expect: () => [
+        MemoryLoading(),
+        MemoryRetrievalFailureState(),
+      ],
+    );
+  });
 }

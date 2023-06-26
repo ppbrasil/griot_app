@@ -34,9 +34,9 @@ class MemoryManipulationBlocBloc
     required this.validationService,
     required this.addVideosToDraft,
   }) : super(MemoryCreationBlocInitial()) {
+    // Evaluate a Create new draft memory trial
     on<CreateNewMemoryClickedEvent>((event, emit) async {
       emit(MemoryLoading());
-      ;
       final memoryEither = await createMemory(createMemoryUseCase.Params(
         id: null,
         accountId: await accountIdProvider.getMainAccountId(),
@@ -49,6 +49,7 @@ class MemoryManipulationBlocBloc
       );
     });
 
+    //Evaluate a Retrieve memory details trial
     on<GetMemoryDetailsEvent>((event, emit) async {
       emit(MemoryLoading());
       final memoryEither = await getMemoryDetails(
@@ -59,6 +60,7 @@ class MemoryManipulationBlocBloc
       );
     });
 
+    //Evaluate a title update trial
     on<MemoryTitleChangedEvent>((event, emit) async {
       final validationMessage =
           validationService.validateMemoryTitle(event.title);
@@ -78,6 +80,7 @@ class MemoryManipulationBlocBloc
       }
     });
 
+    // Evaluate an Add Videos to Draft trial
     on<AddVideoClickedEvent>((event, emit) async {
       final updatedMemory = await addVideosToDraft(
           addLibraryVideosToDraftUseCase.Params(memory: event.memory));
