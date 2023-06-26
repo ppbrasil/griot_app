@@ -17,6 +17,7 @@ abstract class MemoriesRemoteDataSource {
   Future<MemoryModel> postMemoryToAPI({required Memory memory});
   Future<VideoModel> postVideoToAPI(
       {required Video video, required int memoryId});
+  Future<int> deleteVideoFromAPI({required int videoId});
 }
 
 class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
@@ -144,6 +145,22 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
     } else {
       throw Exception(
           'Failed to upload video. Server responded with status code ${response.statusCode}.');
+    }
+  }
+
+  @override
+  Future<int> deleteVideoFromAPI({required int videoId}) async {
+    final String token = await tokenProvider.getToken();
+
+    final response = await client.delete(
+      Uri.parse('http://app.griot.me/api/video/delete/$videoId/'),
+      headers: {'Content-Type': 'application/json', 'Authorization': token},
+    );
+
+    if (response.statusCode == 201) {
+      return 0;
+    } else {
+      throw InvalidTokenException();
     }
   }
 }

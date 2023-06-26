@@ -280,4 +280,74 @@ void main() {
           throwsA(const TypeMatcher<InvalidTokenException>()));
     });
   });
+  group('deteleVideoFromAPI', () {
+    const tFile = 'MyUrl';
+    const int tId = 1;
+
+    const Video = VideoModel(id: tId, file: tFile);
+    const tToken = "yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk";
+    const tEndpoint = 'http://app.griot.me/api/video/delete/$tId/';
+    const tHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Token $tToken',
+    };
+
+    test(
+      'Should perform a DELETE request with memories/ endpoint, application/json header, and body',
+      () async {
+        // arrange
+        when(mockTokenProvider.getToken())
+            .thenAnswer((_) async => 'Token $tToken');
+        when(mockHttpClient.delete(
+          Uri.parse(tEndpoint),
+          headers: tHeaders,
+        )).thenAnswer((_) async =>
+            http.Response(fixture('video_delete_sucess.json'), 201));
+
+        // act
+        await datasource.deleteVideoFromAPI(videoId: tId);
+
+        // assert
+        verify(mockHttpClient.delete(
+          Uri.parse(tEndpoint),
+          headers: tHeaders,
+        ));
+      },
+    );
+
+    test('Should return 0 when response code is 201', () async {
+      // arrange
+      when(mockTokenProvider.getToken())
+          .thenAnswer((_) async => 'Token $tToken');
+      when(mockHttpClient.delete(
+        Uri.parse(tEndpoint),
+        headers: tHeaders,
+      )).thenAnswer(
+          (_) async => http.Response(fixture('video_delete_sucess.json'), 201));
+
+      // act
+      final result = await datasource.deleteVideoFromAPI(videoId: tId);
+
+      // assert
+      expect(result, equals(0));
+    });
+
+    test('Should throw a TokenException when response code is not 201',
+        () async {
+      // arrange
+      when(mockTokenProvider.getToken())
+          .thenAnswer((_) async => 'Token $tToken');
+      when(mockHttpClient.delete(
+        Uri.parse(tEndpoint),
+        headers: tHeaders,
+      )).thenAnswer((_) async => http.Response('Something went wrong', 400));
+
+      // act
+      final call = datasource.deleteVideoFromAPI;
+
+      // assert
+      expect(() => call(videoId: tId),
+          throwsA(const TypeMatcher<InvalidTokenException>()));
+    });
+  });
 }
