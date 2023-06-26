@@ -4,6 +4,8 @@ import 'package:griot_app/core/data/main_account_id_provider.dart';
 import 'package:griot_app/core/services/field_validation.dart';
 
 import 'package:griot_app/memories/domain/entities/memory.dart';
+import 'package:griot_app/memories/domain/usecases/add_video_list_from_library_to_draft_memory_usecase.dart'
+    as addLibraryVideosToDraftUseCase;
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
     as createMemoryUseCase;
 import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart'
@@ -18,6 +20,8 @@ class MemoryManipulationBlocBloc
     extends Bloc<MemoryManipulationBlocEvent, MemoryManipulationBlocState> {
   final createMemoryUseCase.CreateMemoriesUseCase createMemory;
   final addLibraryVideosUseCase.AddVideoFromLibraryToMemoryUseCase addVideos;
+  final addLibraryVideosToDraftUseCase
+      .AddVideoListFromLibraryToDraftMemoryUseCase addVideosToDraft;
   final getMemoryUseCase.GetMemoriesUseCase getMemoryDetails;
   final MainAccountIdProvider accountIdProvider;
   final ValidationService validationService;
@@ -28,6 +32,7 @@ class MemoryManipulationBlocBloc
     required this.accountIdProvider,
     required this.getMemoryDetails,
     required this.validationService,
+    required this.addVideosToDraft,
   }) : super(MemoryCreationBlocInitial()) {
     on<CreateNewMemoryClickedEvent>((event, emit) async {
       emit(MemoryLoading());
@@ -43,15 +48,7 @@ class MemoryManipulationBlocBloc
         (memory) => emit(MemoryManipulationSuccessState(memory: memory)),
       );
     });
-    on<AddVideoClickedEvent>((event, emit) async {
-      final updatedMemory = await addVideos(addLibraryVideosUseCase.Params(
-        memory: event.memory,
-      ));
-      updatedMemory.fold(
-        (failure) => emit(MemoryCreationBlocFailure()),
-        (memory) => emit(MemoryManipulationSuccessState(memory: memory)),
-      );
-    });
+
     on<GetMemoryDetailsEvent>((event, emit) async {
       emit(MemoryLoading());
       final memoryEither = await getMemoryDetails(
@@ -79,6 +76,31 @@ class MemoryManipulationBlocBloc
           memory: updateMemory,
         ));
       }
+    });
+
+    on<AddVideoClickedEvent>((event, emit) async {
+      final updatedMemory = await addVideosToDraft(
+          addLibraryVideosToDraftUseCase.Params(memory: event.memory));
+      updatedMemory.fold(
+        (failure) {
+          // Check if previous state was a MemoryManipulationFailureState
+          if (state is MemoryManipulationFailureState) {
+            final previousState = state as MemoryManipulationFailureState;
+            emit(MemoryManipulationFailureState(
+              titleErrorMesssage: previousState.titleErrorMesssage,
+              videoAddingErrorMesssage: 'Unable to retrieve media from library',
+              savingErrorMesssage: '',
+            ));
+          } else {
+            emit(const MemoryManipulationFailureState(
+              titleErrorMesssage: '',
+              videoAddingErrorMesssage: 'Unable to retrieve media from library',
+              savingErrorMesssage: '',
+            ));
+          }
+        },
+        (memory) => emit(MemoryManipulationSuccessState(memory: memory)),
+      );
     });
   }
 }

@@ -3,7 +3,7 @@ import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
-import 'package:griot_app/memories/domain/usecases/add_video_list_from_library_to_draft_memory_usecase.dart.dart';
+import 'package:griot_app/memories/domain/usecases/add_video_list_from_library_to_draft_memory_usecase.dart';
 
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

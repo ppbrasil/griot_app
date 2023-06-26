@@ -198,9 +198,7 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
   }
 }
 
-///
 /// Some Helpers function I'm not sure should be here
-
 List<T> findMissingItems<T>(List<T> items, List<T> list) {
   final missingItems = <T>[];
   for (final item in items) {
