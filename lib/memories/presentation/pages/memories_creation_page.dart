@@ -22,10 +22,10 @@ class _MemoriesCreationPageState extends State<MemoriesCreationPage> {
         builder: (context, state) {
           if (state is MemoryCreationBlocInitial) {
             BlocProvider.of<MemoryManipulationBlocBloc>(context)
-                .add(const CreateMemoryEvent(title: '', videos: []));
+                .add(const CreateNewMemoryClickedEvent());
             return const Scaffold(
                 body: Center(child: CircularProgressIndicator()));
-          } else if (state is MemorySuccessState) {
+          } else if (state is MemoryManipulationSuccessState) {
             return Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,

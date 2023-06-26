@@ -8,8 +8,9 @@
 import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
-import 'package:griot_app/core/data/main_account_id_provider.dart' as _i10;
+import 'package:griot_app/core/data/main_account_id_provider.dart' as _i11;
 import 'package:griot_app/core/error/failures.dart' as _i6;
+import 'package:griot_app/core/services/field_validation.dart' as _i10;
 import 'package:griot_app/memories/domain/entities/memory.dart' as _i7;
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart'
     as _i2;
@@ -158,11 +159,20 @@ class MockGetMemoriesUseCase extends _i1.Mock
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Memory>>);
 }
 
+/// A class which mocks [ValidationService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockValidationService extends _i1.Mock implements _i10.ValidationService {
+  MockValidationService() {
+    _i1.throwOnMissingStub(this);
+  }
+}
+
 /// A class which mocks [MainAccountIdProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMainAccountIdProvider extends _i1.Mock
-    implements _i10.MainAccountIdProvider {
+    implements _i11.MainAccountIdProvider {
   MockMainAccountIdProvider() {
     _i1.throwOnMissingStub(this);
   }

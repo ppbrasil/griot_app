@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                       .add(MemoriesCreationClickedEvent());
                   context
                       .read<MemoryManipulationBlocBloc>()
-                      .add(const CreateMemoryEvent(title: '', videos: []));
+                      .add(const CreateNewMemoryClickedEvent());
                   break;
                 case 3:
                   context

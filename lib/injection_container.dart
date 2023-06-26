@@ -10,10 +10,12 @@ import 'package:griot_app/authentication/data/repositories/auth_repository_impl.
 import 'package:griot_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:griot_app/authentication/presentation/bloc/login_form_validation_bloc_bloc.dart';
 import 'package:griot_app/core/data/main_account_id_provider.dart';
 import 'package:griot_app/core/data/media_service.dart';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/network/network_info.dart';
+import 'package:griot_app/core/services/field_validation.dart';
 import 'package:griot_app/core/services/thumbnail_services.dart';
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
@@ -60,6 +62,7 @@ void init() {
       () => MediaServiceImpl(imagePicker: sl()));
   sl.registerLazySingleton<ThumbnailService>(
       () => VideoCompressThumbnailService());
+  sl.registerLazySingleton<ValidationService>(() => ValidationService());
 
   // External Dependencies
   sl.registerLazySingleton<ImagePicker>(() => ImagePicker());
@@ -71,6 +74,7 @@ void init() {
 void initAuth() {
   // Bloc
   sl.registerFactory(() => AuthBloc(performLogin: sl()));
+  sl.registerFactory(() => LoginFormValidationBloc(validationService: sl()));
 
   // Use Cases
   sl.registerLazySingleton(() => PerformLogin(sl()));
@@ -99,6 +103,7 @@ void initMemories() {
         accountIdProvider: sl(),
         addVideos: sl(),
         getMemoryDetails: sl(),
+        validationService: sl(),
       ));
 
   // Use Cases

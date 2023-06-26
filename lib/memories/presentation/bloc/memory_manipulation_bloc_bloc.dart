@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:griot_app/core/data/main_account_id_provider.dart';
+import 'package:griot_app/core/services/field_validation.dart';
 
 import 'package:griot_app/memories/domain/entities/memory.dart';
-import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
     as createMemoryUseCase;
 import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart'
@@ -20,25 +20,27 @@ class MemoryManipulationBlocBloc
   final addLibraryVideosUseCase.AddVideoFromLibraryToMemoryUseCase addVideos;
   final getMemoryUseCase.GetMemoriesUseCase getMemoryDetails;
   final MainAccountIdProvider accountIdProvider;
+  final ValidationService validationService;
 
   MemoryManipulationBlocBloc({
     required this.createMemory,
     required this.addVideos,
     required this.accountIdProvider,
     required this.getMemoryDetails,
+    required this.validationService,
   }) : super(MemoryCreationBlocInitial()) {
-    on<CreateMemoryEvent>((event, emit) async {
+    on<CreateNewMemoryClickedEvent>((event, emit) async {
       emit(MemoryLoading());
       ;
       final memoryEither = await createMemory(createMemoryUseCase.Params(
         id: null,
         accountId: await accountIdProvider.getMainAccountId(),
-        title: event.title,
-        videos: event.videos,
+        title: '',
+        videos: const [],
       ));
       memoryEither.fold(
         (failure) => emit(MemoryCreationBlocFailure()),
-        (memory) => emit(MemorySuccessState(memory: memory)),
+        (memory) => emit(MemoryManipulationSuccessState(memory: memory)),
       );
     });
     on<AddVideoClickedEvent>((event, emit) async {
@@ -47,7 +49,7 @@ class MemoryManipulationBlocBloc
       ));
       updatedMemory.fold(
         (failure) => emit(MemoryCreationBlocFailure()),
-        (memory) => emit(MemorySuccessState(memory: memory)),
+        (memory) => emit(MemoryManipulationSuccessState(memory: memory)),
       );
     });
     on<GetMemoryDetailsEvent>((event, emit) async {
@@ -55,9 +57,28 @@ class MemoryManipulationBlocBloc
       final memoryEither = await getMemoryDetails(
           getMemoryUseCase.Params(memoryId: event.memoryId));
       memoryEither.fold(
-        (failure) => emit(MemoryFailureState()),
-        (memory) => emit(MemorySuccessState(memory: memory)),
+        (failure) => emit(MemoryRetrievalFailureState()),
+        (memory) => emit(MemoryManipulationSuccessState(memory: memory)),
       );
+    });
+
+    on<MemoryTitleChangedEvent>((event, emit) async {
+      final validationMessage =
+          validationService.validateMemoryTitle(event.title);
+      if (validationMessage != null ||
+          event.videoAddingErrorMesssage != null ||
+          event.savingErrorMesssage != null) {
+        emit(MemoryManipulationFailureState(
+          titleErrorMesssage: validationMessage,
+          videoAddingErrorMesssage: event.videoAddingErrorMesssage,
+          savingErrorMesssage: event.savingErrorMesssage,
+        ));
+      } else {
+        Memory updateMemory = event.memory.copyWith(title: event.title);
+        emit(MemoryManipulationSuccessState(
+          memory: updateMemory,
+        ));
+      }
     });
   }
 }

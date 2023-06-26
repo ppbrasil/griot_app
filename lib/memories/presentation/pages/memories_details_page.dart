@@ -29,7 +29,7 @@ class _MemoryDetailsPageState extends State<MemoryDetailsPage> {
           } else if (state is MemoryLoading) {
             return const Scaffold(
                 body: Center(child: CircularProgressIndicator()));
-          } else if (state is MemorySuccessState) {
+          } else if (state is MemoryManipulationSuccessState) {
             final memory = state.memory;
             return Scaffold(
               appBar: AppBar(
@@ -65,7 +65,7 @@ class _MemoryDetailsPageState extends State<MemoryDetailsPage> {
                 ],
               ),
             );
-          } else if (state is MemoryFailureState) {
+          } else if (state is MemoryManipulationFailureState) {
             return Scaffold(
               appBar: AppBar(
                 title: const Text('Memory Details'),

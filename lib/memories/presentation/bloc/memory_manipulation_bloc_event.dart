@@ -4,7 +4,37 @@ abstract class MemoryManipulationBlocEvent extends Equatable {
   const MemoryManipulationBlocEvent();
 
   @override
+  List<Object?> get props => [];
+}
+
+class CreateNewMemoryClickedEvent extends MemoryManipulationBlocEvent {
+  /// This event would be triggered when the user clickes to create a new Memory,
+  /// resulting in a new memory being created and the user being redirected to the MemoryCreationPage
+
+  const CreateNewMemoryClickedEvent();
+
+  @override
   List<Object> get props => [];
+}
+
+class MemoryTitleChangedEvent extends MemoryManipulationBlocEvent {
+  /// This event would be triggered when the user changesthe title of a Memory calling for a validation check.
+  /// If successful blakcs out the error message if fails sets a new error message.
+  final String title;
+  final String? videoAddingErrorMesssage;
+  final String? savingErrorMesssage;
+  final Memory memory;
+
+  const MemoryTitleChangedEvent({
+    required this.title,
+    required this.videoAddingErrorMesssage,
+    required this.savingErrorMesssage,
+    required this.memory,
+  });
+
+  @override
+  List<Object?> get props =>
+      [title, videoAddingErrorMesssage, savingErrorMesssage, memory];
 }
 
 class GetMemoryDetailsEvent extends MemoryManipulationBlocEvent {
@@ -16,21 +46,6 @@ class GetMemoryDetailsEvent extends MemoryManipulationBlocEvent {
 
   @override
   List<Object> get props => [memoryId];
-}
-
-class CreateMemoryEvent extends MemoryManipulationBlocEvent {
-  /// This event would be triggered when the user clickes to create a new Memory,
-  /// resulting in a new memory being created and the user being redirected to the MemoryCreationPage
-  final String? title;
-  final List<Video>? videos;
-
-  const CreateMemoryEvent({
-    required this.videos,
-    required this.title,
-  });
-
-  @override
-  List<Object> get props => [];
 }
 
 class AddVideoClickedEvent extends MemoryManipulationBlocEvent {

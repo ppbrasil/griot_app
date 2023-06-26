@@ -5,7 +5,7 @@ class Memory extends Equatable {
   final int? id;
   final int accountId;
   final String? title;
-  late List<Video>? videos;
+  final List<Video>? videos;
 
   Memory({
     required this.id,
