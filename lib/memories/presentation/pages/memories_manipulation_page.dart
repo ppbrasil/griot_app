@@ -20,6 +20,8 @@ class MemoryManipulationPage extends StatefulWidget {
 
 class _MemoryManipulationPage extends State<MemoryManipulationPage> {
   final TextEditingController titleController = TextEditingController();
+  String savingErrorMessage = '';
+  String videoAddingErrorMessage = '';
 
   void _commit(BuildContext context) {
     final myState = context.read<MemoryManipulationBlocBloc>().state;
@@ -54,6 +56,10 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
             return const Center(child: CircularProgressIndicator());
           } else if (state is MemoryManipulationSuccessState ||
               state is MemoryManipulationFailureState) {
+            if (state is MemoryManipulationFailureState) {
+              savingErrorMessage = state.savingErrorMesssage!;
+              videoAddingErrorMessage = state.videoAddingErrorMesssage!;
+            }
             return Scaffold(
               appBar: AppBar(title: Text(widget.memory.title!)),
               body: Padding(
@@ -78,7 +84,7 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
                     // Space
                     const Spacer(flex: 1),
                     // addvideo error message
-                    Container(),
+                    ErrorTextField(errorMessage: videoAddingErrorMessage),
                     // Space
                     const Spacer(flex: 3),
                     // Add Video Button
@@ -86,7 +92,7 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
                     // Space
                     const Spacer(flex: 3),
                     // Save/Update error message
-                    const ErrorTextField(),
+                    ErrorTextField(errorMessage: savingErrorMessage),
                     // Space
                     const Spacer(flex: 1),
                     // Save Button
