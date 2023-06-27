@@ -21,20 +21,13 @@ class MemoryTitleChangedEvent extends MemoryManipulationBlocEvent {
   /// This event would be triggered when the user changesthe title of a Memory calling for a validation check.
   /// If successful blakcs out the error message if fails sets a new error message.
   final String title;
-  final String? videoAddingErrorMesssage;
-  final String? savingErrorMesssage;
-  final Memory memory;
 
   const MemoryTitleChangedEvent({
     required this.title,
-    required this.videoAddingErrorMesssage,
-    required this.savingErrorMesssage,
-    required this.memory,
   });
 
   @override
-  List<Object?> get props =>
-      [title, videoAddingErrorMesssage, savingErrorMesssage, memory];
+  List<Object?> get props => [title];
 }
 
 class AddVideoClickedEvent extends MemoryManipulationBlocEvent {

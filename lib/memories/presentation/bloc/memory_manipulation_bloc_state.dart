@@ -1,27 +1,31 @@
 part of 'memory_manipulation_bloc_bloc.dart';
 
 abstract class MemoryManipulationBlocState extends Equatable {
-  const MemoryManipulationBlocState();
+  final Memory? memory;
+  const MemoryManipulationBlocState({required this.memory});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [memory];
 }
 
-class MemoryCreationBlocInitial extends MemoryManipulationBlocState {}
+class MemoryCreationBlocInitial extends MemoryManipulationBlocState {
+  const MemoryCreationBlocInitial({required super.memory});
+}
 
-class MemoryLoading extends MemoryManipulationBlocState {}
+class MemoryLoading extends MemoryManipulationBlocState {
+  const MemoryLoading({required super.memory});
+}
 
-class MemoryCreationBlocFailure extends MemoryManipulationBlocState {}
-
-class VideoUploadingState extends MemoryManipulationBlocState {}
+class VideoUploadingState extends MemoryManipulationBlocState {
+  const VideoUploadingState({required super.memory});
+}
 
 class MemoryManipulationSuccessState extends MemoryManipulationBlocState {
-  final Memory memory;
+  const MemoryManipulationSuccessState({required super.memory});
+}
 
-  const MemoryManipulationSuccessState({required this.memory});
-
-  @override
-  List<Object> get props => [memory];
+class MemoryCreationBlocFailure extends MemoryManipulationBlocState {
+  const MemoryCreationBlocFailure({required super.memory});
 }
 
 class MemoryManipulationFailureState extends MemoryManipulationBlocState {
@@ -30,16 +34,20 @@ class MemoryManipulationFailureState extends MemoryManipulationBlocState {
   final String? savingErrorMesssage;
 
   const MemoryManipulationFailureState({
+    required super.memory,
     required this.titleErrorMesssage,
     required this.videoAddingErrorMesssage,
     required this.savingErrorMesssage,
   });
   @override
   List<Object?> get props => [
+        memory,
         titleErrorMesssage,
         videoAddingErrorMesssage,
         savingErrorMesssage,
       ];
 }
 
-class MemoryRetrievalFailureState extends MemoryManipulationBlocState {}
+class MemoryRetrievalFailureState extends MemoryManipulationBlocState {
+  const MemoryRetrievalFailureState({required super.memory});
+}

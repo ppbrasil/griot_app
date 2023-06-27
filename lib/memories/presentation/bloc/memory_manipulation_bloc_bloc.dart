@@ -37,10 +37,10 @@ class MemoryManipulationBlocBloc
     required this.validationService,
     required this.addVideosToDraft,
     required this.commitMemory,
-  }) : super(MemoryCreationBlocInitial()) {
+  }) : super(const MemoryCreationBlocInitial(memory: null)) {
     // Evaluate a Create new draft memory trial
     on<CreateNewMemoryClickedEvent>((event, emit) async {
-      emit(MemoryLoading());
+      emit(const MemoryLoading(memory: null));
       final memoryEither = await createMemory(createMemoryUseCase.Params(
         id: null,
         accountId: await accountIdProvider.getMainAccountId(),
@@ -48,18 +48,18 @@ class MemoryManipulationBlocBloc
         videos: const [],
       ));
       memoryEither.fold(
-        (failure) => emit(MemoryCreationBlocFailure()),
+        (failure) => emit(const MemoryCreationBlocFailure(memory: null)),
         (memory) => emit(MemoryManipulationSuccessState(memory: memory)),
       );
     });
 
     //Evaluate a Retrieve memory details trial
     on<GetMemoryDetailsEvent>((event, emit) async {
-      emit(MemoryLoading());
+      emit(const MemoryLoading(memory: null));
       final memoryEither = await getMemoryDetails(
           getMemoryUseCase.Params(memoryId: event.memoryId));
       memoryEither.fold(
-        (failure) => emit(MemoryRetrievalFailureState()),
+        (failure) => emit(const MemoryRetrievalFailureState(memory: null)),
         (memory) => emit(MemoryManipulationSuccessState(memory: memory)),
       );
     });
@@ -68,16 +68,24 @@ class MemoryManipulationBlocBloc
     on<MemoryTitleChangedEvent>((event, emit) async {
       final validationMessage =
           validationService.validateMemoryTitle(event.title);
-      if (validationMessage != null ||
-          event.videoAddingErrorMesssage != null ||
-          event.savingErrorMesssage != null) {
-        emit(MemoryManipulationFailureState(
-          titleErrorMesssage: validationMessage,
-          videoAddingErrorMesssage: event.videoAddingErrorMesssage,
-          savingErrorMesssage: event.savingErrorMesssage,
-        ));
+      final previousState = state;
+
+      if (validationMessage != null) {
+        if (previousState is MemoryManipulationFailureState) {
+          emit(MemoryManipulationFailureState(
+              titleErrorMesssage: validationMessage,
+              videoAddingErrorMesssage: previousState.videoAddingErrorMesssage,
+              savingErrorMesssage: previousState.savingErrorMesssage,
+              memory: previousState.memory));
+        } else {
+          emit(MemoryManipulationFailureState(
+              titleErrorMesssage: validationMessage,
+              videoAddingErrorMesssage: null,
+              savingErrorMesssage: null,
+              memory: previousState.memory));
+        }
       } else {
-        Memory updateMemory = event.memory.copyWith(title: event.title);
+        Memory updateMemory = state.memory!.copyWith(title: event.title);
         emit(MemoryManipulationSuccessState(
           memory: updateMemory,
         ));
@@ -88,18 +96,20 @@ class MemoryManipulationBlocBloc
     on<AddVideoClickedEvent>((event, emit) async {
       final updatedMemory = await addVideosToDraft(
           addLibraryVideosToDraftUseCase.Params(memory: event.memory));
+      final previousState = state;
       updatedMemory.fold(
         (failure) {
           // Check if previous state was a MemoryManipulationFailureState
-          if (state is MemoryManipulationFailureState) {
-            final previousState = state as MemoryManipulationFailureState;
+          if (previousState is MemoryManipulationFailureState) {
             emit(MemoryManipulationFailureState(
+              memory: previousState.memory,
               titleErrorMesssage: previousState.titleErrorMesssage,
               videoAddingErrorMesssage: 'Unable to retrieve media from library',
               savingErrorMesssage: '',
             ));
           } else {
-            emit(const MemoryManipulationFailureState(
+            emit(MemoryManipulationFailureState(
+              memory: previousState.memory,
               titleErrorMesssage: '',
               videoAddingErrorMesssage: 'Unable to retrieve media from library',
               savingErrorMesssage: '',
@@ -114,19 +124,21 @@ class MemoryManipulationBlocBloc
     on<CommitMemoryEvent>((event, emit) async {
       final updatedMemory =
           await commitMemory(CommitMemoryUseCase.Params(memory: event.memory));
+      final previousState = state;
 
       updatedMemory.fold(
         (failure) {
           // Check if previous state was a MemoryManipulationFailureState
-          if (state is MemoryManipulationFailureState) {
-            final previousState = state as MemoryManipulationFailureState;
+          if (previousState is MemoryManipulationFailureState) {
             emit(MemoryManipulationFailureState(
+              memory: previousState.memory,
               titleErrorMesssage: previousState.titleErrorMesssage,
               videoAddingErrorMesssage: previousState.videoAddingErrorMesssage,
               savingErrorMesssage: 'Unable to save changes',
             ));
           } else {
-            emit(const MemoryManipulationFailureState(
+            emit(MemoryManipulationFailureState(
+              memory: previousState.memory,
               titleErrorMesssage: '',
               videoAddingErrorMesssage: '',
               savingErrorMesssage: 'Unable to save changes',

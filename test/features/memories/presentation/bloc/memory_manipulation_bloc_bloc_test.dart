@@ -91,7 +91,7 @@ void main() {
       },
       act: (bloc) => bloc.add(const CreateNewMemoryClickedEvent()),
       expect: () => [
-        MemoryLoading(),
+        const MemoryLoading(memory: null),
         MemoryManipulationSuccessState(memory: tMemory),
       ],
     );
@@ -109,8 +109,8 @@ void main() {
       },
       act: (bloc) => bloc.add(const CreateNewMemoryClickedEvent()),
       expect: () => [
-        MemoryLoading(),
-        MemoryCreationBlocFailure(),
+        const MemoryLoading(memory: null),
+        const MemoryCreationBlocFailure(memory: null),
       ],
     );
   });
@@ -143,12 +143,11 @@ void main() {
       'should emit MemoryManipulationSuccessState state when title is successfully updated in a previously succesful memory',
       // arrange
       build: () => bloc,
+      seed: () => MemoryManipulationSuccessState(memory: tOriginalMemory),
       //act
-      act: (bloc) => bloc.add(MemoryTitleChangedEvent(
+
+      act: (bloc) => bloc.add(const MemoryTitleChangedEvent(
         title: tValidTitle,
-        memory: tOriginalMemory,
-        savingErrorMesssage: tSavingErrorMessage,
-        videoAddingErrorMesssage: tvideoAddingErrorMesssage,
       )),
       //assert
       expect: () => [
@@ -159,16 +158,15 @@ void main() {
       'should emit MemoryManipulationFailureState state when title is empty',
       // arrange
       build: () => bloc,
+      seed: () => MemoryManipulationSuccessState(memory: tOriginalMemory),
       //act
-      act: (bloc) => bloc.add(MemoryTitleChangedEvent(
+      act: (bloc) => bloc.add(const MemoryTitleChangedEvent(
         title: '',
-        memory: tOriginalMemory,
-        savingErrorMesssage: tSavingErrorMessage,
-        videoAddingErrorMesssage: tvideoAddingErrorMesssage,
       )),
       //assert
       expect: () => [
-        const MemoryManipulationFailureState(
+        MemoryManipulationFailureState(
+          memory: bloc.state.memory,
           titleErrorMesssage: 'Please enter a title for your memory',
           videoAddingErrorMesssage: null,
           savingErrorMesssage: null,
@@ -179,16 +177,16 @@ void main() {
       'should emit MemoryManipulationFailureState state when title is toos short',
       // arrange
       build: () => bloc,
+      seed: () => MemoryManipulationSuccessState(memory: tOriginalMemory),
+
       //act
-      act: (bloc) => bloc.add(MemoryTitleChangedEvent(
+      act: (bloc) => bloc.add(const MemoryTitleChangedEvent(
         title: tShortTitle,
-        memory: tOriginalMemory,
-        savingErrorMesssage: tSavingErrorMessage,
-        videoAddingErrorMesssage: tvideoAddingErrorMesssage,
       )),
       //assert
       expect: () => [
-        const MemoryManipulationFailureState(
+        MemoryManipulationFailureState(
+          memory: bloc.state.memory,
           titleErrorMesssage: 'Titles must have at least 8 characters',
           videoAddingErrorMesssage: null,
           savingErrorMesssage: null,
@@ -200,15 +198,15 @@ void main() {
       // arrange
       build: () => bloc,
       //act
-      act: (bloc) => bloc.add(MemoryTitleChangedEvent(
+      seed: () => MemoryManipulationSuccessState(memory: tOriginalMemory),
+
+      act: (bloc) => bloc.add(const MemoryTitleChangedEvent(
         title: tLogTitle,
-        memory: tOriginalMemory,
-        savingErrorMesssage: tSavingErrorMessage,
-        videoAddingErrorMesssage: tvideoAddingErrorMesssage,
       )),
       //assert
       expect: () => [
-        const MemoryManipulationFailureState(
+        MemoryManipulationFailureState(
+          memory: bloc.state.memory,
           titleErrorMesssage: 'Titles can\'t have more then 255 characters',
           videoAddingErrorMesssage: null,
           savingErrorMesssage: null,
@@ -279,7 +277,8 @@ void main() {
       act: (bloc) => bloc.add(AddVideoClickedEvent(memory: tMemory)),
       //assert
       expect: () => [
-        const MemoryManipulationFailureState(
+        MemoryManipulationFailureState(
+          memory: bloc.state.memory,
           titleErrorMesssage: '',
           videoAddingErrorMesssage: 'Unable to retrieve media from library',
           savingErrorMesssage: '',
@@ -309,7 +308,7 @@ void main() {
       },
       act: (bloc) => bloc.add(const GetMemoryDetailsEvent(memoryId: tMemoryId)),
       expect: () => [
-        MemoryLoading(),
+        const MemoryLoading(memory: null),
         MemoryManipulationSuccessState(memory: tMemory),
       ],
     );
@@ -325,8 +324,8 @@ void main() {
       },
       act: (bloc) => bloc.add(const GetMemoryDetailsEvent(memoryId: tMemoryId)),
       expect: () => [
-        MemoryLoading(),
-        MemoryRetrievalFailureState(),
+        const MemoryLoading(memory: null),
+        MemoryRetrievalFailureState(memory: bloc.state.memory),
       ],
     );
   });
@@ -441,10 +440,11 @@ void main() {
           bloc.add(CommitMemoryEvent(memory: tOriginalCompleteDraftMemory)),
       //assert
       expect: () => [
-        const MemoryManipulationFailureState(
+        MemoryManipulationFailureState(
           savingErrorMesssage: 'Unable to save changes',
           titleErrorMesssage: '',
           videoAddingErrorMesssage: '',
+          memory: bloc.state.memory,
         ),
       ],
     );
