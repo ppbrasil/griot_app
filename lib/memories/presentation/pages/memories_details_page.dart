@@ -38,15 +38,15 @@ class _MemoryDetailsPageState extends State<MemoryDetailsPage> {
               body: Column(
                 children: [
                   Text(
-                    memory.title ?? 'New Memory',
+                    memory!.title ?? 'New Memory',
                     style: const TextStyle(fontSize: 24.0),
                   ),
-                  state.memory.videos != null
+                  state.memory!.videos != null
                       ? Expanded(
                           child: ListView.builder(
-                            itemCount: state.memory.videos!.length,
+                            itemCount: state.memory!.videos!.length,
                             itemBuilder: (context, index) {
-                              final video = state.memory.videos![index];
+                              final video = state.memory!.videos![index];
                               return ListTile(
                                 title: Text(
                                   video.file,

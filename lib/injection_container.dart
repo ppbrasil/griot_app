@@ -117,8 +117,6 @@ void initMemories() {
   sl.registerLazySingleton(() => AddVideoFromLibraryToMemoryUseCase(sl()));
   sl.registerLazySingleton(
       () => AddVideoListFromLibraryToDraftMemoryUseCase(sl()));
-  sl.registerLazySingleton(
-      () => AddVideoListFromLibraryToDraftMemoryUseCase(sl()));
   sl.registerLazySingleton(() => CommitChangesToMemoryUseCase(sl()));
 
   // Repository
