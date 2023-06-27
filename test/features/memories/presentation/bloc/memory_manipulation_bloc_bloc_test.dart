@@ -122,9 +122,6 @@ void main() {
     const tLogTitle =
         'This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. This is a long title. ';
 
-    const tSavingErrorMessage = null;
-    const tvideoAddingErrorMesssage = null;
-
     Memory tOriginalMemory = Memory(
       id: null,
       title: tPreviousTitle,
