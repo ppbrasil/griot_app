@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/injection_container.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
-import 'package:griot_app/memories/domain/usecases/add_video_list_from_library_to_draft_memory_usecase.dart';
 import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
 import 'package:griot_app/memories/presentation/widgets/griot_action_button.dart';
 import 'package:griot_app/memories/presentation/widgets/griot_circular_button.dart';
@@ -23,11 +22,11 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
   final TextEditingController titleController = TextEditingController();
 
   void _commit(BuildContext context) {
+    final myState = context.read<MemoryManipulationBlocBloc>().state;
     Memory commitingMemory =
-        widget.memory.copyWith(title: titleController.text);
+        myState.memory!.copyWith(title: titleController.text);
     BlocProvider.of<MemoryManipulationBlocBloc>(context)
         .add(CommitMemoryEvent(memory: commitingMemory));
-    final myState = context.read<MemoryManipulationBlocBloc>().state;
     if (myState is MemoryManipulationSuccessState) {
       widget.memory = myState.memory!;
     }
