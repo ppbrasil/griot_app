@@ -5,16 +5,16 @@
 // @dart=2.19
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
 import 'package:griot_app/core/network/network_info.dart' as _i9;
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart'
     as _i8;
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart'
-    as _i4;
+    as _i5;
 import 'package:griot_app/memories/data/models/memory_model.dart' as _i2;
 import 'package:griot_app/memories/data/models/video_model.dart' as _i3;
-import 'package:griot_app/memories/domain/entities/memory.dart' as _i6;
+import 'package:griot_app/memories/domain/entities/memory.dart' as _i4;
 import 'package:griot_app/memories/domain/entities/video.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -49,27 +49,37 @@ class _FakeVideoModel_1 extends _i1.SmartFake implements _i3.VideoModel {
         );
 }
 
+class _FakeMemory_2 extends _i1.SmartFake implements _i4.Memory {
+  _FakeMemory_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [MemoriesRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMemoriesRemoteDataSource extends _i1.Mock
-    implements _i4.MemoriesRemoteDataSource {
+    implements _i5.MemoriesRemoteDataSource {
   MockMemoriesRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<List<_i2.MemoryModel>> getMemoriesListFromAPI() =>
+  _i6.Future<List<_i2.MemoryModel>> getMemoriesListFromAPI() =>
       (super.noSuchMethod(
         Invocation.method(
           #getMemoriesListFromAPI,
           [],
         ),
         returnValue:
-            _i5.Future<List<_i2.MemoryModel>>.value(<_i2.MemoryModel>[]),
-      ) as _i5.Future<List<_i2.MemoryModel>>);
+            _i6.Future<List<_i2.MemoryModel>>.value(<_i2.MemoryModel>[]),
+      ) as _i6.Future<List<_i2.MemoryModel>>);
   @override
-  _i5.Future<_i2.MemoryModel> getMemoryDetailsFromAPI(
+  _i6.Future<_i2.MemoryModel> getMemoryDetailsFromAPI(
           {required int? memoryId}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -77,7 +87,7 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
           [],
           {#memoryId: memoryId},
         ),
-        returnValue: _i5.Future<_i2.MemoryModel>.value(_FakeMemoryModel_0(
+        returnValue: _i6.Future<_i2.MemoryModel>.value(_FakeMemoryModel_0(
           this,
           Invocation.method(
             #getMemoryDetailsFromAPI,
@@ -85,16 +95,16 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
             {#memoryId: memoryId},
           ),
         )),
-      ) as _i5.Future<_i2.MemoryModel>);
+      ) as _i6.Future<_i2.MemoryModel>);
   @override
-  _i5.Future<_i2.MemoryModel> postMemoryToAPI({required _i6.Memory? memory}) =>
+  _i6.Future<_i2.MemoryModel> postMemoryToAPI({required _i4.Memory? memory}) =>
       (super.noSuchMethod(
         Invocation.method(
           #postMemoryToAPI,
           [],
           {#memory: memory},
         ),
-        returnValue: _i5.Future<_i2.MemoryModel>.value(_FakeMemoryModel_0(
+        returnValue: _i6.Future<_i2.MemoryModel>.value(_FakeMemoryModel_0(
           this,
           Invocation.method(
             #postMemoryToAPI,
@@ -102,9 +112,9 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
             {#memory: memory},
           ),
         )),
-      ) as _i5.Future<_i2.MemoryModel>);
+      ) as _i6.Future<_i2.MemoryModel>);
   @override
-  _i5.Future<_i3.VideoModel> postVideoToAPI({
+  _i6.Future<_i3.VideoModel> postVideoToAPI({
     required _i7.Video? video,
     required int? memoryId,
   }) =>
@@ -117,7 +127,7 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
             #memoryId: memoryId,
           },
         ),
-        returnValue: _i5.Future<_i3.VideoModel>.value(_FakeVideoModel_1(
+        returnValue: _i6.Future<_i3.VideoModel>.value(_FakeVideoModel_1(
           this,
           Invocation.method(
             #postVideoToAPI,
@@ -128,17 +138,35 @@ class MockMemoriesRemoteDataSource extends _i1.Mock
             },
           ),
         )),
-      ) as _i5.Future<_i3.VideoModel>);
+      ) as _i6.Future<_i3.VideoModel>);
   @override
-  _i5.Future<int> deleteVideoFromAPI({required int? videoId}) =>
+  _i6.Future<int> deleteVideoFromAPI({required int? videoId}) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteVideoFromAPI,
           [],
           {#videoId: videoId},
         ),
-        returnValue: _i5.Future<int>.value(0),
-      ) as _i5.Future<int>);
+        returnValue: _i6.Future<int>.value(0),
+      ) as _i6.Future<int>);
+  @override
+  _i6.Future<_i4.Memory> patchUpdateMemoryToAPI(
+          {required _i4.Memory? memory}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #patchUpdateMemoryToAPI,
+          [],
+          {#memory: memory},
+        ),
+        returnValue: _i6.Future<_i4.Memory>.value(_FakeMemory_2(
+          this,
+          Invocation.method(
+            #patchUpdateMemoryToAPI,
+            [],
+            {#memory: memory},
+          ),
+        )),
+      ) as _i6.Future<_i4.Memory>);
 }
 
 /// A class which mocks [MemoriesLocalDataSource].
@@ -151,14 +179,14 @@ class MockMemoriesLocalDataSource extends _i1.Mock
   }
 
   @override
-  _i5.Future<List<_i3.VideoModel>?> getVideosFromLibraryFromDevice() =>
+  _i6.Future<List<_i3.VideoModel>?> getVideosFromLibraryFromDevice() =>
       (super.noSuchMethod(
         Invocation.method(
           #getVideosFromLibraryFromDevice,
           [],
         ),
-        returnValue: _i5.Future<List<_i3.VideoModel>?>.value(),
-      ) as _i5.Future<List<_i3.VideoModel>?>);
+        returnValue: _i6.Future<List<_i3.VideoModel>?>.value(),
+      ) as _i6.Future<List<_i3.VideoModel>?>);
 }
 
 /// A class which mocks [NetworkInfo].
@@ -170,8 +198,8 @@ class MockNetworkInfo extends _i1.Mock implements _i9.NetworkInfo {
   }
 
   @override
-  _i5.Future<bool> get isConnected => (super.noSuchMethod(
+  _i6.Future<bool> get isConnected => (super.noSuchMethod(
         Invocation.getter(#isConnected),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i6.Future<bool>.value(false),
+      ) as _i6.Future<bool>);
 }

@@ -6,6 +6,7 @@ import 'package:griot_app/core/services/thumbnail_services.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/models/memory_model.dart';
 import 'package:griot_app/memories/data/models/video_model.dart';
+import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -280,6 +281,7 @@ void main() {
           throwsA(const TypeMatcher<InvalidTokenException>()));
     });
   });
+
   group('deteleVideoFromAPI', () {
     const int tId = 1;
 
@@ -347,5 +349,51 @@ void main() {
       expect(() => call(videoId: tId),
           throwsA(const TypeMatcher<InvalidTokenException>()));
     });
+  });
+
+  group('updateMemoryToAPI', () {
+    const tMemoryId = 1;
+    const tNewTitle = 'Updated title';
+
+    const tAccountId = 1;
+
+    const tEndpoint = 'http://app.griot.me/api/memory/update/$tMemoryId/';
+    const tToken = "yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk";
+    const tHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Token $tToken',
+    };
+    Map<String, dynamic> tBody = {
+      "account": tAccountId,
+      "title": tNewTitle,
+    };
+
+    final tMemoryModel = MemoryModel.fromJson(
+        json.decode(fixture('memory_update_success.json')));
+
+    test(
+      'Should perform a POST request with memories/ endpoint, application/json header, and body',
+      () async {
+        // arrange
+        when(mockTokenProvider.getToken())
+            .thenAnswer((_) async => 'Token $tToken');
+        when(mockHttpClient.patch(
+          Uri.parse(tEndpoint),
+          headers: tHeaders,
+          body: jsonEncode(tBody),
+        )).thenAnswer((_) async =>
+            http.Response(fixture('memory_details_success.json'), 201));
+
+        // act
+        await datasource.patchUpdateMemoryToAPI(memory: tMemoryModel);
+
+        // assert
+        verify(mockHttpClient.patch(
+          Uri.parse(tEndpoint),
+          headers: tHeaders,
+          body: jsonEncode(tBody),
+        ));
+      },
+    );
   });
 }

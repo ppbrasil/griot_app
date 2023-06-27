@@ -175,8 +175,19 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
     } else {
       // Retrieve original memory for comparisson
       try {
+        // update other text fields
+
         final retrievedMemory = await remoteDataSource.getMemoryDetailsFromAPI(
             memoryId: memory.id!);
+
+        Memory partialUpdatedMemory = Memory(
+          id: memory.id,
+          title: memory.title,
+          accountId: memory.accountId,
+          videos: retrievedMemory.videos,
+        );
+        partialUpdatedMemory = await remoteDataSource.patchUpdateMemoryToAPI(
+            memory: partialUpdatedMemory);
 
         // Define changes to perform in Videos List
         List<Video> videosToDelete = [];
@@ -219,6 +230,21 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
         return const Left(
             ServerFailure(message: 'Unable to Retrieve Memory from API'));
       }
+    }
+  }
+
+  @override
+  Future<Either<Failure, Memory>> performUpdateMemory(
+      {required Memory memory}) async {
+    if (!await networkInfo.isConnected) {
+      return const Left(ConnectivityFailure(message: 'No internet connection'));
+    }
+    try {
+      final Memory updatedMemory =
+          await remoteDataSource.patchUpdateMemoryToAPI(memory: memory);
+      return Right(updatedMemory);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'Unable to update memory'));
     }
   }
 }

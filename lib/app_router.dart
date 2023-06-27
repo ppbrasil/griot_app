@@ -6,7 +6,6 @@ import 'package:griot_app/core/presentation/pages/dashboard.dart';
 import 'package:griot_app/core/presentation/pages/home_page.dart';
 import 'package:griot_app/griot_app.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
-import 'package:griot_app/memories/presentation/pages/memories_details_page.dart';
 import 'package:griot_app/memories/presentation/pages/memories_list_page.dart';
 import 'package:griot_app/memories/presentation/pages/memories_manipulation_page.dart';
 import 'package:griot_app/profile/presentation/pages/profile_details_page.dart';
