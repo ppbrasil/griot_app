@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/injection_container.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
+import 'package:griot_app/memories/presentation/widgets/griot_action_button.dart';
 import 'package:griot_app/memories/presentation/widgets/griot_custom_text_form_field.dart';
+import 'package:griot_app/memories/presentation/widgets/griot_error_text_field.dart';
 
 class MemoryManipulationPage extends StatefulWidget {
-  final Memory memory;
+  Memory memory;
 
-  const MemoryManipulationPage({super.key, required this.memory});
+  MemoryManipulationPage({super.key, required this.memory});
 
   @override
   State<MemoryManipulationPage> createState() => _MemoryManipulationPage();
@@ -16,6 +18,17 @@ class MemoryManipulationPage extends StatefulWidget {
 
 class _MemoryManipulationPage extends State<MemoryManipulationPage> {
   final TextEditingController titleController = TextEditingController();
+
+  void _commit(BuildContext context) {
+    Memory commitingMemory =
+        widget.memory.copyWith(title: titleController.text);
+    BlocProvider.of<MemoryManipulationBlocBloc>(context)
+        .add(CommitMemoryEvent(memory: commitingMemory));
+    final myState = context.read<MemoryManipulationBlocBloc>().state;
+    if (myState is MemoryManipulationSuccessState) {
+      widget.memory = myState.memory!;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +44,9 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
           } else if (state is MemoryManipulationSuccessState ||
               state is MemoryManipulationFailureState) {
             return Scaffold(
-              appBar: AppBar(),
+              appBar: AppBar(title: Text(widget.memory.title!)),
               body: Padding(
-                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,11 +75,14 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
                     // Space
                     const Spacer(flex: 7),
                     // Save/Update error message
-                    Container(),
+                    const ErrorTextField(),
                     // Space
                     const Spacer(flex: 7),
                     // Save Button
-                    Container(),
+                    GriotActionButton(
+                      label: 'Save',
+                      onPressed: () => _commit(context),
+                    ),
                     // Space
                     const Spacer(flex: 7),
                   ],

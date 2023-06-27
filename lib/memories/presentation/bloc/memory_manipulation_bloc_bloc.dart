@@ -122,9 +122,9 @@ class MemoryManipulationBlocBloc
 
     // Evaluate a trial to Commmit changes
     on<CommitMemoryEvent>((event, emit) async {
+      final previousState = state;
       final updatedMemory =
           await commitMemory(CommitMemoryUseCase.Params(memory: event.memory));
-      final previousState = state;
 
       updatedMemory.fold(
         (failure) {
