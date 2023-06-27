@@ -16,5 +16,11 @@ class Video extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, file, name, memoryId];
+  List<Object?> get props => [id, getBaseUrl(file), name, memoryId];
+}
+
+String getBaseUrl(String url) {
+  var uri = Uri.parse(url);
+  var baseUrl = '${uri.scheme}://${uri.host}${uri.path}';
+  return baseUrl;
 }

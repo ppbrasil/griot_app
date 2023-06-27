@@ -262,7 +262,8 @@ List<T> findMissingItems<T>(List<T> items, List<T> list) {
 }
 
 bool isItemMissing<T>(T item, List<T> list) {
-  return !list.contains(item);
+  bool isMissing = !list.contains(item);
+  return isMissing;
 }
 
 List<T> assignOrCreateList<T>(List<T>? list) {
