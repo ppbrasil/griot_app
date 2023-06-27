@@ -6,6 +6,7 @@ import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bl
 import 'package:griot_app/memories/presentation/widgets/griot_action_button.dart';
 import 'package:griot_app/memories/presentation/widgets/griot_custom_text_form_field.dart';
 import 'package:griot_app/memories/presentation/widgets/griot_error_text_field.dart';
+import 'package:griot_app/memories/presentation/widgets/griot_video_list.dart';
 
 class MemoryManipulationPage extends StatefulWidget {
   Memory memory;
@@ -63,7 +64,7 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
                     // Space
                     const Spacer(flex: 7),
                     // Video List
-                    Container(),
+                    const GriotVideoList(),
                     // Space
                     const Spacer(flex: 7),
                     // addvideo error message
