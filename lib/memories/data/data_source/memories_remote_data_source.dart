@@ -166,7 +166,7 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
   }
 
   @override
-  Future<Memory> patchUpdateMemoryToAPI({required Memory memory}) async {
+  Future<MemoryModel> patchUpdateMemoryToAPI({required Memory memory}) async {
     final String token = await tokenProvider.getToken();
     final int memoryId = memory.id!;
 

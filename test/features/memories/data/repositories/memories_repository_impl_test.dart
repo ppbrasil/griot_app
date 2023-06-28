@@ -400,33 +400,35 @@ void main() {
   group('performCommitChangesToMemory', () {
     int tAccountId = 1;
     int tMemoryId = 1;
+    String oldTitle = 'OldTitle';
+    String newTtile = 'NewTitle';
 
     const tVideoModel1 = VideoModel(
-      file: '/videos/myVideo1Model1',
-      thumbnail: 'myThumbnail 1',
+      file: 'https://griot-memories-data.s3.amazonaws.com/videos/78-14021.mp4',
+      //thumbnail: 'myThumbnail 1',
       id: null,
       name: 'Video Name 1',
-      memoryId: null,
+      memoryId: 1,
     );
 
     const tVideoModel2 = VideoModel(
-      file: '/videos/myVideoModel2',
-      thumbnail: 'myThumbnail 2',
+      file: 'https://griot-memories-data.s3.amazonaws.com/videos/78-14022.mp4',
+      //thumbnail: 'myThumbnail 2',
       id: null,
       name: 'Video Name 2',
       memoryId: null,
     );
     const tVSavedVideoModel1 = VideoModel(
-      file: '/videos/myVideo1Model1',
-      thumbnail: 'myThumbnail 1',
+      file: 'https://griot-memories-data.s3.amazonaws.com/videos/78-14021.mp4',
+      //thumbnail: 'myThumbnail 1',
       id: 1,
       name: 'Video Name 1',
       memoryId: null,
     );
 
     const tVSavedVideoModel2 = VideoModel(
-      file: '/videos/myVideoModel2',
-      thumbnail: 'myThumbnail 2',
+      file: 'https://griot-memories-data.s3.amazonaws.com/videos/78-14022.mp4',
+      //thumbnail: 'myThumbnail 2',
       id: 2,
       name: 'Video Name 2',
       memoryId: null,
@@ -440,42 +442,48 @@ void main() {
 
     Memory tMemoryDraftNoVideo = Memory(
       id: null,
-      title: 'MyTittle',
+      title: oldTitle,
       accountId: tAccountId,
       videos: null,
     );
 
     Memory tMemoryDraftWithNewVideos = Memory(
       id: null,
-      title: 'MyTittle',
+      title: oldTitle,
       accountId: tAccountId,
       videos: tVideoModelListToBeAdded,
     );
 
     MemoryModel tMemoryModelNoVideo = MemoryModel(
       id: tMemoryId,
-      title: 'MyTittle',
+      title: oldTitle,
       accountId: tAccountId,
       videos: null,
     );
 
     MemoryModel tMemoryModelWithVideo = MemoryModel(
       id: tMemoryId,
-      title: 'MyTittle',
+      title: oldTitle,
       accountId: tAccountId,
       videos: tVideoModelListAdded,
     );
 
     MemoryModel tMemoryModelWitVideoOne = MemoryModel(
       id: tMemoryId,
-      title: 'MyTittle',
+      title: oldTitle,
+      accountId: tAccountId,
+      videos: const [tVSavedVideoModel1],
+    );
+    MemoryModel tPartialupdatedMemory = MemoryModel(
+      id: tMemoryId,
+      title: newTtile,
       accountId: tAccountId,
       videos: const [tVSavedVideoModel1],
     );
 
     MemoryModel tMemoryModelWitVideoTwo = MemoryModel(
       id: tMemoryId,
-      title: 'New Tittle',
+      title: newTtile,
       accountId: tAccountId,
       videos: const [tVSavedVideoModel2],
     );
@@ -567,9 +575,15 @@ void main() {
         ];
 
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+
         when(mockMemoriesRemoteDataSource.getMemoryDetailsFromAPI(
                 memoryId: tMemoryId))
             .thenAnswer((_) async => answerForGetMemoryDetails.removeAt(0));
+
+        when(mockMemoriesRemoteDataSource.patchUpdateMemoryToAPI(
+                memory: tPartialupdatedMemory))
+            .thenAnswer((_) async => tPartialupdatedMemory);
+
         when(mockMemoriesRemoteDataSource.deleteVideoFromAPI(
                 videoId: tMemoryModelWitVideoOne.videos!.first.id!))
             .thenAnswer((_) async => 0);
@@ -581,7 +595,7 @@ void main() {
 
         // act
         final result = await repository.performCommitChangesToMemory(
-            memory: tMemoryModelWitVideoOne);
+            memory: tMemoryModelWitVideoTwo);
         // assert
         expect(result, equals(Right(tMemoryModelWitVideoTwo)));
       });

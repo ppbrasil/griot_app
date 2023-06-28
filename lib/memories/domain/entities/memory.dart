@@ -29,5 +29,5 @@ class Memory extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, title, videos];
+  List<Object?> get props => [id, accountId, title, videos];
 }
