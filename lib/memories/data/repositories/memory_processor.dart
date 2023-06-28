@@ -99,8 +99,8 @@ class MemoryUpdater implements MemoryProcessor {
           ServerFailure(message: 'Unable to patch changes on memory to API'));
     }
 
-    videoProcessingService.processVideoChanges(
-        partialUpdatedMemory, originalMemoryOnServer);
+    await videoProcessingService.processVideoChanges(
+        memory, originalMemoryOnServer);
 
     try {
       updatedMemory =

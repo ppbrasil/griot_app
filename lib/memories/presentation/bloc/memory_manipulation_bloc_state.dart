@@ -29,9 +29,9 @@ class MemoryCreationBlocFailure extends MemoryManipulationBlocState {
 }
 
 class MemoryManipulationFailureState extends MemoryManipulationBlocState {
-  final String? titleErrorMesssage;
-  final String? videoAddingErrorMesssage;
-  final String? savingErrorMesssage;
+  final String titleErrorMesssage;
+  final String videoAddingErrorMesssage;
+  final String savingErrorMesssage;
 
   const MemoryManipulationFailureState({
     required super.memory,

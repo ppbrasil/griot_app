@@ -57,11 +57,11 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
           } else if (state is MemoryManipulationSuccessState ||
               state is MemoryManipulationFailureState) {
             if (state is MemoryManipulationFailureState) {
-              savingErrorMessage = state.savingErrorMesssage!;
-              videoAddingErrorMessage = state.videoAddingErrorMesssage!;
+              savingErrorMessage = state.savingErrorMesssage;
+              videoAddingErrorMessage = state.videoAddingErrorMesssage;
             }
             return Scaffold(
-              appBar: AppBar(title: Text(widget.memory.title!)),
+              appBar: AppBar(title: Text(state.memory!.title!)),
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                 child: Column(
@@ -74,7 +74,7 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
                     GriotCustomTextInputField(
                       fieldType: GriotCustomTextInputFieldType.title,
                       icon: null,
-                      label: 'Title',
+                      label: state.memory!.title!,
                       textController: titleController,
                     ),
                     // Space

@@ -12,7 +12,7 @@ class CommitChangesToMemoryUseCase implements UseCase<Memory, Params> {
 
   @override
   Future<Either<Failure, Memory>> call(Params params) async {
-    return await repository.performCommitChangesToMemory(
+    return await repository.newPerformCommitChangesToMemory(
       memory: params.memory,
     );
   }

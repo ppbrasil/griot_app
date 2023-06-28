@@ -80,8 +80,8 @@ class MemoryManipulationBlocBloc
         } else {
           emit(MemoryManipulationFailureState(
               titleErrorMesssage: validationMessage,
-              videoAddingErrorMesssage: null,
-              savingErrorMesssage: null,
+              videoAddingErrorMesssage: '',
+              savingErrorMesssage: '',
               memory: previousState.memory));
         }
       } else {

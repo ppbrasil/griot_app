@@ -27,6 +27,9 @@ abstract class MemoriesRepository {
     required Memory memory,
   });
 
+  Future<Either<Failure, Memory>> newPerformCommitChangesToMemory({
+    required Memory memory,
+  });
   Future<Either<Failure, Memory>> performUpdateMemory({
     required Memory memory,
   });

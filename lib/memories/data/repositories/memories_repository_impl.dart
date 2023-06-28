@@ -6,6 +6,8 @@ import 'package:griot_app/memories/data/data_source/memories_local_data_source.d
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/models/memory_model.dart';
 import 'package:griot_app/memories/data/models/video_model.dart';
+import 'package:griot_app/memories/data/repositories/memory_processor.dart';
+import 'package:griot_app/memories/data/repositories/video_processor.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
@@ -134,6 +136,33 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
       return const Left(MediaServiceFailure(
           message: 'Unable to retrieve media from library'));
     }
+  }
+
+  @override
+  Future<Either<Failure, Memory>> newPerformCommitChangesToMemory({
+    required Memory memory,
+  }) async {
+    MemoryProcessor memoryProcessor;
+    VideoProcessingService videoProcessingService = VideoProcessingService(
+      remoteDataSource: remoteDataSource,
+    );
+
+    // Check if it's an existing or new memory
+    if (memory.id == null) {
+      memoryProcessor = MemoryCreator(
+        networkInfo: networkInfo,
+        remoteDataSource: remoteDataSource,
+        videoProcessingService: videoProcessingService,
+      );
+    } else {
+      memoryProcessor = MemoryUpdater(
+        networkInfo: networkInfo,
+        remoteDataSource: remoteDataSource,
+        videoProcessingService: videoProcessingService,
+      );
+    }
+
+    return memoryProcessor.process(memory);
   }
 
   @override

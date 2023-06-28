@@ -158,7 +158,7 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       headers: {'Content-Type': 'application/json', 'Authorization': token},
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 201 || response.statusCode == 204) {
       return 0;
     } else {
       throw InvalidTokenException();
