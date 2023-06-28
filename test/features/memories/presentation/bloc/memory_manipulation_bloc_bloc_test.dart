@@ -165,8 +165,8 @@ void main() {
         MemoryManipulationFailureState(
           memory: bloc.state.memory,
           titleErrorMesssage: 'Please enter a title for your memory',
-          videoAddingErrorMesssage: null,
-          savingErrorMesssage: null,
+          videoAddingErrorMesssage: '',
+          savingErrorMesssage: '',
         ),
       ],
     );
@@ -185,8 +185,8 @@ void main() {
         MemoryManipulationFailureState(
           memory: bloc.state.memory,
           titleErrorMesssage: 'Titles must have at least 8 characters',
-          videoAddingErrorMesssage: null,
-          savingErrorMesssage: null,
+          videoAddingErrorMesssage: '',
+          savingErrorMesssage: '',
         ),
       ],
     );
@@ -205,8 +205,8 @@ void main() {
         MemoryManipulationFailureState(
           memory: bloc.state.memory,
           titleErrorMesssage: 'Titles can\'t have more then 255 characters',
-          videoAddingErrorMesssage: null,
-          savingErrorMesssage: null,
+          videoAddingErrorMesssage: '',
+          savingErrorMesssage: '',
         ),
       ],
     );
