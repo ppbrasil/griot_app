@@ -1,6 +1,8 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:video_player/video_player.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
 
 class GriotVideoList extends StatefulWidget {
@@ -26,7 +28,10 @@ class _GriotVideoListState extends State<GriotVideoList> {
                   : 0,
               itemBuilder: (context, index) {
                 final video = state.memory!.videos![index];
-                return GriotTile(video: video);
+                return GriotTile(
+                  videoPlayerController:
+                      VideoPlayerController.network(video.file),
+                );
               },
             );
           } else {
@@ -38,19 +43,77 @@ class _GriotVideoListState extends State<GriotVideoList> {
   }
 }
 
-class GriotTile extends StatelessWidget {
-  final Video video;
+class GriotTile extends StatefulWidget {
+  final VideoPlayerController videoPlayerController;
 
-  const GriotTile({super.key, required this.video});
+  const GriotTile({super.key, required this.videoPlayerController});
+
+  @override
+  State<GriotTile> createState() => _GriotTileState();
+}
+
+class _GriotTileState extends State<GriotTile> {
+  late ChewieController _chewieController;
+
+  @override
+  void initState() {
+    super.initState();
+    _chewieController = ChewieController(
+      videoPlayerController: widget.videoPlayerController,
+      deviceOrientationsAfterFullScreen: [
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown
+      ],
+      autoPlay: false,
+      autoInitialize: true,
+      errorBuilder: (context, errorMessage) {
+        return Center(
+            child: Text(errorMessage,
+                style: const TextStyle(color: Colors.white)));
+      },
+    );
+    // Set preferred orientation to landscape if video is horizontal
+    final videoValue = widget.videoPlayerController.value;
+    if (videoValue.size.width > videoValue.size.height) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+    } else {}
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Image.network(video.thumbnail ??
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgWy3DLSoDNZxaoOiVo3G9I7-fXtRAztlpB8YtYejl&s'),
+    final videoAspectRatio = widget.videoPlayerController.value.aspectRatio;
+    final isHorizontalVideo =
+        (widget.videoPlayerController.value.size.aspectRatio > 1);
+
+    return WillPopScope(
+      onWillPop: () async {
+        if (isHorizontalVideo) {
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+          ]);
+        }
+        return true; // Allow back navigation
+      },
+      child: Card(
+        child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AspectRatio(
+              aspectRatio: videoAspectRatio,
+              child: Chewie(
+                controller: _chewieController,
+              ),
+            )),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.videoPlayerController.dispose();
+    _chewieController.dispose();
   }
 }
