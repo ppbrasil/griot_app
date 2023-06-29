@@ -162,7 +162,7 @@ class MockMemoriesRepository extends _i1.Mock
           {required _i6.Memory? memory}) =>
       (super.noSuchMethod(
         Invocation.method(
-          #performCommitChangesToMemory,
+          #newPerformCommitChangesToMemory,
           [],
           {#memory: memory},
         ),
@@ -170,7 +170,7 @@ class MockMemoriesRepository extends _i1.Mock
             _FakeEither_0<_i5.Failure, _i6.Memory>(
           this,
           Invocation.method(
-            #performCommitChangesToMemory,
+            #newPerformCommitChangesToMemory,
             [],
             {#memory: memory},
           ),

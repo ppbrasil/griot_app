@@ -23,11 +23,8 @@ abstract class MemoriesRepository {
   Future<Either<Failure, Memory>> performAddVideoListFromLibraryToDraftMemory({
     required Memory memory,
   });
-  Future<Either<Failure, Memory>> performCommitChangesToMemory({
-    required Memory memory,
-  });
 
-  Future<Either<Failure, Memory>> newPerformCommitChangesToMemory({
+  Future<Either<Failure, Memory>> performCommitChangesToMemory({
     required Memory memory,
   });
   Future<Either<Failure, Memory>> performUpdateMemory({

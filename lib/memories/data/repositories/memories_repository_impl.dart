@@ -139,7 +139,7 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
   }
 
   @override
-  Future<Either<Failure, Memory>> newPerformCommitChangesToMemory({
+  Future<Either<Failure, Memory>> performCommitChangesToMemory({
     required Memory memory,
   }) async {
     MemoryProcessor memoryProcessor;
@@ -166,103 +166,6 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
   }
 
   @override
-  Future<Either<Failure, Memory>> performCommitChangesToMemory({
-    required Memory memory,
-  }) async {
-    // Return Failure if no internet connection available
-    if (!await networkInfo.isConnected) {
-      return const Left(ConnectivityFailure(message: 'No internet connection'));
-    }
-    // Check if it's an existing or new memory creating it if new
-    if (memory.id == null) {
-      try {
-        final postedMemory =
-            await remoteDataSource.postMemoryToAPI(memory: memory);
-        // Add each video to the new memory
-        if (memory.videos != null) {
-          for (final video in memory.videos!) {
-            try {
-              await remoteDataSource.postVideoToAPI(
-                memoryId: postedMemory.id!,
-                video: video,
-              );
-            } on Exception {
-              return const Left(
-                  ServerFailure(message: 'Unable to Post Video to API'));
-            }
-          }
-        }
-        final commitedMemory = await remoteDataSource.getMemoryDetailsFromAPI(
-            memoryId: postedMemory.id!);
-        return Right(commitedMemory);
-      } on Exception {
-        return const Left(
-            ServerFailure(message: 'Unable to Post Memory to API'));
-      }
-
-      // Update the memory if it's an exsisting one
-    } else {
-      // Retrieve original memory for comparisson
-      try {
-        // update other text fields
-
-        final retrievedMemory = await remoteDataSource.getMemoryDetailsFromAPI(
-            memoryId: memory.id!);
-
-        Memory partialUpdatedMemory = Memory(
-          id: memory.id,
-          title: memory.title,
-          accountId: memory.accountId,
-          videos: retrievedMemory.videos,
-        );
-        partialUpdatedMemory = await remoteDataSource.patchUpdateMemoryToAPI(
-            memory: partialUpdatedMemory);
-
-        // Define changes to perform in Videos List
-        List<Video> videosToDelete = [];
-        retrievedMemory.videos != null
-            ? videosToDelete = findMissingItems(
-                retrievedMemory.videos!, assignOrCreateList(memory.videos))
-            : [];
-
-        List<Video> videosToAdd = [];
-        memory.videos != null
-            ? videosToAdd = findMissingItems(
-                memory.videos!, assignOrCreateList(retrievedMemory.videos))
-            : [];
-
-        // Delete videos
-        try {
-          for (final video in videosToDelete) {
-            await remoteDataSource.deleteVideoFromAPI(videoId: video.id!);
-          }
-        } on Exception {
-          return const Left(
-              ServerFailure(message: 'Unable to Delete Videos from Memory'));
-        }
-
-        // Create new videos
-        try {
-          for (final video in videosToAdd) {
-            await remoteDataSource.postVideoToAPI(
-                video: video, memoryId: memory.id!);
-          }
-        } on Exception {
-          return const Left(
-              ServerFailure(message: 'Unable to Post Video to API'));
-        }
-
-        // Fetch updated data from server and return
-        return Right(await remoteDataSource.getMemoryDetailsFromAPI(
-            memoryId: memory.id!));
-      } on Exception {
-        return const Left(
-            ServerFailure(message: 'Unable to Retrieve Memory from API'));
-      }
-    }
-  }
-
-  @override
   Future<Either<Failure, Memory>> performUpdateMemory(
       {required Memory memory}) async {
     if (!await networkInfo.isConnected) {
@@ -276,25 +179,4 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
       return const Left(ServerFailure(message: 'Unable to update memory'));
     }
   }
-}
-
-/// Some Helpers function I'm not sure should be here
-List<T> findMissingItems<T>(List<T> items, List<T> list) {
-  final missingItems = <T>[];
-  for (final item in items) {
-    if (isItemMissing(item, list)) {
-      missingItems.add(item);
-    }
-  }
-
-  return missingItems;
-}
-
-bool isItemMissing<T>(T item, List<T> list) {
-  bool isMissing = !list.contains(item);
-  return isMissing;
-}
-
-List<T> assignOrCreateList<T>(List<T>? list) {
-  return list ?? [];
 }
