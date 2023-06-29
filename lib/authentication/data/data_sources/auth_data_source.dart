@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:griot_app/authentication/data/models/token_model.dart';
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/core/error/exceptions.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthRemoteDataSource {
@@ -11,7 +11,7 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final http.Client client;
+  final GriotHttpServiceWrapper client;
 
   AuthRemoteDataSourceImpl({required this.client});
 
@@ -43,7 +43,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     await prefs.setString('token', tokenToStore.tokenString);
   }
 
-  Future<void> handleError(http.Response response) async {
+  Future<void> handleError(response) async {
     if (response.statusCode == 401 || response.statusCode == 404) {
       throw InvalidTokenException();
     } else if (!(response.statusCode >= 200 && response.statusCode <= 204)) {

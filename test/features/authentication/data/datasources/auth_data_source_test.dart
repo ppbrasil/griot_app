@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:griot_app/authentication/data/data_sources/auth_data_source.dart';
 import 'package:griot_app/authentication/data/models/token_model.dart';
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
@@ -11,15 +12,13 @@ import 'package:http/http.dart' as http;
 import '../../../../fixtures/fixture_reader.dart';
 import 'auth_data_source_test.mocks.dart';
 
-//class MockHttClient extends Mock implements http.Client {}
-
-@GenerateMocks([http.Client])
+@GenerateMocks([GriotHttpServiceWrapper])
 void main() {
+  late MockGriotHttpServiceWrapper mockHttClient;
   late AuthRemoteDataSourceImpl datasource;
-  late MockClient mockHttClient;
 
   setUp(() {
-    mockHttClient = MockClient();
+    mockHttClient = MockGriotHttpServiceWrapper();
     datasource = AuthRemoteDataSourceImpl(client: mockHttClient);
   });
 

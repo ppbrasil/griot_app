@@ -11,6 +11,7 @@ import 'package:griot_app/authentication/domain/repositories/auth_repository.dar
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:griot_app/authentication/presentation/bloc/login_form_validation_bloc_bloc.dart';
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/core/data/main_account_id_provider.dart';
 import 'package:griot_app/core/data/media_service.dart';
 import 'package:griot_app/core/data/token_provider.dart';
@@ -65,6 +66,8 @@ void init() {
   sl.registerLazySingleton<ThumbnailService>(
       () => VideoCompressThumbnailService());
   sl.registerLazySingleton<ValidationService>(() => ValidationService());
+  sl.registerLazySingleton<GriotHttpServiceWrapper>(
+      () => GriotHttpServiceWrapper(client: sl()));
 
   // External Dependencies
   sl.registerLazySingleton<ImagePicker>(() => ImagePicker());
