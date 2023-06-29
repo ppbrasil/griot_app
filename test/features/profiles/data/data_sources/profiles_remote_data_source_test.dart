@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/profile/data/data_sources/profiles_remote_data_source.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -10,14 +11,14 @@ import 'package:griot_app/profile/data/models/profile_model.dart';
 import '../../../../fixtures/fixture_reader.dart';
 import 'profiles_remote_data_source_test.mocks.dart';
 
-@GenerateMocks([http.Client, TokenProvider])
+@GenerateMocks([GriotHttpServiceWrapper, TokenProvider])
 void main() {
   late ProfilesRemoteDataSourceImpl datasource;
-  late MockClient mockHttpClient;
+  late MockGriotHttpServiceWrapper mockHttpClient;
   late MockTokenProvider mockTokenProvider;
 
   setUp(() {
-    mockHttpClient = MockClient();
+    mockHttpClient = MockGriotHttpServiceWrapper();
     mockTokenProvider = MockTokenProvider();
     datasource = ProfilesRemoteDataSourceImpl(
         tokenProvider: mockTokenProvider, client: mockHttpClient);
