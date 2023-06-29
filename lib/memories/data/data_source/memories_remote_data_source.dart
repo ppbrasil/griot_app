@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/core/services/thumbnail_services.dart';
@@ -22,7 +23,7 @@ abstract class MemoriesRemoteDataSource {
 }
 
 class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
-  final http.Client client;
+  final GriotHttpServiceWrapper client;
   final TokenProvider tokenProvider;
   final ThumbnailService thumbnailService;
 

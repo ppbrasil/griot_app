@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/core/services/thumbnail_services.dart';
@@ -14,15 +15,15 @@ import 'package:http/http.dart' as http;
 import '../../../../fixtures/fixture_reader.dart';
 import 'memories_remote_data_source_test.mocks.dart';
 
-@GenerateMocks([http.Client, TokenProvider, ThumbnailService])
+@GenerateMocks([GriotHttpServiceWrapper, TokenProvider, ThumbnailService])
 void main() {
   late MemoriesRemoteDataSourceImpl datasource;
-  late MockClient mockHttpClient;
+  late MockGriotHttpServiceWrapper mockHttpClient;
   late MockTokenProvider mockTokenProvider;
   late MockThumbnailService mockThumbnailService;
 
   setUp(() {
-    mockHttpClient = MockClient();
+    mockHttpClient = MockGriotHttpServiceWrapper();
     mockTokenProvider = MockTokenProvider();
     mockThumbnailService = MockThumbnailService();
     datasource = MemoriesRemoteDataSourceImpl(

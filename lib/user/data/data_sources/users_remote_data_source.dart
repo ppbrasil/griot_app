@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:griot_app/accounts/data/models/account_model.dart';
 import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
-import 'package:http/http.dart' as http;
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/accounts/domain/entities/account.dart';
@@ -24,7 +23,6 @@ class UsersRemoteDataSourceImpl implements UsersRemoteDataSource {
 
   @override
   Future<List<Account>> getBelovedAccountsListFromAPI() {
-    // TODO: implement getBelovedAccountsListFromAPI
     throw UnimplementedError();
   }
 
