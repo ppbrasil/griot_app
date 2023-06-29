@@ -24,7 +24,7 @@ void main() {
       when(client.get(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => http.Response('OK', 200));
 
-      final response = await wrapper.get(url: Uri.parse(url), headers: headers);
+      final response = await wrapper.get(Uri.parse(url), headers: headers);
 
       verify(client.get(Uri.parse(url), headers: headers)).called(1);
       expect(response.statusCode, equals(200));
@@ -53,8 +53,8 @@ void main() {
               headers: anyNamed('headers'), body: anyNamed('body')))
           .thenAnswer((_) async => http.Response('OK', 200));
 
-      final response = await wrapper.put(
-          url: Uri.parse(url), headers: headers, body: jsonEncode(body));
+      final response = await wrapper.put(Uri.parse(url),
+          headers: headers, body: jsonEncode(body));
 
       verify(client.put(Uri.parse(url),
               headers: headers, body: jsonEncode(body)))
@@ -66,8 +66,7 @@ void main() {
       when(client.delete(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => http.Response('OK', 200));
 
-      final response =
-          await wrapper.delete(url: Uri.parse(url), headers: headers);
+      final response = await wrapper.delete(Uri.parse(url), headers: headers);
 
       verify(client.delete(Uri.parse(url), headers: headers)).called(1);
       expect(response.statusCode, equals(200));
@@ -80,8 +79,8 @@ void main() {
               headers: anyNamed('headers'), body: anyNamed('body')))
           .thenAnswer((_) async => http.Response('OK', 200));
 
-      final response = await wrapper.patch(
-          url: Uri.parse(url), headers: headers, body: jsonEncode(body));
+      final response = await wrapper.patch(Uri.parse(url),
+          headers: headers, body: jsonEncode(body));
 
       verify(client.patch(Uri.parse(url),
               headers: headers, body: jsonEncode(body)))

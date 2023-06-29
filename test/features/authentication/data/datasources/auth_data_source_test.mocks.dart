@@ -60,28 +60,22 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
         ),
       ) as _i2.Client);
   @override
-  _i4.Future<_i2.Response> get({
-    required Uri? url,
+  _i4.Future<_i2.Response> get(
+    Uri? url, {
     required Map<String, String>? headers,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
           #get,
-          [],
-          {
-            #url: url,
-            #headers: headers,
-          },
+          [url],
+          {#headers: headers},
         ),
         returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_1(
           this,
           Invocation.method(
             #get,
-            [],
-            {
-              #url: url,
-              #headers: headers,
-            },
+            [url],
+            {#headers: headers},
           ),
         )),
       ) as _i4.Future<_i2.Response>);
@@ -113,17 +107,16 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
         )),
       ) as _i4.Future<_i2.Response>);
   @override
-  _i4.Future<_i2.Response> put({
-    required Uri? url,
+  _i4.Future<_i2.Response> put(
+    Uri? url, {
     required Map<String, String>? headers,
     required Object? body,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
           #put,
-          [],
+          [url],
           {
-            #url: url,
             #headers: headers,
             #body: body,
           },
@@ -132,9 +125,8 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
           this,
           Invocation.method(
             #put,
-            [],
+            [url],
             {
-              #url: url,
               #headers: headers,
               #body: body,
             },
@@ -142,43 +134,36 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
         )),
       ) as _i4.Future<_i2.Response>);
   @override
-  _i4.Future<_i2.Response> delete({
-    required Uri? url,
+  _i4.Future<_i2.Response> delete(
+    Uri? url, {
     required Map<String, String>? headers,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
           #delete,
-          [],
-          {
-            #url: url,
-            #headers: headers,
-          },
+          [url],
+          {#headers: headers},
         ),
         returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_1(
           this,
           Invocation.method(
             #delete,
-            [],
-            {
-              #url: url,
-              #headers: headers,
-            },
+            [url],
+            {#headers: headers},
           ),
         )),
       ) as _i4.Future<_i2.Response>);
   @override
-  _i4.Future<_i2.Response> patch({
-    required Uri? url,
+  _i4.Future<_i2.Response> patch(
+    Uri? url, {
     required Map<String, String>? headers,
     required Object? body,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
           #patch,
-          [],
+          [url],
           {
-            #url: url,
             #headers: headers,
             #body: body,
           },
@@ -187,9 +172,8 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
           this,
           Invocation.method(
             #patch,
-            [],
+            [url],
             {
-              #url: url,
               #headers: headers,
               #body: body,
             },

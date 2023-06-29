@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
+
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/accounts/data/models/account_model.dart';
@@ -7,15 +8,12 @@ import 'package:griot_app/accounts/data/models/beloved_one_model.dart';
 
 abstract class AccountsRemoteDataSource {
   Future<AccountModel> getAccountDetailsFromAPI({required int accountId});
-/*  Future<BelovedOneModel> getBelovedOneDetailsFromAPI(
-      {required int belovedOneid});
-      */
   Future<List<BelovedOneModel>> getBelovedOnesListFromAPI(
       {required int accountId});
 }
 
 class AccountsRemoteDataSourceImpl implements AccountsRemoteDataSource {
-  final http.Client client;
+  final GriotHttpServiceWrapper client;
   final TokenProvider tokenProvider;
 
   AccountsRemoteDataSourceImpl(
@@ -39,13 +37,6 @@ class AccountsRemoteDataSourceImpl implements AccountsRemoteDataSource {
     }
   }
 
-/*  @override
-  Future<BelovedOneModel> getBelovedOneDetailsFromAPI(
-      {required int belovedOneid}) {
-    // TODO: implement getBelovedOneDetailsFromAPI
-    throw UnimplementedError();
-  }
-*/
   @override
   Future<List<BelovedOneModel>> getBelovedOnesListFromAPI(
       {required int accountId}) async {

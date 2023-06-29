@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:griot_app/accounts/data/models/beloved_ones_list_model.dart';
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:http/http.dart' as http;
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
@@ -14,14 +15,14 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'accounts_remote_data_source_test.mocks.dart';
 
-@GenerateMocks([http.Client, TokenProvider])
+@GenerateMocks([GriotHttpServiceWrapper, TokenProvider])
 void main() {
   late AccountsRemoteDataSource datasource;
-  late MockClient mockHttpClient;
+  late GriotHttpServiceWrapper mockHttpClient;
   late MockTokenProvider mockTokenProvider;
 
   setUp(() {
-    mockHttpClient = MockClient();
+    mockHttpClient = MockGriotHttpServiceWrapper();
     mockTokenProvider = MockTokenProvider();
     datasource = AccountsRemoteDataSourceImpl(
         tokenProvider: mockTokenProvider, client: mockHttpClient);

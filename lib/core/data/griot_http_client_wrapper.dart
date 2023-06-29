@@ -5,8 +5,8 @@ class GriotHttpServiceWrapper {
 
   GriotHttpServiceWrapper({required this.client});
 
-  Future<http.Response> get({
-    required Uri url,
+  Future<http.Response> get(
+    Uri url, {
     required Map<String, String> headers,
   }) async {
     final response = await client.get(
@@ -29,8 +29,8 @@ class GriotHttpServiceWrapper {
     return response;
   }
 
-  Future<http.Response> put({
-    required Uri url,
+  Future<http.Response> put(
+    Uri url, {
     required Map<String, String> headers,
     required Object? body,
   }) async {
@@ -42,8 +42,8 @@ class GriotHttpServiceWrapper {
     return response;
   }
 
-  Future<http.Response> delete({
-    required Uri url,
+  Future<http.Response> delete(
+    Uri url, {
     required Map<String, String> headers,
   }) async {
     final response = await client.delete(
@@ -53,8 +53,8 @@ class GriotHttpServiceWrapper {
     return response;
   }
 
-  Future<http.Response> patch({
-    required Uri url,
+  Future<http.Response> patch(
+    Uri url, {
     required Map<String, String> headers,
     required Object? body,
   }) async {
