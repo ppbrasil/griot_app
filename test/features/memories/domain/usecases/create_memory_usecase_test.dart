@@ -29,7 +29,8 @@ void main() {
 
   test('Should get a memory\'s details from the repository', () async {
     // arrange
-    when(mockMemoriesRepository.performcreateMemory(memory: tNewMemory))
+    when(mockMemoriesRepository.performCreateDraftMemoryLocally(
+            accountId: tAccountId))
         .thenAnswer((_) async => Right(tNewMemory));
 
     // act
@@ -42,7 +43,8 @@ void main() {
 
     // assert
     expect(result, equals(Right(tNewMemory)));
-    verify(mockMemoriesRepository.performcreateMemory(memory: tNewMemory));
+    verify(mockMemoriesRepository.performCreateDraftMemoryLocally(
+        accountId: tAccountId));
     verifyNoMoreInteractions(mockMemoriesRepository);
   });
 }

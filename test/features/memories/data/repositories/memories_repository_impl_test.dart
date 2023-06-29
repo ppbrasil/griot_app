@@ -380,7 +380,7 @@ void main() {
     int tAccountId = 1;
     Memory tMemory = Memory(
       id: null,
-      title: null,
+      title: '',
       accountId: tAccountId,
       videos: const [],
     );

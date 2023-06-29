@@ -202,7 +202,8 @@ void main() {
   });
 
   group('postMemoryToAPI', () {
-    const tTitle = 'new';
+    const tAccountId = 1;
+    const tTitle = 'My First Memory';
     const tEndpoint = 'http://app.griot.me/api/memory/create/';
     const tToken = "yjtcuyrskuhbkjhftrwsujytfciukyhgiutfvk";
     const tHeaders = {
@@ -210,7 +211,7 @@ void main() {
       'Authorization': 'Token $tToken',
     };
     const tBody = {
-      "account": 1,
+      "account": tAccountId,
       "title": tTitle,
     };
 
