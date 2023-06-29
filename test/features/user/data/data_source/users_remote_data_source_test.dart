@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/core/network/network_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:griot_app/core/data/token_provider.dart';
@@ -16,17 +17,17 @@ import 'package:mockito/mockito.dart';
 import 'users_remote_data_source_test.mocks.dart';
 
 @GenerateMocks([
-  http.Client,
+  GriotHttpServiceWrapper,
   TokenProvider,
   NetworkInfo,
 ])
 void main() {
   late UsersRemoteDataSource datasource;
-  late MockClient mockHttpClient;
+  late MockGriotHttpServiceWrapper mockHttpClient;
   late MockTokenProvider mockTokenProvider;
 
   setUp(() {
-    mockHttpClient = MockClient();
+    mockHttpClient = MockGriotHttpServiceWrapper();
     mockTokenProvider = MockTokenProvider();
     datasource = UsersRemoteDataSourceImpl(
       tokenProvider: mockTokenProvider,

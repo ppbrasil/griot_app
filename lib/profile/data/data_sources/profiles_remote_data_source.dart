@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:griot_app/profile/data/models/profile_model.dart';
 import 'package:griot_app/profile/domain/entities/profile.dart';
-import 'package:http/http.dart' as http;
 
 abstract class ProfilesRemoteDataSource {
   Future<Profile> getProfileDetailsFromAPI();
@@ -21,7 +21,7 @@ abstract class ProfilesRemoteDataSource {
 }
 
 class ProfilesRemoteDataSourceImpl implements ProfilesRemoteDataSource {
-  final http.Client client;
+  final GriotHttpServiceWrapper client;
   final TokenProvider tokenProvider;
 
   ProfilesRemoteDataSourceImpl(
