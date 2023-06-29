@@ -10,9 +10,9 @@ import 'package:griot_app/memories/presentation/widgets/griot_error_text_field.d
 import 'package:griot_app/memories/presentation/widgets/griot_video_list.dart';
 
 class MemoryManipulationPage extends StatefulWidget {
-  Memory memory;
+  final Memory? memory;
 
-  MemoryManipulationPage({super.key, required this.memory});
+  const MemoryManipulationPage({super.key, required this.memory});
 
   @override
   State<MemoryManipulationPage> createState() => _MemoryManipulationPage();
@@ -29,18 +29,12 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
         myState.memory!.copyWith(title: titleController.text);
     BlocProvider.of<MemoryManipulationBlocBloc>(context)
         .add(CommitMemoryEvent(memory: commitingMemory));
-    if (myState is MemoryManipulationSuccessState) {
-      widget.memory = myState.memory!;
-    }
   }
 
   void _addVideo(BuildContext context) {
     final myState = context.read<MemoryManipulationBlocBloc>().state;
     BlocProvider.of<MemoryManipulationBlocBloc>(context)
         .add(AddVideoClickedEvent(memory: myState.memory!));
-    if (myState is MemoryManipulationSuccessState) {
-      widget.memory = myState.memory!;
-    }
   }
 
   @override
@@ -51,9 +45,15 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
           BlocBuilder<MemoryManipulationBlocBloc, MemoryManipulationBlocState>(
         builder: (context, state) {
           if (state is MemoryCreationBlocInitial) {
-            BlocProvider.of<MemoryManipulationBlocBloc>(context)
-                .add(GetMemoryDetailsEvent(memoryId: widget.memory.id!));
-            return const Center(child: CircularProgressIndicator());
+            if (widget.memory != null) {
+              BlocProvider.of<MemoryManipulationBlocBloc>(context)
+                  .add(GetMemoryDetailsEvent(memoryId: widget.memory!.id!));
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              BlocProvider.of<MemoryManipulationBlocBloc>(context)
+                  .add(const CreateNewMemoryClickedEvent());
+              return const Center(child: CircularProgressIndicator());
+            }
           } else if (state is MemoryManipulationSuccessState ||
               state is MemoryManipulationFailureState) {
             if (state is MemoryManipulationFailureState) {

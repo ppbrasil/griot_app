@@ -108,7 +108,7 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
     return Right(Memory(
       accountId: accountId,
       id: null,
-      title: null,
+      title: '',
       videos: const [],
     ));
   }

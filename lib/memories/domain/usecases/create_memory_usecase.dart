@@ -13,13 +13,8 @@ class CreateMemoriesUseCase implements UseCase<Memory, Params> {
 
   @override
   Future<Either<Failure, Memory>> call(Params params) async {
-    Memory memory = Memory(
-        id: null,
-        accountId: params.accountId,
-        title: params.title,
-        videos: params.videos);
-    return await repository.performcreateMemory(
-      memory: memory,
+    return await repository.performCreateDraftMemoryLocally(
+      accountId: params.accountId,
     );
   }
 }

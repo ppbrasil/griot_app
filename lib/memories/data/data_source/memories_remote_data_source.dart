@@ -78,7 +78,7 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       headers: {'Content-Type': 'application/json', 'Authorization': token},
       body: jsonEncode({
         'account': memory.accountId,
-        'title': 'new',
+        'title': memory.title,
       }),
     );
 
