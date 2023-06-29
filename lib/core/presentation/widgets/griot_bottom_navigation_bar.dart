@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
 
 class GriotBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -52,10 +50,12 @@ class GriotBottomNavigationBar extends StatelessWidget {
           left: MediaQuery.of(context).size.width / 2 - 30,
           child: FloatingActionButton(
               child: const Icon(Icons.add, color: Colors.white),
-              onPressed: () {
-                context
-                    .read<NavigationBloc>()
-                    .add(MemoriesCreationClickedEvent());
+              onPressed: () async {
+                Navigator.pushNamed(
+                  context,
+                  '/memories_details_page',
+                  arguments: null,
+                );
               }),
         )
       ],
