@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
@@ -89,7 +90,7 @@ void main() {
           Uri.parse(tEndpoint),
           headers: tHeaders,
         )).thenAnswer((_) async =>
-            http.Response(fixture('memory_details_success.json'), 200));
+            Right(http.Response(fixture('memory_details_success.json'), 200)));
 
         // act
         await datasource.getMemoryDetailsFromAPI(memoryId: tMemoryId);
@@ -107,8 +108,8 @@ void main() {
       when(mockTokenProvider.getToken())
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-          .thenAnswer((_) async =>
-              http.Response(fixture('memory_details_success.json'), 200));
+          .thenAnswer((_) async => Right(
+              http.Response(fixture('memory_details_success.json'), 200)));
 
       // act
       final result =
@@ -124,14 +125,15 @@ void main() {
       when(mockTokenProvider.getToken())
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-          .thenAnswer((_) async => http.Response('Something went wrong', 404));
+          .thenAnswer(
+              (_) async => Right(http.Response('Something went wrong', 404)));
 
       // act
       final call = datasource.getMemoryDetailsFromAPI;
 
       // assert
       expect(() => call(memoryId: tMemoryId),
-          throwsA(const TypeMatcher<InvalidTokenException>()));
+          throwsA(const TypeMatcher<ServerException>()));
     });
   });
 
@@ -158,8 +160,8 @@ void main() {
         when(mockTokenProvider.getToken())
             .thenAnswer((_) async => 'Token $tToken');
         when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-            .thenAnswer((_) async =>
-                http.Response(fixture('memories_list_success.json'), 200));
+            .thenAnswer((_) async => Right(
+                http.Response(fixture('memories_list_success.json'), 200)));
 
         // act
         await datasource.getMemoriesListFromAPI();
@@ -178,7 +180,7 @@ void main() {
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
           .thenAnswer((_) async =>
-              http.Response(fixture('memories_list_success.json'), 200));
+              Right(http.Response(fixture('memories_list_success.json'), 200)));
 
       // act
       final result = await datasource.getMemoriesListFromAPI();
@@ -192,13 +194,13 @@ void main() {
       when(mockTokenProvider.getToken())
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-          .thenAnswer((_) async => http.Response('Invalid token', 401));
+          .thenAnswer((_) async => Right(http.Response('Invalid token', 401)));
 
       // act
       final call = datasource.getMemoriesListFromAPI;
 
       // assert
-      expect(() => call(), throwsA(const TypeMatcher<InvalidTokenException>()));
+      expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
     });
   });
 
@@ -230,7 +232,7 @@ void main() {
           headers: tHeaders,
           body: jsonEncode(tBody),
         )).thenAnswer((_) async =>
-            http.Response(fixture('memory_details_success.json'), 201));
+            Right(http.Response(fixture('memory_details_success.json'), 201)));
 
         // act
         await datasource.postMemoryToAPI(memory: tMemoryModel);
@@ -254,7 +256,7 @@ void main() {
         headers: tHeaders,
         body: jsonEncode(tBody),
       )).thenAnswer((_) async =>
-          http.Response(fixture('memory_details_success.json'), 201));
+          Right(http.Response(fixture('memory_details_success.json'), 201)));
 
       // act
       final result = await datasource.postMemoryToAPI(memory: tMemoryModel);
@@ -272,14 +274,15 @@ void main() {
         Uri.parse(tEndpoint),
         headers: tHeaders,
         body: jsonEncode(tBody),
-      )).thenAnswer((_) async => http.Response('Something went wrong', 400));
+      )).thenAnswer(
+          (_) async => Right(http.Response('Something went wrong', 400)));
 
       // act
       final call = datasource.postMemoryToAPI;
 
       // assert
       expect(() => call(memory: tMemoryModel),
-          throwsA(const TypeMatcher<InvalidTokenException>()));
+          throwsA(const TypeMatcher<ServerException>()));
     });
   });
 
@@ -303,7 +306,7 @@ void main() {
           Uri.parse(tEndpoint),
           headers: tHeaders,
         )).thenAnswer((_) async =>
-            http.Response(fixture('video_delete_sucess.json'), 201));
+            Right(http.Response(fixture('video_delete_sucess.json'), 201)));
 
         // act
         await datasource.deleteVideoFromAPI(videoId: tId);
@@ -323,8 +326,8 @@ void main() {
       when(mockHttpClient.delete(
         Uri.parse(tEndpoint),
         headers: tHeaders,
-      )).thenAnswer(
-          (_) async => http.Response(fixture('video_delete_sucess.json'), 201));
+      )).thenAnswer((_) async =>
+          Right(http.Response(fixture('video_delete_sucess.json'), 201)));
 
       // act
       final result = await datasource.deleteVideoFromAPI(videoId: tId);
@@ -341,14 +344,15 @@ void main() {
       when(mockHttpClient.delete(
         Uri.parse(tEndpoint),
         headers: tHeaders,
-      )).thenAnswer((_) async => http.Response('Something went wrong', 400));
+      )).thenAnswer(
+          (_) async => Right(http.Response('Something went wrong', 400)));
 
       // act
       final call = datasource.deleteVideoFromAPI;
 
       // assert
       expect(() => call(videoId: tId),
-          throwsA(const TypeMatcher<InvalidTokenException>()));
+          throwsA(const TypeMatcher<ServerException>()));
     });
   });
 
@@ -383,7 +387,7 @@ void main() {
           headers: tHeaders,
           body: jsonEncode(tBody),
         )).thenAnswer((_) async =>
-            http.Response(fixture('memory_details_success.json'), 201));
+            Right(http.Response(fixture('memory_details_success.json'), 201)));
 
         // act
         await datasource.patchUpdateMemoryToAPI(memory: tMemoryModel);

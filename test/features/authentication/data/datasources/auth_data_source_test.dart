@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:griot_app/authentication/data/data_sources/auth_data_source.dart';
 import 'package:griot_app/authentication/data/models/token_model.dart';
 import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
@@ -43,8 +44,8 @@ void main() {
         // arrange
         when(mockHttClient.post(Uri.parse(tEndpoint),
                 headers: tHeaders, body: jsonEncode(tBody)))
-            .thenAnswer((_) async =>
-                http.Response(fixture('auth_success_response.json'), 200));
+            .thenAnswer((_) async => Right(
+                http.Response(fixture('auth_success_response.json'), 200)));
 
         datasource.login(tUsername, tPassword);
         // assert
@@ -61,7 +62,7 @@ void main() {
       when(mockHttClient.post(Uri.parse(tEndpoint),
               headers: tHeaders, body: jsonEncode(tBody)))
           .thenAnswer((_) async =>
-              http.Response(fixture('auth_success_response.json'), 200));
+              Right(http.Response(fixture('auth_success_response.json'), 200)));
       // act
       final result = await datasource.login(tUsername, tPassword);
 
@@ -74,13 +75,13 @@ void main() {
       when(mockHttClient.post(Uri.parse(tEndpoint),
               headers: tHeaders, body: jsonEncode(tBody)))
           .thenAnswer((_) async =>
-              http.Response(fixture('auth_invalid_response.json'), 404));
+              Right(http.Response(fixture('auth_invalid_response.json'), 404)));
       // act
       final call = datasource.login;
 
       // assert
       expect(() => call(tUsername, tPassword),
-          throwsA(const TypeMatcher<InvalidTokenException>()));
+          throwsA(const TypeMatcher<ServerException>()));
     });
   });
 }

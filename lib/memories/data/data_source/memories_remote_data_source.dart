@@ -42,14 +42,20 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       headers: {'Content-Type': 'application/json', 'Authorization': token},
     );
 
-    if (response.statusCode == 200) {
-      final List memoriesJson = json.decode(response.body);
-      return memoriesJson
-          .map((memory) => MemoryModel.fromJson(memory))
-          .toList();
-    } else {
-      throw InvalidTokenException();
-    }
+    return response.fold(
+      (exception) {
+        throw exception;
+      },
+      (response) {
+        if (response.statusCode == 200) {
+          final List memoriesJson = json.decode(response.body);
+          return memoriesJson
+              .map((memory) => MemoryModel.fromJson(memory))
+              .toList();
+        }
+        throw ServerException();
+      },
+    );
   }
 
   @override
@@ -61,11 +67,17 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       headers: {'Content-Type': 'application/json', 'Authorization': token},
     );
 
-    if (response.statusCode == 200) {
-      return MemoryModel.fromJson(json.decode(response.body));
-    } else {
-      throw InvalidTokenException();
-    }
+    return response.fold(
+      (exception) {
+        throw InvalidTokenException();
+      },
+      (response) {
+        if (response.statusCode == 200) {
+          return MemoryModel.fromJson(json.decode(response.body));
+        }
+        throw ServerException();
+      },
+    );
   }
 
   @override
@@ -83,11 +95,17 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       }),
     );
 
-    if (response.statusCode == 201) {
-      return MemoryModel.fromJson(json.decode(response.body));
-    } else {
-      throw InvalidTokenException();
-    }
+    return response.fold(
+      (exception) {
+        throw InvalidTokenException();
+      },
+      (response) {
+        if (response.statusCode == 201) {
+          return MemoryModel.fromJson(json.decode(response.body));
+        }
+        throw ServerException();
+      },
+    );
   }
 
   @override
@@ -105,49 +123,54 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       throw Exception('Failed to generate thumbnail.');
     }
 
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse('http://app.griot.me/api/memory/video/upload/'),
-    );
-
-    request.headers.addAll({
-      'Authorization': token,
-    });
-
-    request.fields['memory'] = memoryId.toString();
-
     int randInt = Random().nextInt(1000000);
 
     // Add the video file
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        'file',
-        video.file,
-        filename: '$memoryId-$randInt.mp4',
-        contentType: MediaType('video', 'mp4'),
-      ),
+    http.MultipartFile videoFile = await http.MultipartFile.fromPath(
+      'file',
+      video.file,
+      filename: '$memoryId-$randInt.mp4',
+      contentType: MediaType('video', 'mp4'),
     );
 
     // Add the thumbnail
-    request.files.add(
-      http.MultipartFile.fromBytes(
-        'thumbnail',
-        thumbnailBytes,
-        filename: '$memoryId-$randInt.png',
-        contentType: MediaType('image', 'png'),
-      ),
+    http.MultipartFile thumbnailFile = http.MultipartFile.fromBytes(
+      'thumbnail',
+      thumbnailBytes,
+      filename: '$memoryId-$randInt.png',
+      contentType: MediaType('image', 'png'),
     );
 
-    var response = await request.send();
+    // Prepare the fields
+    Map<String, String> fields = {'memory': memoryId.toString()};
 
-    if (response.statusCode == 201) {
-      // http.Response.fromStream() returns a Future that completes after the response body is read.
-      final responseBody = await http.Response.fromStream(response);
-      return VideoModel.fromJson(json.decode(responseBody.body));
-    } else {
-      throw Exception(
-          'Failed to upload video. Server responded with status code ${response.statusCode}.');
-    }
+    // Prepare the headers
+    Map<String, String> headers = {'Authorization': token};
+
+    // Send the multipart request
+    var response = await client.multipartRequest(
+      'POST',
+      Uri.parse('http://app.griot.me/api/memory/video/upload/'),
+      headers: headers,
+      files: [videoFile, thumbnailFile],
+      fields: fields,
+    );
+
+    return response.fold(
+      (exception) {
+        // handle exceptions
+        throw exception;
+      },
+      (response) async {
+        if (response.statusCode == 201) {
+          // http.Response.fromStream() returns a Future that completes after the response body is read.
+          final responseBody = await http.Response.fromStream(response);
+          return VideoModel.fromJson(json.decode(responseBody.body));
+        } else {
+          throw ServerException();
+        }
+      },
+    );
   }
 
   @override
@@ -159,11 +182,17 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       headers: {'Content-Type': 'application/json', 'Authorization': token},
     );
 
-    if (response.statusCode == 201 || response.statusCode == 204) {
-      return 0;
-    } else {
-      throw InvalidTokenException();
-    }
+    return response.fold(
+      (exception) {
+        throw InvalidTokenException();
+      },
+      (response) {
+        if (response.statusCode == 201 || response.statusCode == 204) {
+          return 0;
+        }
+        throw ServerException();
+      },
+    );
   }
 
   @override
@@ -180,10 +209,16 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       }),
     );
 
-    if (response.statusCode == 201 || response.statusCode == 200) {
-      return MemoryModel.fromJson(json.decode(response.body));
-    } else {
-      throw InvalidTokenException();
-    }
+    return response.fold(
+      (exception) {
+        throw InvalidTokenException();
+      },
+      (response) {
+        if (response.statusCode == 201 || response.statusCode == 200) {
+          return MemoryModel.fromJson(json.decode(response.body));
+        }
+        throw ServerException();
+      },
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/core/network/network_info.dart';
 import 'package:http/http.dart' as http;
@@ -58,7 +59,7 @@ void main() {
           Uri.parse(tEndpoint),
           headers: tHeaders,
         )).thenAnswer((_) async =>
-            http.Response(fixture('user_accounts_sucess.json'), 200));
+            Right(http.Response(fixture('user_accounts_sucess.json'), 200)));
 
         // act
         await datasource.getOwnedAccountsListFromAPI();
@@ -77,7 +78,7 @@ void main() {
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
           .thenAnswer((_) async =>
-              http.Response(fixture('user_accounts_sucess.json'), 200));
+              Right(http.Response(fixture('user_accounts_sucess.json'), 200)));
 
       // act
       final result = await datasource.getOwnedAccountsListFromAPI();
@@ -91,13 +92,14 @@ void main() {
       when(mockTokenProvider.getToken())
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-          .thenAnswer((_) async => http.Response('Something went wrong', 404));
+          .thenAnswer(
+              (_) async => Right(http.Response('Something went wrong', 404)));
 
       // act
       final call = datasource.getOwnedAccountsListFromAPI;
 
       // assert
-      expect(() => call(), throwsA(const TypeMatcher<InvalidTokenException>()));
+      expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
     });
   });
 }

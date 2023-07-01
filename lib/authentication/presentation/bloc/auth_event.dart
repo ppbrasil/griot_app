@@ -13,3 +13,5 @@ class SignInWithCredentials extends AuthEvent {
 
   const SignInWithCredentials({required this.username, required this.password});
 }
+
+class InvalidTokenEvent extends AuthEvent {}

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/profile/data/data_sources/profiles_remote_data_source.dart';
@@ -45,7 +46,7 @@ void main() {
           Uri.parse(tEndpoint),
           headers: tHeaders,
         )).thenAnswer((_) async =>
-            http.Response(fixture('profile_details_success.json'), 200));
+            Right(http.Response(fixture('profile_details_success.json'), 200)));
 
         // act
         await datasource.getProfileDetailsFromAPI();
@@ -63,8 +64,8 @@ void main() {
       when(mockTokenProvider.getToken())
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-          .thenAnswer((_) async =>
-              http.Response(fixture('profile_details_success.json'), 200));
+          .thenAnswer((_) async => Right(
+              http.Response(fixture('profile_details_success.json'), 200)));
 
       // act
       final result = await datasource.getProfileDetailsFromAPI();
@@ -79,13 +80,14 @@ void main() {
       when(mockTokenProvider.getToken())
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-          .thenAnswer((_) async => http.Response('Something went wrong', 404));
+          .thenAnswer(
+              (_) async => Right(http.Response('Something went wrong', 404)));
 
       // act
       final call = datasource.getProfileDetailsFromAPI;
 
       // assert
-      expect(() => call(), throwsA(const TypeMatcher<InvalidTokenException>()));
+      expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
     });
   });
 
@@ -135,7 +137,7 @@ void main() {
         headers: tHeaders,
         body: jsonEncode(tBody),
       )).thenAnswer((_) async =>
-          http.Response(fixture('profile_details_success.json'), 201));
+          Right(http.Response(fixture('profile_details_success.json'), 201)));
 
       // Act
       await datasource.updateProfileDetailsOverAPI(
@@ -167,7 +169,7 @@ void main() {
         headers: tHeaders,
         body: jsonEncode(tBody),
       )).thenAnswer((_) async =>
-          http.Response(fixture('profile_details_success.json'), 201));
+          Right(http.Response(fixture('profile_details_success.json'), 201)));
 
       // Act
       final result = await datasource.updateProfileDetailsOverAPI(
@@ -195,7 +197,8 @@ void main() {
         Uri.parse(tEndpoint),
         headers: tHeaders,
         body: jsonEncode(tBody),
-      )).thenAnswer((_) async => http.Response('Something went wrong', 400));
+      )).thenAnswer(
+          (_) async => Right(http.Response('Something went wrong', 400)));
 
       // Act
       final call = datasource.updateProfileDetailsOverAPI;
@@ -212,7 +215,7 @@ void main() {
                 language: tLanguage,
                 timeZone: tTimeZone,
               ),
-          throwsA(const TypeMatcher<InvalidTokenException>()));
+          throwsA(const TypeMatcher<ServerException>()));
     });
   });
 }

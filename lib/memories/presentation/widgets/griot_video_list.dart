@@ -28,7 +28,7 @@ class _GriotVideoListState extends State<GriotVideoList> {
                   : 0,
               itemBuilder: (context, index) {
                 final video = state.memory!.videos![index];
-                return GriotTile(
+                return GriotVideoTile(
                   videoPlayerController:
                       VideoPlayerController.network(video.file),
                 );
@@ -43,16 +43,16 @@ class _GriotVideoListState extends State<GriotVideoList> {
   }
 }
 
-class GriotTile extends StatefulWidget {
+class GriotVideoTile extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
 
-  const GriotTile({super.key, required this.videoPlayerController});
+  const GriotVideoTile({super.key, required this.videoPlayerController});
 
   @override
-  State<GriotTile> createState() => _GriotTileState();
+  State<GriotVideoTile> createState() => _GriotVideoTileState();
 }
 
-class _GriotTileState extends State<GriotTile> {
+class _GriotVideoTileState extends State<GriotVideoTile> {
   late ChewieController _chewieController;
 
   @override

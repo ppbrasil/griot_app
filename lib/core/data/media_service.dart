@@ -28,7 +28,6 @@ class MediaServiceImpl implements MediaService {
       }
       return null;
     } catch (e) {
-      print('Exception: $e');
       return null;
     }
   }

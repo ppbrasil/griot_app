@@ -12,18 +12,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final PerformLogin performLogin;
 
   AuthBloc({required this.performLogin}) : super(Empty()) {
-    on<SignInWithCredentials>(
-      (event, emit) async {
-        final result = await performLogin.call(Params(
-          username: event.username,
-          password: event.password,
-        ));
+    on<SignInWithCredentials>((event, emit) async {
+      final result = await performLogin.call(Params(
+        username: event.username,
+        password: event.password,
+      ));
 
-        result.fold(
-          (failure) => emit(Error()),
-          (token) => emit(Success()),
-        );
-      },
-    );
+      result.fold(
+        (failure) => emit(Error()),
+        (token) => emit(Authorized()),
+      );
+    });
+    on<InvalidTokenEvent>((event, emit) {
+      emit(Unauthorized());
+    });
   }
 }

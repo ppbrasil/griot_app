@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:griot_app/core/presentation/pages/base_page.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -10,12 +11,14 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Dashboard'),
+    return BasePage(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text('Dashboard'),
+        ),
+        body: const Center(),
       ),
-      body: const Center(),
     );
   }
 }

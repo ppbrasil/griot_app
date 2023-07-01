@@ -30,11 +30,17 @@ class AccountsRemoteDataSourceImpl implements AccountsRemoteDataSource {
       headers: {'Content-Type': 'application/json', 'Authorization': token},
     );
 
-    if (response.statusCode == 200) {
-      return AccountModel.fromJson(json.decode(response.body));
-    } else {
-      throw InvalidTokenException();
-    }
+    return response.fold(
+      (exception) {
+        throw exception;
+      },
+      (response) {
+        if (response.statusCode == 200) {
+          return AccountModel.fromJson(json.decode(response.body));
+        }
+        throw ServerException();
+      },
+    );
   }
 
   @override
@@ -48,17 +54,20 @@ class AccountsRemoteDataSourceImpl implements AccountsRemoteDataSource {
       headers: {'Content-Type': 'application/json', 'Authorization': token},
     );
 
-    if (response.statusCode == 200) {
-      final List belovedOnesJson =
-          json.decode(response.body)['beloved_ones_profiles'];
-      return belovedOnesJson
-          .map((belovedOne) => BelovedOneModel.fromJson(belovedOne))
-          .toList();
-
-      //return BelovedOneListModel.fromJson(
-      //    json.decode(response.body)['beloved_ones_profiles']);
-    } else {
-      throw InvalidTokenException();
-    }
+    return response.fold(
+      (exception) {
+        throw exception;
+      },
+      (response) {
+        if (response.statusCode == 200) {
+          final List belovedOnesJson =
+              json.decode(response.body)['beloved_ones_profiles'];
+          return belovedOnesJson
+              .map((belovedOne) => BelovedOneModel.fromJson(belovedOne))
+              .toList();
+        }
+        throw ServerException();
+      },
+    );
   }
 }

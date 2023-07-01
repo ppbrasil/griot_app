@@ -5,10 +5,12 @@
 // @dart=2.19
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i6;
 
-import 'package:griot_app/core/data/griot_http_client_wrapper.dart' as _i3;
-import 'package:http/http.dart' as _i2;
+import 'package:dartz/dartz.dart' as _i4;
+import 'package:griot_app/core/data/griot_http_client_wrapper.dart' as _i5;
+import 'package:griot_app/core/domain/repositories/core_repository.dart' as _i2;
+import 'package:http/http.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -22,8 +24,9 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeClient_0 extends _i1.SmartFake implements _i2.Client {
-  _FakeClient_0(
+class _FakeCoreRepository_0 extends _i1.SmartFake
+    implements _i2.CoreRepository {
+  _FakeCoreRepository_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -32,8 +35,18 @@ class _FakeClient_0 extends _i1.SmartFake implements _i2.Client {
         );
 }
 
-class _FakeResponse_1 extends _i1.SmartFake implements _i2.Response {
-  _FakeResponse_1(
+class _FakeClient_1 extends _i1.SmartFake implements _i3.Client {
+  _FakeClient_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeEither_2<L, R> extends _i1.SmartFake implements _i4.Either<L, R> {
+  _FakeEither_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -46,21 +59,29 @@ class _FakeResponse_1 extends _i1.SmartFake implements _i2.Response {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGriotHttpServiceWrapper extends _i1.Mock
-    implements _i3.GriotHttpServiceWrapper {
+    implements _i5.GriotHttpServiceWrapper {
   MockGriotHttpServiceWrapper() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.Client get client => (super.noSuchMethod(
+  _i2.CoreRepository get coreRepository => (super.noSuchMethod(
+        Invocation.getter(#coreRepository),
+        returnValue: _FakeCoreRepository_0(
+          this,
+          Invocation.getter(#coreRepository),
+        ),
+      ) as _i2.CoreRepository);
+  @override
+  _i3.Client get client => (super.noSuchMethod(
         Invocation.getter(#client),
-        returnValue: _FakeClient_0(
+        returnValue: _FakeClient_1(
           this,
           Invocation.getter(#client),
         ),
-      ) as _i2.Client);
+      ) as _i3.Client);
   @override
-  _i4.Future<_i2.Response> get(
+  _i6.Future<_i4.Either<Exception, _i3.Response>> get(
     Uri? url, {
     required Map<String, String>? headers,
   }) =>
@@ -70,7 +91,8 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
           [url],
           {#headers: headers},
         ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_1(
+        returnValue: _i6.Future<_i4.Either<Exception, _i3.Response>>.value(
+            _FakeEither_2<Exception, _i3.Response>(
           this,
           Invocation.method(
             #get,
@@ -78,9 +100,9 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
             {#headers: headers},
           ),
         )),
-      ) as _i4.Future<_i2.Response>);
+      ) as _i6.Future<_i4.Either<Exception, _i3.Response>>);
   @override
-  _i4.Future<_i2.Response> post(
+  _i6.Future<_i4.Either<Exception, _i3.Response>> post(
     Uri? url, {
     required Map<String, String>? headers,
     required Object? body,
@@ -94,7 +116,8 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
             #body: body,
           },
         ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_1(
+        returnValue: _i6.Future<_i4.Either<Exception, _i3.Response>>.value(
+            _FakeEither_2<Exception, _i3.Response>(
           this,
           Invocation.method(
             #post,
@@ -105,9 +128,9 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
             },
           ),
         )),
-      ) as _i4.Future<_i2.Response>);
+      ) as _i6.Future<_i4.Either<Exception, _i3.Response>>);
   @override
-  _i4.Future<_i2.Response> put(
+  _i6.Future<_i4.Either<Exception, _i3.Response>> put(
     Uri? url, {
     required Map<String, String>? headers,
     required Object? body,
@@ -121,7 +144,8 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
             #body: body,
           },
         ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_1(
+        returnValue: _i6.Future<_i4.Either<Exception, _i3.Response>>.value(
+            _FakeEither_2<Exception, _i3.Response>(
           this,
           Invocation.method(
             #put,
@@ -132,9 +156,9 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
             },
           ),
         )),
-      ) as _i4.Future<_i2.Response>);
+      ) as _i6.Future<_i4.Either<Exception, _i3.Response>>);
   @override
-  _i4.Future<_i2.Response> delete(
+  _i6.Future<_i4.Either<Exception, _i3.Response>> delete(
     Uri? url, {
     required Map<String, String>? headers,
   }) =>
@@ -144,7 +168,8 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
           [url],
           {#headers: headers},
         ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_1(
+        returnValue: _i6.Future<_i4.Either<Exception, _i3.Response>>.value(
+            _FakeEither_2<Exception, _i3.Response>(
           this,
           Invocation.method(
             #delete,
@@ -152,9 +177,9 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
             {#headers: headers},
           ),
         )),
-      ) as _i4.Future<_i2.Response>);
+      ) as _i6.Future<_i4.Either<Exception, _i3.Response>>);
   @override
-  _i4.Future<_i2.Response> patch(
+  _i6.Future<_i4.Either<Exception, _i3.Response>> patch(
     Uri? url, {
     required Map<String, String>? headers,
     required Object? body,
@@ -168,7 +193,8 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
             #body: body,
           },
         ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_1(
+        returnValue: _i6.Future<_i4.Either<Exception, _i3.Response>>.value(
+            _FakeEither_2<Exception, _i3.Response>(
           this,
           Invocation.method(
             #patch,
@@ -179,5 +205,79 @@ class MockGriotHttpServiceWrapper extends _i1.Mock
             },
           ),
         )),
-      ) as _i4.Future<_i2.Response>);
+      ) as _i6.Future<_i4.Either<Exception, _i3.Response>>);
+  @override
+  _i6.Future<_i4.Either<Exception, _i3.StreamedResponse>> multipartRequest(
+    String? method,
+    Uri? url, {
+    required Map<String, String>? headers,
+    required List<_i3.MultipartFile>? files,
+    Map<String, String>? fields,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #multipartRequest,
+          [
+            method,
+            url,
+          ],
+          {
+            #headers: headers,
+            #files: files,
+            #fields: fields,
+          },
+        ),
+        returnValue:
+            _i6.Future<_i4.Either<Exception, _i3.StreamedResponse>>.value(
+                _FakeEither_2<Exception, _i3.StreamedResponse>(
+          this,
+          Invocation.method(
+            #multipartRequest,
+            [
+              method,
+              url,
+            ],
+            {
+              #headers: headers,
+              #files: files,
+              #fields: fields,
+            },
+          ),
+        )),
+      ) as _i6.Future<_i4.Either<Exception, _i3.StreamedResponse>>);
+  @override
+  _i6.Future<_i4.Either<Exception, _i3.Response>> handleError(
+          dynamic response) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #handleError,
+          [response],
+        ),
+        returnValue: _i6.Future<_i4.Either<Exception, _i3.Response>>.value(
+            _FakeEither_2<Exception, _i3.Response>(
+          this,
+          Invocation.method(
+            #handleError,
+            [response],
+          ),
+        )),
+      ) as _i6.Future<_i4.Either<Exception, _i3.Response>>);
+  @override
+  _i6.Future<_i4.Either<Exception, _i3.StreamedResponse>> handleMultipartError(
+          _i3.StreamedResponse? response) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #handleMultipartError,
+          [response],
+        ),
+        returnValue:
+            _i6.Future<_i4.Either<Exception, _i3.StreamedResponse>>.value(
+                _FakeEither_2<Exception, _i3.StreamedResponse>(
+          this,
+          Invocation.method(
+            #handleMultipartError,
+            [response],
+          ),
+        )),
+      ) as _i6.Future<_i4.Either<Exception, _i3.StreamedResponse>>);
 }

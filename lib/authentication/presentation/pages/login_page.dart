@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is Success) {
+        if (state is Authorized) {
           Navigator.pushNamed(context, '/app_layer');
         }
       },

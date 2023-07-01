@@ -37,11 +37,17 @@ class ProfilesRemoteDataSourceImpl implements ProfilesRemoteDataSource {
       headers: {'Content-Type': 'application/json', 'Authorization': token},
     );
 
-    if (response.statusCode == 200) {
-      return ProfileModel.fromJson(json.decode(response.body));
-    } else {
-      throw InvalidTokenException();
-    }
+    return response.fold(
+      (exception) {
+        throw InvalidTokenException();
+      },
+      (response) {
+        if (response.statusCode == 200) {
+          return ProfileModel.fromJson(json.decode(response.body));
+        }
+        throw ServerException();
+      },
+    );
   }
 
   @override
@@ -62,21 +68,27 @@ class ProfilesRemoteDataSourceImpl implements ProfilesRemoteDataSource {
           'http://app.griot.me/api/profile/update/'), // You need to modify the API endpoint as per your application's requirement.
       headers: {'Content-Type': 'application/json', 'Authorization': token},
       body: jsonEncode({
-        'profile_picture': profilePicture,
-        'name': name,
-        'middle_name': middleName,
-        'last_name': lastName,
-        'birth_date': formatter.format(birthDate!),
-        'gender': gender,
-        'language': language,
-        'timezone': timeZone,
+        if (profilePicture != null) 'profile_picture': profilePicture,
+        if (name != null) 'name': name,
+        if (middleName != null) 'middle_name': middleName,
+        if (lastName != null) 'last_name': lastName,
+        if (birthDate != null) 'birth_date': formatter.format(birthDate),
+        if (gender != null) 'gender': gender,
+        if (language != null) 'language': language,
+        if (timeZone != null) 'timezone': timeZone,
       }),
     );
 
-    if (response.statusCode == 201 || response.statusCode == 200) {
-      return ProfileModel.fromJson(json.decode(response.body));
-    } else {
-      throw InvalidTokenException();
-    }
+    return response.fold(
+      (exception) {
+        throw InvalidTokenException();
+      },
+      (response) {
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          return ProfileModel.fromJson(json.decode(response.body));
+        }
+        throw ServerException();
+      },
+    );
   }
 }

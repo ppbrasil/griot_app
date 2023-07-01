@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:griot_app/accounts/data/models/beloved_ones_list_model.dart';
 import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:http/http.dart' as http;
@@ -50,7 +51,7 @@ void main() {
           Uri.parse(tEndpoint),
           headers: tHeaders,
         )).thenAnswer((_) async =>
-            http.Response(fixture('account_details_success.json'), 200));
+            Right(http.Response(fixture('account_details_success.json'), 200)));
 
         // act
         await datasource.getAccountDetailsFromAPI(accountId: tAccountId);
@@ -67,8 +68,8 @@ void main() {
       when(mockTokenProvider.getToken())
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-          .thenAnswer((_) async =>
-              http.Response(fixture('account_details_success.json'), 200));
+          .thenAnswer((_) async => Right(
+              http.Response(fixture('account_details_success.json'), 200)));
 
       // act
       final result =
@@ -84,14 +85,15 @@ void main() {
       when(mockTokenProvider.getToken())
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-          .thenAnswer((_) async => http.Response('Something went wrong', 404));
+          .thenAnswer(
+              (_) async => Right(http.Response('Something went wrong', 404)));
 
       // act
       final call = datasource.getAccountDetailsFromAPI;
 
       // assert
       expect(() => call(accountId: tAccountId),
-          throwsA(const TypeMatcher<InvalidTokenException>()));
+          throwsA(const TypeMatcher<ServerException>()));
     });
   });
 
@@ -118,7 +120,7 @@ void main() {
           Uri.parse(tEndpoint),
           headers: tHeaders,
         )).thenAnswer((_) async =>
-            http.Response(fixture('account_details_success.json'), 200));
+            Right(http.Response(fixture('account_details_success.json'), 200)));
 
         // act
         await datasource.getBelovedOnesListFromAPI(accountId: tAccountId);
@@ -136,8 +138,8 @@ void main() {
       when(mockTokenProvider.getToken())
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-          .thenAnswer((_) async =>
-              http.Response(fixture('account_details_success.json'), 200));
+          .thenAnswer((_) async => Right(
+              http.Response(fixture('account_details_success.json'), 200)));
 
       // act
       final result =
@@ -152,14 +154,15 @@ void main() {
       when(mockTokenProvider.getToken())
           .thenAnswer((_) async => 'Token $tToken');
       when(mockHttpClient.get(Uri.parse(tEndpoint), headers: tHeaders))
-          .thenAnswer((_) async => http.Response('Something went wrong', 404));
+          .thenAnswer(
+              (_) async => Right(http.Response('Something went wrong', 404)));
 
       // act
       final call = datasource.getBelovedOnesListFromAPI;
 
       // assert
       expect(() => call(accountId: tAccountId),
-          throwsA(const TypeMatcher<InvalidTokenException>()));
+          throwsA(const TypeMatcher<ServerException>()));
     });
   });
 }

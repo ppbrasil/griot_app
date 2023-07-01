@@ -9,6 +9,7 @@ import 'dart:async' as _i3;
 import 'dart:convert' as _i4;
 import 'dart:typed_data' as _i5;
 
+import 'package:griot_app/core/domain/repositories/core_repository.dart' as _i6;
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -262,4 +263,62 @@ class MockClient extends _i1.Mock implements _i2.Client {
         ),
         returnValueForMissingStub: null,
       );
+}
+
+/// A class which mocks [Response].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockResponse extends _i1.Mock implements _i2.Response {
+  MockResponse() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Uint8List get bodyBytes => (super.noSuchMethod(
+        Invocation.getter(#bodyBytes),
+        returnValue: _i5.Uint8List(0),
+      ) as _i5.Uint8List);
+  @override
+  String get body => (super.noSuchMethod(
+        Invocation.getter(#body),
+        returnValue: '',
+      ) as String);
+  @override
+  int get statusCode => (super.noSuchMethod(
+        Invocation.getter(#statusCode),
+        returnValue: 0,
+      ) as int);
+  @override
+  Map<String, String> get headers => (super.noSuchMethod(
+        Invocation.getter(#headers),
+        returnValue: <String, String>{},
+      ) as Map<String, String>);
+  @override
+  bool get isRedirect => (super.noSuchMethod(
+        Invocation.getter(#isRedirect),
+        returnValue: false,
+      ) as bool);
+  @override
+  bool get persistentConnection => (super.noSuchMethod(
+        Invocation.getter(#persistentConnection),
+        returnValue: false,
+      ) as bool);
+}
+
+/// A class which mocks [CoreRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCoreRepository extends _i1.Mock implements _i6.CoreRepository {
+  MockCoreRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<int> performTokenExceptionPolicies() => (super.noSuchMethod(
+        Invocation.method(
+          #performTokenExceptionPolicies,
+          [],
+        ),
+        returnValue: _i3.Future<int>.value(0),
+      ) as _i3.Future<int>);
 }

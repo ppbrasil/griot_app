@@ -6,6 +6,7 @@ import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:griot_app/authentication/presentation/pages/login_page.dart';
 import 'package:griot_app/core/app_theme.dart';
 import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
+import 'package:griot_app/core/presentation/bloc/user_session_bloc_bloc.dart';
 import 'package:griot_app/core/presentation/pages/home_page.dart';
 import 'package:griot_app/injection_container.dart';
 import 'package:griot_app/memories/presentation/bloc/memories_bloc_bloc.dart';
@@ -20,13 +21,16 @@ class GriotApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<AuthBloc>(),
-      child: MaterialApp(
-        title: 'Griot App',
-        theme: AppTheme.lightTheme,
-        navigatorObservers: [routeObserver],
-        onGenerateRoute: AppRouter().onGenerateRoute,
-        initialRoute: '/',
+      create: (context) => sl<UserSessionBlocBloc>(),
+      child: BlocProvider(
+        create: (context) => sl<AuthBloc>(),
+        child: MaterialApp(
+          title: 'Griot App',
+          theme: AppTheme.lightTheme,
+          navigatorObservers: [routeObserver],
+          onGenerateRoute: AppRouter().onGenerateRoute,
+          initialRoute: '/',
+        ),
       ),
     );
   }
@@ -39,7 +43,7 @@ class AuthenticationLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {
-        if (authState is Success) {
+        if (authState is Authorized) {
           return BlocProvider(
             create: (context) =>
                 sl<UsersBlocBloc>()..add(GetOwnedAccountsListEvent()),

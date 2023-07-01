@@ -11,11 +11,14 @@ import 'package:griot_app/authentication/domain/repositories/auth_repository.dar
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:griot_app/authentication/presentation/bloc/login_form_validation_bloc_bloc.dart';
+import 'package:griot_app/core/data/core_repository_impl.dart';
 import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
 import 'package:griot_app/core/data/main_account_id_provider.dart';
 import 'package:griot_app/core/data/media_service.dart';
 import 'package:griot_app/core/data/token_provider.dart';
+import 'package:griot_app/core/domain/repositories/core_repository.dart';
 import 'package:griot_app/core/network/network_info.dart';
+import 'package:griot_app/core/presentation/bloc/user_session_bloc_bloc.dart';
 import 'package:griot_app/core/services/field_validation.dart';
 import 'package:griot_app/core/services/thumbnail_services.dart';
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
@@ -56,7 +59,21 @@ void init() {
   initUser();
   initAccounts();
 
-  // Core stuff
+  // Core stuff :: Bloc
+  sl.registerFactory(() => UserSessionBlocBloc());
+
+  // Core stuff :: Repository
+  sl.registerLazySingleton<CoreRepository>(
+      () => CoreRepositoryImpl(userSessionBloc: sl()));
+
+  // Core stuff :: Data Sources
+  sl.registerLazySingleton<GriotHttpServiceWrapper>(
+      () => GriotHttpServiceWrapper(
+            client: sl(),
+            coreRepository: sl(),
+          ));
+
+  // Core stuff :: Other
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   sl.registerLazySingleton<MainAccountIdProvider>(
       () => MainAccountIdProviderImpl());
@@ -66,8 +83,6 @@ void init() {
   sl.registerLazySingleton<ThumbnailService>(
       () => VideoCompressThumbnailService());
   sl.registerLazySingleton<ValidationService>(() => ValidationService());
-  sl.registerLazySingleton<GriotHttpServiceWrapper>(
-      () => GriotHttpServiceWrapper(client: sl()));
 
   // External Dependencies
   sl.registerLazySingleton<ImagePicker>(() => ImagePicker());
@@ -91,7 +106,6 @@ void initAuth() {
         usersRemoteDataSource: sl(),
       ));
 
-  // Data Sources
   sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(
         client: sl(),
       ));

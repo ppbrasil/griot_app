@@ -35,15 +35,21 @@ class UsersRemoteDataSourceImpl implements UsersRemoteDataSource {
       headers: {'Content-Type': 'application/json', 'Authorization': token},
     );
 
-    if (response.statusCode == 200) {
-      final List ownedAccountsJson =
-          json.decode(response.body)['owned_accounts'];
-      return ownedAccountsJson
-          .map((ownedAccount) => AccountModel.fromJson(ownedAccount))
-          .toList();
-    } else {
-      throw InvalidTokenException();
-    }
+    return response.fold(
+      (exception) {
+        throw exception;
+      },
+      (response) {
+        if (response.statusCode == 200) {
+          final List ownedAccountsJson =
+              json.decode(response.body)['owned_accounts'];
+          return ownedAccountsJson
+              .map((ownedAccount) => AccountModel.fromJson(ownedAccount))
+              .toList();
+        }
+        throw ServerException();
+      },
+    );
   }
 
   @override

@@ -62,7 +62,7 @@ void main() {
       },
       act: (bloc) => bloc.add(
           const SignInWithCredentials(username: 'myUsername', password: '123')),
-      expect: () => [Success()],
+      expect: () => [Authorized()],
     );
 
     blocTest<AuthBloc, AuthState>(
@@ -79,6 +79,14 @@ void main() {
       act: (bloc) => bloc.add(
           const SignInWithCredentials(username: 'myUsername', password: '123')),
       expect: () => [Error()],
+    );
+  });
+  group('InvalidTokenEvent', () {
+    blocTest<AuthBloc, AuthState>(
+      'should emit UnauthorizedState when InvalidTokenEvent is added',
+      build: () => bloc,
+      act: (bloc) => bloc.add(InvalidTokenEvent()),
+      expect: () => [Unauthorized()],
     );
   });
 }

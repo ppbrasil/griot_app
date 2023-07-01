@@ -23,7 +23,9 @@ class ProfileModel extends Profile {
       name: json['name'] as String?,
       middleName: json['middle_name'] as String?,
       lastName: json['last_name'] as String,
-      birthDate: DateTime.parse(json['birth_date'] as String),
+      birthDate: json['birth_date'] != null
+          ? DateTime.parse(json['birth_date'] as String)
+          : null,
       gender: json['gender'] as String,
       language: json['language'] as String,
       timeZone: json['timezone'] as String,
