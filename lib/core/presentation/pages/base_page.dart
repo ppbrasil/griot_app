@@ -11,38 +11,16 @@ class BasePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        /*BlocListener<ConnectivityBlocBloc, ConnectivityBlocState>(
-          listener: (context, state) {
-            if (state is ConnectivityBlocDisconnected) {
-              showFlash(
-                context: context,
-                duration: const Duration(seconds: 4),
-                builder: (context, controller) {
-                  return Flash(
-                    controller: controller,
-                    style: FlashStyle.grounded,
-                    backgroundColor: Colors.red,
-                    child: FlashBar(
-                      title: const Text('You are disconnected!'),
-                      message: const Text('Please check your internet connection.'),
-                    ),
-                  );
-                },
-              );
-            } 
-          },
-        ),*/
-        BlocListener<UserSessionBlocBloc, UserSessionBlocState>(
-          listener: (context, state) {
-            if (state is UserLostSessionEvent) {
-              Navigator.of(context).pushReplacementNamed('/login');
-            }
-          },
-        ),
-      ],
-      child: child,
+    return BlocConsumer<UserSessionBlocBloc, UserSessionBlocState>(
+      listener: (context, state) {
+        if (state is UserLostSessionState) {
+          Navigator.of(context, rootNavigator: true)
+              .pushReplacementNamed('/login');
+        }
+      },
+      builder: (context, state) {
+        return child;
+      },
     );
   }
 }

@@ -53,16 +53,18 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'should emit Success state when login is successful',
       build: () {
+        const tToken = Token(tokenString: 'wswsxwsc');
+
         when(mockPerformLogin
                 .call(const Params(username: 'myUsername', password: '123')))
             .thenAnswer(
-          (_) async => const Right(Token(tokenString: 'wswsxwsc')),
+          (_) async => Right(Token(tokenString: tToken.tokenString)),
         );
         return bloc;
       },
       act: (bloc) => bloc.add(
           const SignInWithCredentials(username: 'myUsername', password: '123')),
-      expect: () => [Authorized()],
+      expect: () => [const Authorized(token: tToken)],
     );
 
     blocTest<AuthBloc, AuthState>(

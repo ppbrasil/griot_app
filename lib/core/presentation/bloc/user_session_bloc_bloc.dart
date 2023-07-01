@@ -8,7 +8,7 @@ class UserSessionBlocBloc
     extends Bloc<UserSessionBlocEvent, UserSessionBlocState> {
   UserSessionBlocBloc() : super(UserSessionBlocInitial()) {
     on<TokenFailedBlocEvent>((event, emit) {
-      emit(UserLostSessionEvent());
+      emit(UserLostSessionState());
     });
   }
 }

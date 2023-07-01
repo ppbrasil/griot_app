@@ -60,7 +60,7 @@ void init() {
   initAccounts();
 
   // Core stuff :: Bloc
-  sl.registerFactory(() => UserSessionBlocBloc());
+  sl.registerLazySingleton(() => UserSessionBlocBloc());
 
   // Core stuff :: Repository
   sl.registerLazySingleton<CoreRepository>(

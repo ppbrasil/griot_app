@@ -52,7 +52,7 @@ class ProfilesRepositoryImpl implements ProfilesRepository {
         );
 
         return Right(profile);
-      } on ServerFailure {
+      } catch (_) {
         return const Left(ServerFailure(message: 'Unable to retrieve data'));
       }
     } else {

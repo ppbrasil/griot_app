@@ -9,4 +9,4 @@ abstract class UserSessionBlocState extends Equatable {
 
 class UserSessionBlocInitial extends UserSessionBlocState {}
 
-class UserLostSessionEvent extends UserSessionBlocState {}
+class UserLostSessionState extends UserSessionBlocState {}

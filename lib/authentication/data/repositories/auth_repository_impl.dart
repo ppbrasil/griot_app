@@ -27,7 +27,7 @@ class AuthRepositoryImpl implements AuthRepository {
     await networkInfo.isConnected;
     try {
       final remoteToken = await remoteDataSource.login(username, password);
-      remoteDataSource.storeToken(remoteToken);
+      await remoteDataSource.storeToken(remoteToken);
       List<Account> ownedAccountList =
           await usersRemoteDataSource.getOwnedAccountsListFromAPI();
       usersRemoteDataSource.storeMainAccountId(

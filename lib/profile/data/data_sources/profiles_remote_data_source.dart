@@ -81,7 +81,7 @@ class ProfilesRemoteDataSourceImpl implements ProfilesRemoteDataSource {
 
     return response.fold(
       (exception) {
-        throw InvalidTokenException();
+        throw ServerException();
       },
       (response) {
         if (response.statusCode == 200 || response.statusCode == 201) {

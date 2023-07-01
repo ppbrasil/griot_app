@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:griot_app/authentication/domain/entities/token.dart';
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
 
 part 'auth_event.dart';
@@ -20,7 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       result.fold(
         (failure) => emit(Error()),
-        (token) => emit(Authorized()),
+        (token) => emit(Authorized(token: token)),
       );
     });
     on<InvalidTokenEvent>((event, emit) {

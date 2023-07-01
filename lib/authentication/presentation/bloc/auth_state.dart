@@ -9,7 +9,13 @@ abstract class AuthState extends Equatable {
 
 class Empty extends AuthState {}
 
-class Authorized extends AuthState {}
+class Authorized extends AuthState {
+  final Token token;
+  const Authorized({required this.token});
+
+  @override
+  List<Object> get props => [token];
+}
 
 class Unauthorized extends AuthState {}
 
