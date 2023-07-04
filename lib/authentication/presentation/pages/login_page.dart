@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 import 'package:griot_app/authentication/presentation/bloc/login_form_validation_bloc_bloc.dart';
 
 import 'package:griot_app/authentication/presentation/widgets/action_button.dart';
@@ -31,8 +31,8 @@ class _LoginPageState extends State<LoginPage> {
     String email = emailController.text;
     String password = passwordController.text;
 
-    BlocProvider.of<AuthBloc>(context)
-        .add(SignInWithCredentials(username: email, password: password));
+    BlocProvider.of<AuthBlocBloc>(context)
+        .add(SignInWithCredentialsEvent(username: email, password: password));
   }
 
   @override
@@ -45,9 +45,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
+    return BlocConsumer<AuthBlocBloc, AuthBlocState>(
       listener: (context, state) {
-        if (state is Authorized) {
+        if (state is AuthBlocAuthorizedState) {
           Navigator.pushNamed(context, '/app_layer');
         }
       },
@@ -146,9 +146,9 @@ class ErrorTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocBuilder<AuthBlocBloc, AuthBlocState>(
       builder: (context, state) {
-        if (state is Error) {
+        if (state is AuthBlocLoginFailedState) {
           return const SizedBox(
             width: 200,
             height: 50,

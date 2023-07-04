@@ -1,20 +1,20 @@
+import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 import 'package:griot_app/core/domain/repositories/core_repository.dart';
-import 'package:griot_app/core/presentation/bloc/user_session_bloc_bloc.dart';
+import 'package:griot_app/injection_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CoreRepositoryImpl implements CoreRepository {
-  final UserSessionBlocBloc userSessionBloc;
-
-  CoreRepositoryImpl({required this.userSessionBloc});
+  CoreRepositoryImpl();
 
   @override
   Future<int> performTokenExceptionPolicies() async {
+    final authBloc = sl<AuthBlocBloc>();
     // Destroy the token
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
 
     // Notify the presentation layer
-    userSessionBloc.add(TokenFailedBlocEvent());
+    authBloc.add(TokenFailedEvent());
 
     return 0;
   }

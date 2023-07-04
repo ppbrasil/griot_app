@@ -5,11 +5,13 @@
 // @dart=2.19
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
-import 'package:bloc/bloc.dart' as _i4;
-import 'package:griot_app/core/presentation/bloc/user_session_bloc_bloc.dart'
+import 'package:flutter_bloc/flutter_bloc.dart' as _i5;
+import 'package:griot_app/authentication/domain/usecases/perform_login.dart'
     as _i2;
+import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart'
+    as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -23,9 +25,8 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeUserSessionBlocState_0 extends _i1.SmartFake
-    implements _i2.UserSessionBlocState {
-  _FakeUserSessionBlocState_0(
+class _FakePerformLogin_0 extends _i1.SmartFake implements _i2.PerformLogin {
+  _FakePerformLogin_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -34,35 +35,52 @@ class _FakeUserSessionBlocState_0 extends _i1.SmartFake
         );
 }
 
-/// A class which mocks [UserSessionBlocBloc].
+class _FakeAuthBlocState_1 extends _i1.SmartFake implements _i3.AuthBlocState {
+  _FakeAuthBlocState_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+/// A class which mocks [AuthBlocBloc].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserSessionBlocBloc extends _i1.Mock
-    implements _i2.UserSessionBlocBloc {
-  MockUserSessionBlocBloc() {
+class MockAuthBlocBloc extends _i1.Mock implements _i3.AuthBlocBloc {
+  MockAuthBlocBloc() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.UserSessionBlocState get state => (super.noSuchMethod(
+  _i2.PerformLogin get performLogin => (super.noSuchMethod(
+        Invocation.getter(#performLogin),
+        returnValue: _FakePerformLogin_0(
+          this,
+          Invocation.getter(#performLogin),
+        ),
+      ) as _i2.PerformLogin);
+  @override
+  _i3.AuthBlocState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _FakeUserSessionBlocState_0(
+        returnValue: _FakeAuthBlocState_1(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i2.UserSessionBlocState);
+      ) as _i3.AuthBlocState);
   @override
-  _i3.Stream<_i2.UserSessionBlocState> get stream => (super.noSuchMethod(
+  _i4.Stream<_i3.AuthBlocState> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i3.Stream<_i2.UserSessionBlocState>.empty(),
-      ) as _i3.Stream<_i2.UserSessionBlocState>);
+        returnValue: _i4.Stream<_i3.AuthBlocState>.empty(),
+      ) as _i4.Stream<_i3.AuthBlocState>);
   @override
   bool get isClosed => (super.noSuchMethod(
         Invocation.getter(#isClosed),
         returnValue: false,
       ) as bool);
   @override
-  void add(_i2.UserSessionBlocEvent? event) => super.noSuchMethod(
+  void add(_i3.AuthBlocEvent? event) => super.noSuchMethod(
         Invocation.method(
           #add,
           [event],
@@ -70,7 +88,7 @@ class MockUserSessionBlocBloc extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void onEvent(_i2.UserSessionBlocEvent? event) => super.noSuchMethod(
+  void onEvent(_i3.AuthBlocEvent? event) => super.noSuchMethod(
         Invocation.method(
           #onEvent,
           [event],
@@ -78,7 +96,7 @@ class MockUserSessionBlocBloc extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void emit(_i2.UserSessionBlocState? state) => super.noSuchMethod(
+  void emit(_i3.AuthBlocState? state) => super.noSuchMethod(
         Invocation.method(
           #emit,
           [state],
@@ -86,9 +104,9 @@ class MockUserSessionBlocBloc extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void on<E extends _i2.UserSessionBlocEvent>(
-    _i4.EventHandler<E, _i2.UserSessionBlocState>? handler, {
-    _i4.EventTransformer<E>? transformer,
+  void on<E extends _i3.AuthBlocEvent>(
+    _i5.EventHandler<E, _i3.AuthBlocState>? handler, {
+    _i5.EventTransformer<E>? transformer,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -100,8 +118,7 @@ class MockUserSessionBlocBloc extends _i1.Mock
       );
   @override
   void onTransition(
-          _i4.Transition<_i2.UserSessionBlocEvent, _i2.UserSessionBlocState>?
-              transition) =>
+          _i5.Transition<_i3.AuthBlocEvent, _i3.AuthBlocState>? transition) =>
       super.noSuchMethod(
         Invocation.method(
           #onTransition,
@@ -110,17 +127,16 @@ class MockUserSessionBlocBloc extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i3.Future<void> close() => (super.noSuchMethod(
+  _i4.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
   @override
-  void onChange(_i4.Change<_i2.UserSessionBlocState>? change) =>
-      super.noSuchMethod(
+  void onChange(_i5.Change<_i3.AuthBlocState>? change) => super.noSuchMethod(
         Invocation.method(
           #onChange,
           [change],

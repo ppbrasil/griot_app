@@ -9,7 +9,7 @@ import 'package:griot_app/authentication/data/data_sources/auth_data_source.dart
 import 'package:griot_app/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:griot_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
-import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 import 'package:griot_app/authentication/presentation/bloc/login_form_validation_bloc_bloc.dart';
 import 'package:griot_app/core/data/core_repository_impl.dart';
 import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
@@ -18,7 +18,6 @@ import 'package:griot_app/core/data/media_service.dart';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/domain/repositories/core_repository.dart';
 import 'package:griot_app/core/network/network_info.dart';
-import 'package:griot_app/core/presentation/bloc/user_session_bloc_bloc.dart';
 import 'package:griot_app/core/services/field_validation.dart';
 import 'package:griot_app/core/services/thumbnail_services.dart';
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
@@ -59,12 +58,8 @@ void init() {
   initUser();
   initAccounts();
 
-  // Core stuff :: Bloc
-  sl.registerLazySingleton(() => UserSessionBlocBloc());
-
   // Core stuff :: Repository
-  sl.registerLazySingleton<CoreRepository>(
-      () => CoreRepositoryImpl(userSessionBloc: sl()));
+  sl.registerLazySingleton<CoreRepository>(() => CoreRepositoryImpl());
 
   // Core stuff :: Data Sources
   sl.registerLazySingleton<GriotHttpServiceWrapper>(
@@ -93,7 +88,7 @@ void init() {
 
 void initAuth() {
   // Bloc
-  sl.registerFactory(() => AuthBloc(performLogin: sl()));
+  sl.registerLazySingleton(() => AuthBlocBloc(performLogin: sl()));
   sl.registerFactory(() => LoginFormValidationBloc(validationService: sl()));
 
   // Use Cases

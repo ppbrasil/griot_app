@@ -5,38 +5,38 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 import 'auth_bloc_test.mocks.dart';
 import 'package:bloc_test/bloc_test.dart';
 
 @GenerateMocks([PerformLogin])
 void main() {
-  late AuthBloc bloc;
+  late AuthBlocBloc bloc;
   late MockPerformLogin mockPerformLogin;
 
   setUp(() {
     mockPerformLogin = MockPerformLogin();
-    bloc = AuthBloc(performLogin: mockPerformLogin);
+    bloc = AuthBlocBloc(performLogin: mockPerformLogin);
   });
 
   test('initial state should be empty', () {
     // assert
-    expect(bloc.state, equals(Empty()));
+    expect(bloc.state, equals(AuthBlocInitialState()));
   });
 
-  group('Perform Login', () {
+  group('SignInWithCredentialsEvent', () {
     const String tUsername = 'myUsername';
     const String tPassword = '123';
     const Token tToken = Token(tokenString: 'wswsxwsc');
 
     test('Should get data from the concrete usecase', () async {
-      // arrange
+      //arrange
       when(mockPerformLogin(
               const Params(username: tUsername, password: tPassword)))
           .thenAnswer((_) async => const Right(tToken));
 
-      // act
-      bloc.add(const SignInWithCredentials(
+      //act
+      bloc.add(const SignInWithCredentialsEvent(
           password: tPassword, username: tUsername));
       await untilCalled(mockPerformLogin(
           const Params(password: tPassword, username: tUsername)));
@@ -47,10 +47,10 @@ void main() {
     });
 
     test('Should emit Empty state when initialized', () async {
-      expect(bloc.state, Empty());
+      expect(bloc.state, AuthBlocInitialState());
     });
 
-    blocTest<AuthBloc, AuthState>(
+    blocTest<AuthBlocBloc, AuthBlocState>(
       'should emit Success state when login is successful',
       build: () {
         const tToken = Token(tokenString: 'wswsxwsc');
@@ -62,12 +62,12 @@ void main() {
         );
         return bloc;
       },
-      act: (bloc) => bloc.add(
-          const SignInWithCredentials(username: 'myUsername', password: '123')),
-      expect: () => [const Authorized(token: tToken)],
+      act: (bloc) => bloc.add(const SignInWithCredentialsEvent(
+          username: 'myUsername', password: '123')),
+      expect: () => [const AuthBlocAuthorizedState(token: tToken)],
     );
 
-    blocTest<AuthBloc, AuthState>(
+    blocTest<AuthBlocBloc, AuthBlocState>(
       'should emit Error state when login fails',
       build: () {
         when(mockPerformLogin
@@ -78,17 +78,17 @@ void main() {
         );
         return bloc;
       },
-      act: (bloc) => bloc.add(
-          const SignInWithCredentials(username: 'myUsername', password: '123')),
-      expect: () => [Error()],
+      act: (bloc) => bloc.add(const SignInWithCredentialsEvent(
+          username: 'myUsername', password: '123')),
+      expect: () => [AuthBlocLoginFailedState()],
     );
   });
-  group('InvalidTokenEvent', () {
-    blocTest<AuthBloc, AuthState>(
+  group('TokenFailedEvent', () {
+    blocTest<AuthBlocBloc, AuthBlocState>(
       'should emit UnauthorizedState when InvalidTokenEvent is added',
       build: () => bloc,
-      act: (bloc) => bloc.add(InvalidTokenEvent()),
-      expect: () => [Unauthorized()],
+      act: (bloc) => bloc.add(TokenFailedEvent()),
+      expect: () => [AuthBlocUnauthorizedState()],
     );
   });
 }

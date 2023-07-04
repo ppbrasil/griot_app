@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:griot_app/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 
 import '../../../injection_container.dart';
 
@@ -14,7 +14,7 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<AuthBloc>(),
+      create: (_) => sl<AuthBlocBloc>(),
       child: SizedBox(
         width: double.infinity,
         child: TextButton(
