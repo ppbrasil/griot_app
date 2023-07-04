@@ -32,6 +32,8 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
         return Right(memories);
       } on ServerException {
         return const Left(ServerFailure(message: 'Unable to retrieve data'));
+      } on InvalidTokenException {
+        return const Left(ServerFailure(message: 'Token rejected'));
       }
     } else {
       return const Left(ConnectivityFailure(message: 'No internet connection'));
@@ -48,6 +50,8 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
         return Right(memory);
       } on ServerException {
         return const Left(ServerFailure(message: 'Unable to retrieve data'));
+      } on InvalidTokenException {
+        return const Left(ServerFailure(message: 'Token rejected'));
       }
     } else {
       return const Left(ConnectivityFailure(message: 'No internet connection'));
@@ -65,6 +69,8 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
         return Right(savedMemory);
       } on ServerException {
         return const Left(ServerFailure(message: 'Unable to retrieve data'));
+      } on InvalidTokenException {
+        return const Left(ServerFailure(message: 'Token rejected'));
       }
     } else {
       return const Left(ConnectivityFailure(message: 'No internet connection'));
@@ -96,6 +102,8 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
       return Right(updatedMemory);
     } on ServerException {
       return const Left(ServerFailure(message: 'Unable to POST data to API'));
+    } on InvalidTokenException {
+      return const Left(ServerFailure(message: 'Token rejected'));
     } on MediaServiceException {
       return const Left(MediaServiceFailure(
           message: 'Unable to retrieve media from library'));
@@ -132,6 +140,8 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
       Memory updatedMemory = memory.copyWith(videos: mergedVideoList);
 
       return Right(updatedMemory);
+    } on InvalidTokenException {
+      return const Left(ServerFailure(message: 'Token rejected'));
     } on MediaServiceException {
       return const Left(MediaServiceFailure(
           message: 'Unable to retrieve media from library'));
@@ -175,6 +185,8 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
       final Memory updatedMemory =
           await remoteDataSource.patchUpdateMemoryToAPI(memory: memory);
       return Right(updatedMemory);
+    } on InvalidTokenException {
+      return const Left(ServerFailure(message: 'Token rejected'));
     } on ServerException {
       return const Left(ServerFailure(message: 'Unable to update memory'));
     }

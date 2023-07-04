@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:griot_app/core/presentation/pages/base_page.dart';
 import 'package:griot_app/memories/presentation/bloc/memories_bloc_bloc.dart';
 import 'package:griot_app/griot_app.dart';
 
@@ -41,95 +42,97 @@ class _MemoriesListPageState extends State<MemoriesListPage> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Memories List'),
-      ),
-      body: BlocBuilder<MemoriesBlocBloc, MemoriesBlocState>(
-        builder: (context, state) {
-          if (state is MemoriesGetListLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is MemoriesGetListSuccess) {
-            final memories = state.memories;
-            // Build your list view using the `memories` data
-            return ListView.builder(
-              itemCount: memories.length,
-              itemBuilder: (context, index) {
-                final memory = memories[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/memories_details_page',
-                        arguments: memory,
-                      );
-                    },
-                    child: Container(
-                      height: 146.0, // Set the height of the container
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          stops: [
-                            0.0,
-                            1.24
-                          ], // Stops make the gradient to end before the end of the box
-                          colors: [
-                            Color(0xFF92A3FD),
-                            Color(0xFF9DCEFF)
-                          ], // You can adjust the colors
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(149, 173, 254, 0.3),
-                            blurRadius: 22,
-                            offset: Offset(0, 10), // Position of shadow
+    return BasePage(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text('Memories List'),
+        ),
+        body: BlocBuilder<MemoriesBlocBloc, MemoriesBlocState>(
+          builder: (context, state) {
+            if (state is MemoriesGetListLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is MemoriesGetListSuccess) {
+              final memories = state.memories;
+              // Build your list view using the `memories` data
+              return ListView.builder(
+                itemCount: memories.length,
+                itemBuilder: (context, index) {
+                  final memory = memories[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/memories_details_page',
+                          arguments: memory,
+                        );
+                      },
+                      child: Container(
+                        height: 146.0, // Set the height of the container
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: [
+                              0.0,
+                              1.24
+                            ], // Stops make the gradient to end before the end of the box
+                            colors: [
+                              Color(0xFF92A3FD),
+                              Color(0xFF9DCEFF)
+                            ], // You can adjust the colors
                           ),
-                        ],
-                        borderRadius: BorderRadius.all(Radius.circular(22)),
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Container(
-                              height: 100.0,
-                              width: 100.0,
-                              color: Colors.white,
-                              // Placeholder color
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromRGBO(149, 173, 254, 0.3),
+                              blurRadius: 22,
+                              offset: Offset(0, 10), // Position of shadow
                             ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              memory.title ?? 'New Memory',
-                              style: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.0,
-                                height: 21 / 14,
+                          ],
+                          borderRadius: BorderRadius.all(Radius.circular(22)),
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Container(
+                                height: 100.0,
+                                width: 100.0,
+                                color: Colors.white,
+                                // Placeholder color
                               ),
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              child: Text(
+                                memory.title ?? 'New Memory',
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.0,
+                                  height: 21 / 14,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            );
-          } else if (state is MemoriesGetListFailure) {
-            return Center(
-              child: Text(state.message),
-            );
-          } else {
-            return Container();
-          }
-        },
+                  );
+                },
+              );
+            } else if (state is MemoriesGetListFailure) {
+              return Center(
+                child: Text(state.message),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
     );
   }
