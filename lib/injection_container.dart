@@ -19,6 +19,7 @@ import 'package:griot_app/core/data/media_service.dart';
 import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/domain/repositories/core_repository.dart';
 import 'package:griot_app/core/network/network_info.dart';
+import 'package:griot_app/core/presentation/bloc/connectivity_bloc_bloc.dart';
 import 'package:griot_app/core/services/field_validation.dart';
 import 'package:griot_app/core/services/thumbnail_services.dart';
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
@@ -60,6 +61,9 @@ Future<void> init() async {
   initUser();
   initAccounts();
 
+// Core Stuff :: Blocs
+  sl.registerLazySingleton(() => ConnectivityBlocBloc());
+
   // Core stuff :: Repository
   sl.registerLazySingleton<CoreRepository>(
       () => CoreRepositoryImpl(sharedPreferences: sl()));
@@ -72,7 +76,10 @@ Future<void> init() async {
           ));
 
   // Core stuff :: Other
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(
+        coreRepository: sl(),
+        internetConnectionChecker: sl(),
+      ));
   sl.registerLazySingleton<MainAccountIdProvider>(
       () => MainAccountIdProviderImpl());
   sl.registerLazySingleton<TokenProvider>(

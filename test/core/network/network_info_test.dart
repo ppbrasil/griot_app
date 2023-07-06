@@ -1,3 +1,4 @@
+import 'package:griot_app/core/data/core_repository_impl.dart';
 import 'package:griot_app/core/network/network_info.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -6,28 +7,47 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'network_info_test.mocks.dart';
 
-@GenerateMocks([InternetConnectionChecker])
-void main () {
+@GenerateMocks([InternetConnectionChecker, CoreRepositoryImpl])
+void main() {
   late NetworkInfoImpl networkInfo;
   late MockInternetConnectionChecker mockInternetConnectionChecker;
+  late MockCoreRepositoryImpl mockCoreRepositoryImpl;
 
   setUp(() {
     mockInternetConnectionChecker = MockInternetConnectionChecker();
-    networkInfo = NetworkInfoImpl(mockInternetConnectionChecker);
+    mockCoreRepositoryImpl = MockCoreRepositoryImpl();
+    networkInfo = NetworkInfoImpl(
+        coreRepository: mockCoreRepositoryImpl,
+        internetConnectionChecker: mockInternetConnectionChecker);
   });
 
-  group('IsConnected', () { 
+  group('IsConnected', () {
     test('Should forward the call to InternetConnectionChecker.hasConnection.',
-    () async {
+        () async {
       // arrange
-      final tHasConnectionFuture = Future.value(true);
       when(mockInternetConnectionChecker.hasConnection)
-      .thenAnswer((_) => tHasConnectionFuture);
+          .thenAnswer((_) async => true);
       // act
-      final result = networkInfo.isConnected;
+      final result = await networkInfo.isConnected;
       // assert
       verify(mockInternetConnectionChecker.hasConnection);
-      expect(result, tHasConnectionFuture);
+      expect(result, true);
+    });
+    test(
+        'Should call performNotifyNoInternetConnection and return false when hasConnection is false.',
+        () async {
+      // arrange
+      when(mockInternetConnectionChecker.hasConnection)
+          .thenAnswer((_) async => false);
+      when(mockCoreRepositoryImpl.performNotifyNoInternetConnection())
+          .thenAnswer((_) async => true);
+      // act
+      final result = await networkInfo.isConnected;
+      // assert
+      verify(mockInternetConnectionChecker.hasConnection).called(1);
+      verify(mockCoreRepositoryImpl.performNotifyNoInternetConnection())
+          .called(1);
+      expect(result, false);
     });
   });
 }

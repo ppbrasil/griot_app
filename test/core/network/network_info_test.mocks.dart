@@ -3,11 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
+import 'package:griot_app/core/data/core_repository_impl.dart' as _i5;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:shared_preferences/shared_preferences.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -33,6 +35,17 @@ class _FakeDuration_0 extends _i1.SmartFake implements Duration {
 class _FakeAddressCheckResult_1 extends _i1.SmartFake
     implements _i2.AddressCheckResult {
   _FakeAddressCheckResult_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeSharedPreferences_2 extends _i1.SmartFake
+    implements _i3.SharedPreferences {
+  _FakeSharedPreferences_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -80,23 +93,23 @@ class MockInternetConnectionChecker extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i3.Future<bool> get hasConnection => (super.noSuchMethod(
+  _i4.Future<bool> get hasConnection => (super.noSuchMethod(
         Invocation.getter(#hasConnection),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
   @override
-  _i3.Future<_i2.InternetConnectionStatus> get connectionStatus =>
+  _i4.Future<_i2.InternetConnectionStatus> get connectionStatus =>
       (super.noSuchMethod(
         Invocation.getter(#connectionStatus),
-        returnValue: _i3.Future<_i2.InternetConnectionStatus>.value(
+        returnValue: _i4.Future<_i2.InternetConnectionStatus>.value(
             _i2.InternetConnectionStatus.connected),
-      ) as _i3.Future<_i2.InternetConnectionStatus>);
+      ) as _i4.Future<_i2.InternetConnectionStatus>);
   @override
-  _i3.Stream<_i2.InternetConnectionStatus> get onStatusChange =>
+  _i4.Stream<_i2.InternetConnectionStatus> get onStatusChange =>
       (super.noSuchMethod(
         Invocation.getter(#onStatusChange),
-        returnValue: _i3.Stream<_i2.InternetConnectionStatus>.empty(),
-      ) as _i3.Stream<_i2.InternetConnectionStatus>);
+        returnValue: _i4.Stream<_i2.InternetConnectionStatus>.empty(),
+      ) as _i4.Stream<_i2.InternetConnectionStatus>);
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
@@ -108,7 +121,7 @@ class MockInternetConnectionChecker extends _i1.Mock
         returnValue: false,
       ) as bool);
   @override
-  _i3.Future<_i2.AddressCheckResult> isHostReachable(
+  _i4.Future<_i2.AddressCheckResult> isHostReachable(
           _i2.AddressCheckOptions? options) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -116,12 +129,47 @@ class MockInternetConnectionChecker extends _i1.Mock
           [options],
         ),
         returnValue:
-            _i3.Future<_i2.AddressCheckResult>.value(_FakeAddressCheckResult_1(
+            _i4.Future<_i2.AddressCheckResult>.value(_FakeAddressCheckResult_1(
           this,
           Invocation.method(
             #isHostReachable,
             [options],
           ),
         )),
-      ) as _i3.Future<_i2.AddressCheckResult>);
+      ) as _i4.Future<_i2.AddressCheckResult>);
+}
+
+/// A class which mocks [CoreRepositoryImpl].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCoreRepositoryImpl extends _i1.Mock
+    implements _i5.CoreRepositoryImpl {
+  MockCoreRepositoryImpl() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.SharedPreferences get sharedPreferences => (super.noSuchMethod(
+        Invocation.getter(#sharedPreferences),
+        returnValue: _FakeSharedPreferences_2(
+          this,
+          Invocation.getter(#sharedPreferences),
+        ),
+      ) as _i3.SharedPreferences);
+  @override
+  _i4.Future<int> performTokenExceptionPolicies() => (super.noSuchMethod(
+        Invocation.method(
+          #performTokenExceptionPolicies,
+          [],
+        ),
+        returnValue: _i4.Future<int>.value(0),
+      ) as _i4.Future<int>);
+  @override
+  _i4.Future<bool> performNotifyNoInternetConnection() => (super.noSuchMethod(
+        Invocation.method(
+          #performNotifyNoInternetConnection,
+          [],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 }

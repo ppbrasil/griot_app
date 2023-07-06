@@ -319,4 +319,12 @@ class MockCoreRepository extends _i1.Mock implements _i6.CoreRepository {
         ),
         returnValue: _i3.Future<int>.value(0),
       ) as _i3.Future<int>);
+  @override
+  _i3.Future<bool> performNotifyNoInternetConnection() => (super.noSuchMethod(
+        Invocation.method(
+          #performNotifyNoInternetConnection,
+          [],
+        ),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
 }
