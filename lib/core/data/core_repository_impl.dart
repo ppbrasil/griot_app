@@ -4,14 +4,15 @@ import 'package:griot_app/injection_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CoreRepositoryImpl implements CoreRepository {
-  CoreRepositoryImpl();
+  final SharedPreferences sharedPreferences;
+
+  CoreRepositoryImpl({required this.sharedPreferences});
 
   @override
   Future<int> performTokenExceptionPolicies() async {
     final authBloc = sl<AuthBlocBloc>();
     // Destroy the token
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
+    sharedPreferences.remove('token');
 
     // Notify the presentation layer
     authBloc.add(TokenFailedEvent());

@@ -45,12 +45,13 @@ import 'package:griot_app/user/presentation/bloc/users_bloc_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'profile/domain/use_cases/perform_get_profile_details.dart';
 
 final sl = GetIt.instance;
 
-void init() {
+Future<void> init() async {
   // Init Features
   initAuth();
   initMemories();
@@ -59,7 +60,8 @@ void init() {
   initAccounts();
 
   // Core stuff :: Repository
-  sl.registerLazySingleton<CoreRepository>(() => CoreRepositoryImpl());
+  sl.registerLazySingleton<CoreRepository>(
+      () => CoreRepositoryImpl(sharedPreferences: sl()));
 
   // Core stuff :: Data Sources
   sl.registerLazySingleton<GriotHttpServiceWrapper>(
@@ -72,7 +74,8 @@ void init() {
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   sl.registerLazySingleton<MainAccountIdProvider>(
       () => MainAccountIdProviderImpl());
-  sl.registerLazySingleton<TokenProvider>(() => TokenProviderImpl());
+  sl.registerLazySingleton<TokenProvider>(
+      () => TokenProviderImpl(sharedPreferences: sl()));
   sl.registerLazySingleton<MediaService>(
       () => MediaServiceImpl(imagePicker: sl()));
   sl.registerLazySingleton<ThumbnailService>(
@@ -84,6 +87,8 @@ void init() {
   sl.registerLazySingleton<http.Client>(() => http.Client());
   sl.registerLazySingleton<InternetConnectionChecker>(
       () => InternetConnectionChecker());
+  sl.registerSingletonAsync<SharedPreferences>(
+      () async => await SharedPreferences.getInstance());
 }
 
 void initAuth() {

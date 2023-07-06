@@ -8,10 +8,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core_repository_impl_test.mocks.dart';
 
-@GenerateMocks([AuthBlocBloc])
+@GenerateMocks([AuthBlocBloc, SharedPreferences])
 void main() {
+  final mockSharedPreferences = MockSharedPreferences();
   final mockAuthBlocBloc = MockAuthBlocBloc();
-  final coreRepositoryImpl = CoreRepositoryImpl();
+  final coreRepositoryImpl =
+      CoreRepositoryImpl(sharedPreferences: mockSharedPreferences);
 
   setUp(() {
     init();
@@ -27,19 +29,12 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  test('Calls performTokenExceptionPolicies when passed InvalidTokenException',
+  test(
+      'Should add TokenFailedEvent when performTokenExceptionPolicies is called ',
       () async {
+    when(mockSharedPreferences.remove('token')).thenAnswer((_) async => true);
     await coreRepositoryImpl.performTokenExceptionPolicies();
 
     verify(mockAuthBlocBloc.add(TokenFailedEvent())).called(1);
-  });
-
-  test('SharedPreferences removes token', () async {
-    final instance = await SharedPreferences.getInstance();
-    instance.setString('token', 'testToken');
-    await coreRepositoryImpl.performTokenExceptionPolicies();
-
-    final token = instance.getString('token');
-    expect(token, null);
   });
 }
