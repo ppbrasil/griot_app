@@ -11,7 +11,8 @@ class BasePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBlocBloc, AuthBlocState>(
       listener: (context, state) {
-        if (state is AuthBlocUnauthorizedState) {
+        if (state is AuthBlocUnauthorizedState ||
+            state is AuhtBlocLoggedOutState) {
           Navigator.of(context, rootNavigator: true)
               .pushReplacementNamed('/login');
         }

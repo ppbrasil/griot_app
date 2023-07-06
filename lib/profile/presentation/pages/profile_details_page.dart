@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 import 'package:griot_app/core/presentation/pages/base_page.dart';
 import 'package:griot_app/profile/domain/entities/profile.dart';
 import 'package:griot_app/profile/presentation/bloc/profile_bloc_bloc.dart';
@@ -71,6 +72,12 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                           UpdateProfileDetailsEvent(profile: updatedProfile));
                     },
                     child: const Text('Update Profile'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<AuthBlocBloc>(context).add(LogoutEvent());
+                    },
+                    child: const Text('Logout'),
                   ),
                 ],
               ),
