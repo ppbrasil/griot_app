@@ -5,6 +5,7 @@ import 'package:griot_app/app_router.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 import 'package:griot_app/authentication/presentation/pages/login_page.dart';
 import 'package:griot_app/core/app_theme.dart';
+import 'package:griot_app/core/presentation/bloc/connectivity_bloc_bloc.dart';
 import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
 import 'package:griot_app/core/presentation/pages/home_page.dart';
 import 'package:griot_app/injection_container.dart';
@@ -68,6 +69,7 @@ class AppLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => sl<ConnectivityBlocBloc>()),
         BlocProvider(create: (context) => NavigationBloc()),
         BlocProvider(create: (context) => sl<MemoriesBlocBloc>()),
         BlocProvider(create: (context) => sl<BelovedOnesBlocBloc>()),
