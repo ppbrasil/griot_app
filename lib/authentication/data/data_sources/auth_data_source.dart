@@ -7,14 +7,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthRemoteDataSource {
   Future<TokenModel> login(String username, String password);
-  Future<void> storeToken(TokenModel tokenToStore);
+  Future<void> storeTokenToSharedPreferences(TokenModel tokenToStore);
   Future<bool> destroyTokenFromSharedPreferences();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final GriotHttpServiceWrapper client;
+  final SharedPreferences sharedPreferences;
 
-  AuthRemoteDataSourceImpl({required this.client});
+  AuthRemoteDataSourceImpl(
+      {required this.client, required this.sharedPreferences});
 
   @override
   Future<TokenModel> login(String username, String password) async {
@@ -47,14 +49,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> storeToken(TokenModel tokenToStore) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', tokenToStore.tokenString);
+  Future<void> storeTokenToSharedPreferences(TokenModel tokenToStore) async {
+    sharedPreferences.setString('token', tokenToStore.tokenString);
   }
 
   @override
   Future<bool> destroyTokenFromSharedPreferences() {
-    // TODO: implement destroyTokenFromSharedPreferences
-    throw UnimplementedError();
+    final destroyed = sharedPreferences.remove('token');
+    return destroyed;
   }
 }

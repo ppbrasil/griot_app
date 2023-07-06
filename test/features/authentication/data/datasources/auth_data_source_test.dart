@@ -9,18 +9,24 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 import 'auth_data_source_test.mocks.dart';
 
-@GenerateMocks([GriotHttpServiceWrapper])
+@GenerateMocks([GriotHttpServiceWrapper, SharedPreferences])
 void main() {
   late MockGriotHttpServiceWrapper mockHttClient;
+  late MockSharedPreferences mockSharedPreferences;
   late AuthRemoteDataSourceImpl datasource;
 
   setUp(() {
     mockHttClient = MockGriotHttpServiceWrapper();
-    datasource = AuthRemoteDataSourceImpl(client: mockHttClient);
+    mockSharedPreferences = MockSharedPreferences();
+    datasource = AuthRemoteDataSourceImpl(
+      client: mockHttClient,
+      sharedPreferences: mockSharedPreferences,
+    );
   });
 
   group('login', () {
@@ -82,6 +88,34 @@ void main() {
       // assert
       expect(() => call(tUsername, tPassword),
           throwsA(const TypeMatcher<ServerException>()));
+    });
+  });
+
+  group('storeTokenToSharedPreferences', () {
+    const TokenModel tToken = TokenModel(tokenString: 'iyvoiubpub');
+    test(
+        'Should successfully call setString from shared preferences to stoke token',
+        () async {
+      // arrange
+      when(mockSharedPreferences.setString('token', tToken.tokenString))
+          .thenAnswer((_) async => true);
+      // act
+      datasource.storeTokenToSharedPreferences(tToken);
+      // assert
+      verify(mockSharedPreferences.setString('token', tToken.tokenString))
+          .called(1);
+    });
+  });
+  group('destroyTokenFromSharedPreferences', () {
+    test(
+        'Should successfully call remove from shared preferences to destroy current token',
+        () async {
+      // arrange
+      when(mockSharedPreferences.remove('token')).thenAnswer((_) async => true);
+      // act
+      datasource.destroyTokenFromSharedPreferences();
+      // assert
+      verify(mockSharedPreferences.remove('token')).called(1);
     });
   });
 }

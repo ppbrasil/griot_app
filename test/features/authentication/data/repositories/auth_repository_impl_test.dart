@@ -104,7 +104,8 @@ void main() {
         await repository.login(username: tEmail, password: tPassword);
         // assert
         verify(mockAuthRemoteDataSource.login(tEmail, tPassword));
-        verify(mockAuthRemoteDataSource.storeToken(tTokenModel));
+        verify(mockAuthRemoteDataSource
+            .storeTokenToSharedPreferences(tTokenModel));
       });
 
       test(

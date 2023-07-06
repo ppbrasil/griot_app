@@ -69,10 +69,11 @@ class MockAuthRemoteDataSource extends _i1.Mock
         )),
       ) as _i4.Future<_i2.TokenModel>);
   @override
-  _i4.Future<void> storeToken(_i2.TokenModel? tokenToStore) =>
+  _i4.Future<void> storeTokenToSharedPreferences(
+          _i2.TokenModel? tokenToStore) =>
       (super.noSuchMethod(
         Invocation.method(
-          #storeToken,
+          #storeTokenToSharedPreferences,
           [tokenToStore],
         ),
         returnValue: _i4.Future<void>.value(),
