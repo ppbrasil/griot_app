@@ -26,3 +26,7 @@ class AuthBlocLoginFailedState extends AuthBlocState {
 class AuhtBlocLoggedOutState extends AuthBlocState {
   late final String message;
 }
+
+class AuthBlocLogoutFailedState extends AuthBlocState {
+  late final String message;
+}

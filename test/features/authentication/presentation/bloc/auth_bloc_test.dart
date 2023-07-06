@@ -1,5 +1,6 @@
 import 'package:griot_app/authentication/domain/entities/token.dart';
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
+import 'package:griot_app/authentication/domain/usecases/perform_logout.dart';
 import 'package:griot_app/core/error/failures.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -9,14 +10,19 @@ import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 import 'auth_bloc_test.mocks.dart';
 import 'package:bloc_test/bloc_test.dart';
 
-@GenerateMocks([PerformLogin])
+@GenerateMocks([PerformLogin, PerformLogout])
 void main() {
   late AuthBlocBloc bloc;
   late MockPerformLogin mockPerformLogin;
+  late MockPerformLogout mockPerformLogout;
 
   setUp(() {
     mockPerformLogin = MockPerformLogin();
-    bloc = AuthBlocBloc(performLogin: mockPerformLogin);
+    mockPerformLogout = MockPerformLogout();
+    bloc = AuthBlocBloc(
+      performLogin: mockPerformLogin,
+      performLogout: mockPerformLogout,
+    );
   });
 
   test('initial state should be empty', () {
@@ -89,6 +95,28 @@ void main() {
       build: () => bloc,
       act: (bloc) => bloc.add(TokenFailedEvent()),
       expect: () => [AuthBlocUnauthorizedState()],
+    );
+  });
+  group('LogoutEvent', () {
+    blocTest<AuthBlocBloc, AuthBlocState>(
+      'should emit AuhtBlocLoggedOutState when LogoutEvent is added and performLogoutUseCase succeeds',
+      build: () {
+        when(mockPerformLogout.call(const NoParams()))
+            .thenAnswer((_) async => const Right(true));
+        return bloc;
+      },
+      act: (bloc) => bloc.add(LogoutEvent()),
+      expect: () => [AuhtBlocLoggedOutState()],
+    );
+    blocTest<AuthBlocBloc, AuthBlocState>(
+      'should emit AuthBlocLogoutFailedState when LogoutEvent is added and performLogoutUseCase fails',
+      build: () {
+        when(mockPerformLogout.call(const NoParams()))
+            .thenAnswer((_) async => const Left(InvalidTokenFailure()));
+        return bloc;
+      },
+      act: (bloc) => bloc.add(LogoutEvent()),
+      expect: () => [AuthBlocLogoutFailedState()],
     );
   });
 }

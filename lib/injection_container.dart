@@ -9,6 +9,7 @@ import 'package:griot_app/authentication/data/data_sources/auth_data_source.dart
 import 'package:griot_app/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:griot_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
+import 'package:griot_app/authentication/domain/usecases/perform_logout.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 import 'package:griot_app/authentication/presentation/bloc/login_form_validation_bloc_bloc.dart';
 import 'package:griot_app/core/data/core_repository_impl.dart';
@@ -93,11 +94,15 @@ Future<void> init() async {
 
 void initAuth() {
   // Bloc
-  sl.registerLazySingleton(() => AuthBlocBloc(performLogin: sl()));
+  sl.registerLazySingleton(() => AuthBlocBloc(
+        performLogin: sl(),
+        performLogout: sl(),
+      ));
   sl.registerFactory(() => LoginFormValidationBloc(validationService: sl()));
 
   // Use Cases
   sl.registerLazySingleton(() => PerformLogin(sl()));
+  sl.registerLazySingleton(() => PerformLogout(sl()));
 
   // Repository
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(

@@ -11,6 +11,8 @@ import 'package:griot_app/authentication/domain/repositories/auth_repository.dar
     as _i2;
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart'
     as _i4;
+import 'package:griot_app/authentication/domain/usecases/perform_logout.dart'
+    as _i8;
 import 'package:griot_app/core/error/failures.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -78,4 +80,38 @@ class MockPerformLogin extends _i1.Mock implements _i4.PerformLogin {
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Token>>);
+}
+
+/// A class which mocks [PerformLogout].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPerformLogout extends _i1.Mock implements _i8.PerformLogout {
+  MockPerformLogout() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.AuthRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeAuthRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.AuthRepository);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, bool>> call(_i8.NoParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, bool>>.value(
+            _FakeEither_1<_i6.Failure, bool>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, bool>>);
 }
