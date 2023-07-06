@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class AuthRemoteDataSource {
   Future<TokenModel> login(String username, String password);
   Future<void> storeToken(TokenModel tokenToStore);
+  Future<bool> destroyTokenFromSharedPreferences();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -49,5 +50,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> storeToken(TokenModel tokenToStore) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', tokenToStore.tokenString);
+  }
+
+  @override
+  Future<bool> destroyTokenFromSharedPreferences() {
+    // TODO: implement destroyTokenFromSharedPreferences
+    throw UnimplementedError();
   }
 }

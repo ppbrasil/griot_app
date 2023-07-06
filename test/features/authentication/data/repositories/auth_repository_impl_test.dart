@@ -16,8 +16,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'auth_repository_impl_test.mocks.dart';
 
-@GenerateMocks(
-    [AuthRemoteDataSource, UsersRemoteDataSource, NetworkInfo, ServerException])
+@GenerateMocks([AuthRemoteDataSource, UsersRemoteDataSource, NetworkInfo])
 void main() {
   late AuthRepositoryImpl repository;
   late MockAuthRemoteDataSource mockAuthRemoteDataSource;
@@ -45,10 +44,6 @@ void main() {
     );
   });
   group('login', () {
-//    setUp(() {
-//      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-//    });
-
     test(
       'should check if the device is online',
       () async {
@@ -67,66 +62,120 @@ void main() {
         verify(mockNetworkInfo.isConnected).called(1);
       },
     );
-  });
 
-  group('device is online', () {
-    setUp(() {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-    });
+    group('device is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
 
-    test(
-        'should return data when auth call to remote data source is successfull',
-        () async {
-      // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockAuthRemoteDataSource.login(tEmail, tPassword))
-          .thenAnswer((_) async => tTokenModel);
-      when(mockUsersRemoteDataSource.getOwnedAccountsListFromAPI())
-          .thenAnswer((_) async => tAccountList);
-      when(mockUsersRemoteDataSource.storeMainAccountId(
-              mainAccountId: tAccountList[0].id))
-          .thenAnswer((_) async => Void);
-      // act
-      final result =
-          await repository.login(username: tEmail, password: tPassword);
-      // assert
-      verify(mockAuthRemoteDataSource.login(tEmail, tPassword));
-      expect(result, equals(const Right(tToken)));
-    });
+      test(
+          'should return data when auth call to remote data source is successfull',
+          () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockAuthRemoteDataSource.login(tEmail, tPassword))
+            .thenAnswer((_) async => tTokenModel);
+        when(mockUsersRemoteDataSource.getOwnedAccountsListFromAPI())
+            .thenAnswer((_) async => tAccountList);
+        when(mockUsersRemoteDataSource.storeMainAccountId(
+                mainAccountId: tAccountList[0].id))
+            .thenAnswer((_) async => Void);
+        // act
+        final result =
+            await repository.login(username: tEmail, password: tPassword);
+        // assert
+        verify(mockAuthRemoteDataSource.login(tEmail, tPassword));
+        expect(result, equals(const Right(tToken)));
+      });
 
-    test(
-        'should perssit token when auth call to remote data source is successfull',
-        () async {
-      // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockAuthRemoteDataSource.login(tEmail, tPassword))
-          .thenAnswer((_) async => tTokenModel);
-      when(mockUsersRemoteDataSource.getOwnedAccountsListFromAPI())
-          .thenAnswer((_) async => tAccountList);
-      when(mockUsersRemoteDataSource.storeMainAccountId(
-              mainAccountId: tAccountList[0].id))
-          .thenAnswer((_) async => Void);
-      // act
-      await repository.login(username: tEmail, password: tPassword);
-      // assert
-      verify(mockAuthRemoteDataSource.login(tEmail, tPassword));
-      verify(mockAuthRemoteDataSource.storeToken(tTokenModel));
-    });
-  });
-
-  test(
-      'should return Auth failure when auth call to remote data source is unsuccessfull',
-      () async {
-    // arrange
-    when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-    when(mockAuthRemoteDataSource.login(tEmail, tPassword))
-        .thenThrow(ServerException());
-    // act
-    final result =
+      test(
+          'should perssit token when auth call to remote data source is successfull',
+          () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockAuthRemoteDataSource.login(tEmail, tPassword))
+            .thenAnswer((_) async => tTokenModel);
+        when(mockUsersRemoteDataSource.getOwnedAccountsListFromAPI())
+            .thenAnswer((_) async => tAccountList);
+        when(mockUsersRemoteDataSource.storeMainAccountId(
+                mainAccountId: tAccountList[0].id))
+            .thenAnswer((_) async => Void);
+        // act
         await repository.login(username: tEmail, password: tPassword);
-    // assert
-    verify(mockAuthRemoteDataSource.login(tEmail, tPassword));
-    expect(result,
-        equals(const Left(ServerFailure(message: 'Authentication failed'))));
+        // assert
+        verify(mockAuthRemoteDataSource.login(tEmail, tPassword));
+        verify(mockAuthRemoteDataSource.storeToken(tTokenModel));
+      });
+
+      test(
+          'should return Auth failure when auth call to remote data source is unsuccessfull',
+          () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockAuthRemoteDataSource.login(tEmail, tPassword))
+            .thenThrow(ServerException());
+        // act
+        final result =
+            await repository.login(username: tEmail, password: tPassword);
+        // assert
+        verify(mockAuthRemoteDataSource.login(tEmail, tPassword));
+        expect(
+            result,
+            equals(
+                const Left(ServerFailure(message: 'Authentication failed'))));
+      });
+    });
+  });
+
+  group('Logout', () {
+    test('should destroy the toekn when call is successfull', () async {
+      // Arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockAuthRemoteDataSource.destroyTokenFromSharedPreferences())
+          .thenAnswer((_) async => true);
+
+      // Act
+      final result = await repository.logout();
+
+      // Assert
+      expect(result, equals(const Right(true)));
+      verify(mockAuthRemoteDataSource.destroyTokenFromSharedPreferences())
+          .called(1);
+    });
+
+    test('should return InvalidTokenFailure when the token is invalid',
+        () async {
+      // Arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockAuthRemoteDataSource.destroyTokenFromSharedPreferences())
+          .thenThrow(InvalidTokenException());
+
+      // Act
+      final result = await repository.logout();
+
+      // Assert
+      expect(result, equals(const Left(InvalidTokenFailure())));
+      verify(mockAuthRemoteDataSource.destroyTokenFromSharedPreferences())
+          .called(1);
+    });
+
+    test('should return NetworkFailure when the connection is not available',
+        () async {
+      // Arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockAuthRemoteDataSource.destroyTokenFromSharedPreferences())
+          .thenThrow(NetworkException());
+
+      // Act
+      final result = await repository.logout();
+
+      // Assert
+      expect(
+          result,
+          equals(const Left(
+              ConnectivityFailure(message: 'Internet is not available'))));
+      verify(mockAuthRemoteDataSource.destroyTokenFromSharedPreferences())
+          .called(1);
+    });
   });
 }

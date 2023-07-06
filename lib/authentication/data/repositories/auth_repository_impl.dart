@@ -39,4 +39,22 @@ class AuthRepositoryImpl implements AuthRepository {
       return const Left(ServerFailure(message: 'Authentication failed'));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> logout() async {
+    if (!(await networkInfo.isConnected)) {
+      return const Left(
+          ConnectivityFailure(message: 'Internet is not available'));
+    }
+    try {
+      final destroyed =
+          await remoteDataSource.destroyTokenFromSharedPreferences();
+      return Right(destroyed);
+    } on InvalidTokenException {
+      return const Left(InvalidTokenFailure());
+    } on NetworkException {
+      return const Left(
+          ConnectivityFailure(message: 'Internet is not available'));
+    }
+  }
 }

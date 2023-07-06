@@ -18,3 +18,5 @@ class NoTokenException implements Exception {}
 class NoMainAccountException implements Exception {}
 
 class MediaServiceError implements Exception {}
+
+class NetworkException implements Exception {}
