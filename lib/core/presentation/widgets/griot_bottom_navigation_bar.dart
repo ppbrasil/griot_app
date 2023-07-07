@@ -49,11 +49,12 @@ class GriotBottomNavigationBar extends StatelessWidget {
           top: -10,
           left: MediaQuery.of(context).size.width / 2 - 30,
           child: FloatingActionButton(
+              heroTag: 'newMemoryCircularButton',
               child: const Icon(Icons.add, color: Colors.white),
               onPressed: () async {
                 Navigator.pushNamed(
                   context,
-                  '/memories_details_page',
+                  '/memories_manipulation_page',
                   arguments: null,
                 );
               }),

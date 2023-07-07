@@ -70,7 +70,7 @@ class _MemoriesListPageState extends State<MemoriesListPage> with RouteAware {
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            '/memories_details_page',
+                            '/memories_manipulation_page',
                             arguments: memory,
                           );
                         },
@@ -162,8 +162,16 @@ class _MemoriesListPageState extends State<MemoriesListPage> with RouteAware {
                           ),
                         ),
                         const Spacer(flex: 4), // Add space before first Text
-                        const GriotActionButton(
-                            label: 'Create my First Memory'),
+                        GriotActionButton(
+                          label: 'Create my First Memory',
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/memories_manipulation_page',
+                              arguments: null,
+                            );
+                          },
+                        ),
                         const Spacer(flex: 10), // Add space after the Button
                       ],
                     ),

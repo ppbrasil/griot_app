@@ -4,6 +4,8 @@ import 'package:griot_app/accounts/presentation/pages/beloved_ones_list_page.dar
 import 'package:griot_app/core/presentation/bloc/navigation_bloc_bloc.dart';
 import 'package:griot_app/core/presentation/pages/dashboard.dart';
 import 'package:griot_app/core/presentation/widgets/griot_bottom_navigation_bar.dart';
+import 'package:griot_app/memories/presentation/pages/memories_list_page.dart';
+import 'package:griot_app/memories/presentation/pages/memories_manipulation_page.dart';
 import 'package:griot_app/profile/presentation/pages/profile_details_page.dart';
 import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
 
@@ -17,7 +19,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const Dashboard(),
+    const MemoriesListPage(),
     const BelovedOnesListPage(),
+    const MemoryManipulationPage(
+      memory: null,
+    ),
     const ProfileDetailsPage(),
   ];
 

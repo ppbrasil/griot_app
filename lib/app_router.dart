@@ -28,23 +28,13 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const Dashboard());
       case '/memories_list_page':
         return MaterialPageRoute(builder: (_) => const MemoriesListPage());
-      case '/memories_details_page':
+      case '/memories_manipulation_page':
         return MaterialPageRoute(
             builder: (_) => MemoryManipulationPage(
                   memory: (settings.arguments is Memory)
                       ? settings.arguments as Memory
                       : null,
                 ));
-
-      case '/memories_creation_page':
-        if (settings.arguments is Memory) {
-          return MaterialPageRoute(
-            builder: (_) =>
-                MemoryManipulationPage(memory: settings.arguments as Memory),
-          );
-        }
-        throw const RouteException(
-            'Arguments for /memories_creation_page must be of type Memory');
 
       case '/beloved_ones_list_page':
         return MaterialPageRoute(builder: (_) => const BelovedOnesListPage());
