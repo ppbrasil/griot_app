@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 import 'package:griot_app/core/presentation/bloc/connectivity_bloc_bloc.dart';
+import 'package:flash/flash.dart';
 
 class BasePage extends StatelessWidget {
   final Widget child;
@@ -18,11 +19,24 @@ class BasePage extends StatelessWidget {
             .pushReplacementNamed('/login');
       }
     }, builder: (context, state) {
-      // Inside the builder function for AuthBlocBloc, return another BlocConsumer for ConnectivityBlocBloc.
       return BlocConsumer<ConnectivityBlocBloc, ConnectivityBlocState>(
         listener: (context, state) {
           if (state is ConnectivityBlocDisconnected) {
-            // Implement your logic for ConnectivityBlocDisconnected here.
+            showFlash(
+              context: context,
+              duration: const Duration(seconds: 4),
+              builder: (context, controller) {
+                return Flash(
+                    dismissDirections: const [FlashDismissDirection.startToEnd],
+                    controller: controller,
+                    child: FlashBar(
+                      position: FlashPosition.bottom,
+                      content: const Text('My title'),
+                      margin: const EdgeInsets.all(8),
+                      controller: controller,
+                    ));
+              },
+            );
           }
         },
         builder: (context, state) {
