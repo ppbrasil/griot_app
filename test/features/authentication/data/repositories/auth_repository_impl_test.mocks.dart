@@ -3,15 +3,16 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
-import 'package:griot_app/accounts/domain/entities/account.dart' as _i6;
+import 'package:griot_app/accounts/domain/entities/account.dart' as _i7;
 import 'package:griot_app/authentication/data/data_sources/auth_data_source.dart'
-    as _i3;
+    as _i4;
 import 'package:griot_app/authentication/data/models/token_model.dart' as _i2;
-import 'package:griot_app/core/network/network_info.dart' as _i7;
+import 'package:griot_app/authentication/domain/entities/token.dart' as _i3;
+import 'package:griot_app/core/network/network_info.dart' as _i8;
 import 'package:griot_app/user/data/data_sources/users_remote_data_source.dart'
-    as _i5;
+    as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -35,17 +36,27 @@ class _FakeTokenModel_0 extends _i1.SmartFake implements _i2.TokenModel {
         );
 }
 
+class _FakeToken_1 extends _i1.SmartFake implements _i3.Token {
+  _FakeToken_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [AuthRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthRemoteDataSource extends _i1.Mock
-    implements _i3.AuthRemoteDataSource {
+    implements _i4.AuthRemoteDataSource {
   MockAuthRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.TokenModel> login(
+  _i5.Future<_i2.TokenModel> login(
     String? username,
     String? password,
   ) =>
@@ -57,7 +68,7 @@ class MockAuthRemoteDataSource extends _i1.Mock
             password,
           ],
         ),
-        returnValue: _i4.Future<_i2.TokenModel>.value(_FakeTokenModel_0(
+        returnValue: _i5.Future<_i2.TokenModel>.value(_FakeTokenModel_0(
           this,
           Invocation.method(
             #login,
@@ -67,79 +78,94 @@ class MockAuthRemoteDataSource extends _i1.Mock
             ],
           ),
         )),
-      ) as _i4.Future<_i2.TokenModel>);
+      ) as _i5.Future<_i2.TokenModel>);
   @override
-  _i4.Future<void> storeTokenToSharedPreferences(
+  _i5.Future<void> storeTokenToSharedPreferences(
           _i2.TokenModel? tokenToStore) =>
       (super.noSuchMethod(
         Invocation.method(
           #storeTokenToSharedPreferences,
           [tokenToStore],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i4.Future<bool> destroyTokenFromSharedPreferences() => (super.noSuchMethod(
+  _i5.Future<bool> destroyTokenFromSharedPreferences() => (super.noSuchMethod(
         Invocation.method(
           #destroyTokenFromSharedPreferences,
           [],
         ),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+        returnValue: _i5.Future<bool>.value(false),
+      ) as _i5.Future<bool>);
+  @override
+  _i5.Future<_i3.Token> retrieveTokenFromSharedPreferences() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #retrieveTokenFromSharedPreferences,
+          [],
+        ),
+        returnValue: _i5.Future<_i3.Token>.value(_FakeToken_1(
+          this,
+          Invocation.method(
+            #retrieveTokenFromSharedPreferences,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i3.Token>);
 }
 
 /// A class which mocks [UsersRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockUsersRemoteDataSource extends _i1.Mock
-    implements _i5.UsersRemoteDataSource {
+    implements _i6.UsersRemoteDataSource {
   MockUsersRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<List<_i6.Account>> getBelovedAccountsListFromAPI() =>
+  _i5.Future<List<_i7.Account>> getBelovedAccountsListFromAPI() =>
       (super.noSuchMethod(
         Invocation.method(
           #getBelovedAccountsListFromAPI,
           [],
         ),
-        returnValue: _i4.Future<List<_i6.Account>>.value(<_i6.Account>[]),
-      ) as _i4.Future<List<_i6.Account>>);
+        returnValue: _i5.Future<List<_i7.Account>>.value(<_i7.Account>[]),
+      ) as _i5.Future<List<_i7.Account>>);
   @override
-  _i4.Future<List<_i6.Account>> getOwnedAccountsListFromAPI() =>
+  _i5.Future<List<_i7.Account>> getOwnedAccountsListFromAPI() =>
       (super.noSuchMethod(
         Invocation.method(
           #getOwnedAccountsListFromAPI,
           [],
         ),
-        returnValue: _i4.Future<List<_i6.Account>>.value(<_i6.Account>[]),
-      ) as _i4.Future<List<_i6.Account>>);
+        returnValue: _i5.Future<List<_i7.Account>>.value(<_i7.Account>[]),
+      ) as _i5.Future<List<_i7.Account>>);
   @override
-  _i4.Future<void> storeMainAccountId({required int? mainAccountId}) =>
+  _i5.Future<void> storeMainAccountId({required int? mainAccountId}) =>
       (super.noSuchMethod(
         Invocation.method(
           #storeMainAccountId,
           [],
           {#mainAccountId: mainAccountId},
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i7.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i8.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<bool> get isConnected => (super.noSuchMethod(
+  _i5.Future<bool> get isConnected => (super.noSuchMethod(
         Invocation.getter(#isConnected),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+        returnValue: _i5.Future<bool>.value(false),
+      ) as _i5.Future<bool>);
 }

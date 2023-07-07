@@ -59,8 +59,16 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Token>> performCheckLoggedIn() {
-    // TODO: implement performCheckLoggedIn
-    throw UnimplementedError();
+  Future<Either<Failure, Token>> performCheckLoggedIn() async {
+    if (!(await networkInfo.isConnected)) {
+      return const Left(
+          ConnectivityFailure(message: 'Internet is not available'));
+    }
+    try {
+      final token = await remoteDataSource.retrieveTokenFromSharedPreferences();
+      return Right(token);
+    } on InvalidTokenException {
+      return const Left(InvalidTokenFailure());
+    }
   }
 }

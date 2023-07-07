@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:griot_app/authentication/data/data_sources/auth_data_source.dart';
 import 'package:griot_app/authentication/data/models/token_model.dart';
+import 'package:griot_app/authentication/domain/entities/token.dart';
 import 'package:griot_app/core/data/griot_http_client_wrapper.dart';
+import 'package:griot_app/core/data/token_provider.dart';
 import 'package:griot_app/core/error/exceptions.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
@@ -14,18 +16,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../fixtures/fixture_reader.dart';
 import 'auth_data_source_test.mocks.dart';
 
-@GenerateMocks([GriotHttpServiceWrapper, SharedPreferences])
+@GenerateMocks([
+  GriotHttpServiceWrapper,
+  SharedPreferences,
+  TokenProvider,
+])
 void main() {
   late MockGriotHttpServiceWrapper mockHttClient;
+  late MockTokenProvider mockTokenProvider;
   late MockSharedPreferences mockSharedPreferences;
   late AuthRemoteDataSourceImpl datasource;
 
   setUp(() {
     mockHttClient = MockGriotHttpServiceWrapper();
+    mockTokenProvider = MockTokenProvider();
     mockSharedPreferences = MockSharedPreferences();
     datasource = AuthRemoteDataSourceImpl(
       client: mockHttClient,
       sharedPreferences: mockSharedPreferences,
+      tokenProvider: mockTokenProvider,
     );
   });
 
@@ -116,6 +125,22 @@ void main() {
       datasource.destroyTokenFromSharedPreferences();
       // assert
       verify(mockSharedPreferences.remove('token')).called(1);
+    });
+  });
+
+  group('retrieveTokenFromSharedPreferences', () {
+    test(
+        'Should successfully call remove from shared preferences to destroy current token',
+        () async {
+      // arrange
+      const tTokenSting = 'yivoiyboiubnpon';
+      const tToken = Token(tokenString: tTokenSting);
+      when(mockTokenProvider.getToken()).thenAnswer((_) async => tTokenSting);
+      // act
+      final result = await datasource.retrieveTokenFromSharedPreferences();
+      // assert
+      verify(mockTokenProvider.getToken()).called(1);
+      expect(result, tToken);
     });
   });
 }

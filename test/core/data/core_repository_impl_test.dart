@@ -44,15 +44,17 @@ void main() {
   });
 
   group('performNotifyNoInternetConnection', () {
-    setUp(() {
-      init();
+    setUp(() async {
       WidgetsFlutterBinding.ensureInitialized();
-      // Unregister the original AuthBlocBloc
+      await sl.reset();
+      await init();
       if (sl.isRegistered<ConnectivityBlocBloc>()) {
-        sl.unregister<ConnectivityBlocBloc>();
+        await sl.unregister<ConnectivityBlocBloc>();
       }
 
-      // Register your MockAuthBlocBloc
+      // Unregister the original ConnectivityBlocBloc
+
+      // Register your MockConnectivityBlocBloc
       sl.registerLazySingleton<ConnectivityBlocBloc>(
           () => mockConnectivityBlocBloc);
     });

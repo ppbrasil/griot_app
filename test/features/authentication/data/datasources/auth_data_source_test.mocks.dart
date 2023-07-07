@@ -7,6 +7,7 @@ import 'dart:async' as _i6;
 
 import 'package:dartz/dartz.dart' as _i4;
 import 'package:griot_app/core/data/griot_http_client_wrapper.dart' as _i5;
+import 'package:griot_app/core/data/token_provider.dart' as _i8;
 import 'package:griot_app/core/domain/repositories/core_repository.dart' as _i2;
 import 'package:http/http.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -439,6 +440,33 @@ class MockSharedPreferences extends _i1.Mock implements _i7.SharedPreferences {
   _i6.Future<void> reload() => (super.noSuchMethod(
         Invocation.method(
           #reload,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+}
+
+/// A class which mocks [TokenProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTokenProvider extends _i1.Mock implements _i8.TokenProvider {
+  MockTokenProvider() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Future<String> getToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getToken,
+          [],
+        ),
+        returnValue: _i6.Future<String>.value(''),
+      ) as _i6.Future<String>);
+  @override
+  _i6.Future<void> destroyToken() => (super.noSuchMethod(
+        Invocation.method(
+          #destroyToken,
           [],
         ),
         returnValue: _i6.Future<void>.value(),

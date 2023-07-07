@@ -179,4 +179,28 @@ void main() {
           .called(1);
     });
   });
+
+  group('performCheckLoggedIn', () {
+    test('shuold return a token when a token is found', () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockAuthRemoteDataSource.retrieveTokenFromSharedPreferences())
+          .thenAnswer((_) async => tToken);
+      // act
+      final result = await repository.performCheckLoggedIn();
+      // assert
+      expect(result, equals(const Right(tToken)));
+    });
+    test('shuold return an AuthenticationFailure when token is not found',
+        () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockAuthRemoteDataSource.retrieveTokenFromSharedPreferences())
+          .thenThrow(InvalidTokenException());
+      // act
+      final result = await repository.performCheckLoggedIn();
+      // assert
+      expect(result, equals(const Left(InvalidTokenFailure())));
+    });
+  });
 }

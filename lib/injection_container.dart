@@ -124,6 +124,7 @@ void initAuth() {
   sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(
         client: sl(),
         sharedPreferences: sl(),
+        tokenProvider: sl(),
       ));
 }
 
