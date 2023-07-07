@@ -8,6 +8,7 @@ import 'package:griot_app/accounts/presentation/bloc/beloved_ones_bloc_bloc.dart
 import 'package:griot_app/authentication/data/data_sources/auth_data_source.dart';
 import 'package:griot_app/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:griot_app/authentication/domain/repositories/auth_repository.dart';
+import 'package:griot_app/authentication/domain/usecases/perform_check_logged_in_usecase.dart';
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
 import 'package:griot_app/authentication/domain/usecases/perform_logout.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
@@ -104,12 +105,14 @@ void initAuth() {
   sl.registerLazySingleton(() => AuthBlocBloc(
         performLogin: sl(),
         performLogout: sl(),
+        checkLoggedIn: sl(),
       ));
   sl.registerFactory(() => LoginFormValidationBloc(validationService: sl()));
 
   // Use Cases
   sl.registerLazySingleton(() => PerformLogin(sl()));
   sl.registerLazySingleton(() => PerformLogout(sl()));
+  sl.registerLazySingleton(() => CheckLoggedInUseCase(sl()));
 
   // Repository
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(

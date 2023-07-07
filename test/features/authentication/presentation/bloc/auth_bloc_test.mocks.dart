@@ -9,6 +9,8 @@ import 'package:dartz/dartz.dart' as _i3;
 import 'package:griot_app/authentication/domain/entities/token.dart' as _i7;
 import 'package:griot_app/authentication/domain/repositories/auth_repository.dart'
     as _i2;
+import 'package:griot_app/authentication/domain/usecases/perform_check_logged_in_usecase.dart'
+    as _i9;
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart'
     as _i4;
 import 'package:griot_app/authentication/domain/usecases/perform_logout.dart'
@@ -114,4 +116,39 @@ class MockPerformLogout extends _i1.Mock implements _i8.PerformLogout {
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, bool>>);
+}
+
+/// A class which mocks [CheckLoggedInUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCheckLoggedInUseCase extends _i1.Mock
+    implements _i9.CheckLoggedInUseCase {
+  MockCheckLoggedInUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.AuthRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeAuthRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.AuthRepository);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i7.Token>> call(_i9.NoParams? noParams) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [noParams],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Token>>.value(
+            _FakeEither_1<_i6.Failure, _i7.Token>(
+          this,
+          Invocation.method(
+            #call,
+            [noParams],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Token>>);
 }

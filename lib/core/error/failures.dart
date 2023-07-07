@@ -20,7 +20,7 @@ class AuthenticationFailure extends Failure {
 class InvalidTokenFailure extends Failure {
   final String message;
 
-  const InvalidTokenFailure({this.message = "Invalid token"}) : super();
+  const InvalidTokenFailure({this.message = "Invalid token"});
 
   @override
   List<Object> get props => [message];

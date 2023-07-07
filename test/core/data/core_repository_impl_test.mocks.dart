@@ -3,19 +3,21 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i7;
 
-import 'package:flutter_bloc/flutter_bloc.dart' as _i7;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i8;
+import 'package:griot_app/authentication/domain/usecases/perform_check_logged_in_usecase.dart'
+    as _i4;
 import 'package:griot_app/authentication/domain/usecases/perform_login.dart'
     as _i2;
 import 'package:griot_app/authentication/domain/usecases/perform_logout.dart'
     as _i3;
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart'
-    as _i4;
-import 'package:griot_app/core/presentation/bloc/connectivity_bloc_bloc.dart'
     as _i5;
+import 'package:griot_app/core/presentation/bloc/connectivity_bloc_bloc.dart'
+    as _i6;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:shared_preferences/shared_preferences.dart' as _i8;
+import 'package:shared_preferences/shared_preferences.dart' as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -48,8 +50,9 @@ class _FakePerformLogout_1 extends _i1.SmartFake implements _i3.PerformLogout {
         );
 }
 
-class _FakeAuthBlocState_2 extends _i1.SmartFake implements _i4.AuthBlocState {
-  _FakeAuthBlocState_2(
+class _FakeCheckLoggedInUseCase_2 extends _i1.SmartFake
+    implements _i4.CheckLoggedInUseCase {
+  _FakeCheckLoggedInUseCase_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -58,9 +61,19 @@ class _FakeAuthBlocState_2 extends _i1.SmartFake implements _i4.AuthBlocState {
         );
 }
 
-class _FakeConnectivityBlocState_3 extends _i1.SmartFake
-    implements _i5.ConnectivityBlocState {
-  _FakeConnectivityBlocState_3(
+class _FakeAuthBlocState_3 extends _i1.SmartFake implements _i5.AuthBlocState {
+  _FakeAuthBlocState_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeConnectivityBlocState_4 extends _i1.SmartFake
+    implements _i6.ConnectivityBlocState {
+  _FakeConnectivityBlocState_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -72,7 +85,7 @@ class _FakeConnectivityBlocState_3 extends _i1.SmartFake
 /// A class which mocks [AuthBlocBloc].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthBlocBloc extends _i1.Mock implements _i4.AuthBlocBloc {
+class MockAuthBlocBloc extends _i1.Mock implements _i5.AuthBlocBloc {
   MockAuthBlocBloc() {
     _i1.throwOnMissingStub(this);
   }
@@ -94,25 +107,33 @@ class MockAuthBlocBloc extends _i1.Mock implements _i4.AuthBlocBloc {
         ),
       ) as _i3.PerformLogout);
   @override
-  _i4.AuthBlocState get state => (super.noSuchMethod(
+  _i4.CheckLoggedInUseCase get checkLoggedIn => (super.noSuchMethod(
+        Invocation.getter(#checkLoggedIn),
+        returnValue: _FakeCheckLoggedInUseCase_2(
+          this,
+          Invocation.getter(#checkLoggedIn),
+        ),
+      ) as _i4.CheckLoggedInUseCase);
+  @override
+  _i5.AuthBlocState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _FakeAuthBlocState_2(
+        returnValue: _FakeAuthBlocState_3(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i4.AuthBlocState);
+      ) as _i5.AuthBlocState);
   @override
-  _i6.Stream<_i4.AuthBlocState> get stream => (super.noSuchMethod(
+  _i7.Stream<_i5.AuthBlocState> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i6.Stream<_i4.AuthBlocState>.empty(),
-      ) as _i6.Stream<_i4.AuthBlocState>);
+        returnValue: _i7.Stream<_i5.AuthBlocState>.empty(),
+      ) as _i7.Stream<_i5.AuthBlocState>);
   @override
   bool get isClosed => (super.noSuchMethod(
         Invocation.getter(#isClosed),
         returnValue: false,
       ) as bool);
   @override
-  void add(_i4.AuthBlocEvent? event) => super.noSuchMethod(
+  void add(_i5.AuthBlocEvent? event) => super.noSuchMethod(
         Invocation.method(
           #add,
           [event],
@@ -120,7 +141,7 @@ class MockAuthBlocBloc extends _i1.Mock implements _i4.AuthBlocBloc {
         returnValueForMissingStub: null,
       );
   @override
-  void onEvent(_i4.AuthBlocEvent? event) => super.noSuchMethod(
+  void onEvent(_i5.AuthBlocEvent? event) => super.noSuchMethod(
         Invocation.method(
           #onEvent,
           [event],
@@ -128,7 +149,7 @@ class MockAuthBlocBloc extends _i1.Mock implements _i4.AuthBlocBloc {
         returnValueForMissingStub: null,
       );
   @override
-  void emit(_i4.AuthBlocState? state) => super.noSuchMethod(
+  void emit(_i5.AuthBlocState? state) => super.noSuchMethod(
         Invocation.method(
           #emit,
           [state],
@@ -136,9 +157,9 @@ class MockAuthBlocBloc extends _i1.Mock implements _i4.AuthBlocBloc {
         returnValueForMissingStub: null,
       );
   @override
-  void on<E extends _i4.AuthBlocEvent>(
-    _i7.EventHandler<E, _i4.AuthBlocState>? handler, {
-    _i7.EventTransformer<E>? transformer,
+  void on<E extends _i5.AuthBlocEvent>(
+    _i8.EventHandler<E, _i5.AuthBlocState>? handler, {
+    _i8.EventTransformer<E>? transformer,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -150,7 +171,7 @@ class MockAuthBlocBloc extends _i1.Mock implements _i4.AuthBlocBloc {
       );
   @override
   void onTransition(
-          _i7.Transition<_i4.AuthBlocEvent, _i4.AuthBlocState>? transition) =>
+          _i8.Transition<_i5.AuthBlocEvent, _i5.AuthBlocState>? transition) =>
       super.noSuchMethod(
         Invocation.method(
           #onTransition,
@@ -159,16 +180,16 @@ class MockAuthBlocBloc extends _i1.Mock implements _i4.AuthBlocBloc {
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<void> close() => (super.noSuchMethod(
+  _i7.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
   @override
-  void onChange(_i7.Change<_i4.AuthBlocState>? change) => super.noSuchMethod(
+  void onChange(_i8.Change<_i5.AuthBlocState>? change) => super.noSuchMethod(
         Invocation.method(
           #onChange,
           [change],
@@ -211,31 +232,31 @@ class MockAuthBlocBloc extends _i1.Mock implements _i4.AuthBlocBloc {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockConnectivityBlocBloc extends _i1.Mock
-    implements _i5.ConnectivityBlocBloc {
+    implements _i6.ConnectivityBlocBloc {
   MockConnectivityBlocBloc() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.ConnectivityBlocState get state => (super.noSuchMethod(
+  _i6.ConnectivityBlocState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _FakeConnectivityBlocState_3(
+        returnValue: _FakeConnectivityBlocState_4(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i5.ConnectivityBlocState);
+      ) as _i6.ConnectivityBlocState);
   @override
-  _i6.Stream<_i5.ConnectivityBlocState> get stream => (super.noSuchMethod(
+  _i7.Stream<_i6.ConnectivityBlocState> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i6.Stream<_i5.ConnectivityBlocState>.empty(),
-      ) as _i6.Stream<_i5.ConnectivityBlocState>);
+        returnValue: _i7.Stream<_i6.ConnectivityBlocState>.empty(),
+      ) as _i7.Stream<_i6.ConnectivityBlocState>);
   @override
   bool get isClosed => (super.noSuchMethod(
         Invocation.getter(#isClosed),
         returnValue: false,
       ) as bool);
   @override
-  void add(_i5.ConnectivityBlocEvent? event) => super.noSuchMethod(
+  void add(_i6.ConnectivityBlocEvent? event) => super.noSuchMethod(
         Invocation.method(
           #add,
           [event],
@@ -243,7 +264,7 @@ class MockConnectivityBlocBloc extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void onEvent(_i5.ConnectivityBlocEvent? event) => super.noSuchMethod(
+  void onEvent(_i6.ConnectivityBlocEvent? event) => super.noSuchMethod(
         Invocation.method(
           #onEvent,
           [event],
@@ -251,7 +272,7 @@ class MockConnectivityBlocBloc extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void emit(_i5.ConnectivityBlocState? state) => super.noSuchMethod(
+  void emit(_i6.ConnectivityBlocState? state) => super.noSuchMethod(
         Invocation.method(
           #emit,
           [state],
@@ -259,9 +280,9 @@ class MockConnectivityBlocBloc extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void on<E extends _i5.ConnectivityBlocEvent>(
-    _i7.EventHandler<E, _i5.ConnectivityBlocState>? handler, {
-    _i7.EventTransformer<E>? transformer,
+  void on<E extends _i6.ConnectivityBlocEvent>(
+    _i8.EventHandler<E, _i6.ConnectivityBlocState>? handler, {
+    _i8.EventTransformer<E>? transformer,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -273,7 +294,7 @@ class MockConnectivityBlocBloc extends _i1.Mock
       );
   @override
   void onTransition(
-          _i7.Transition<_i5.ConnectivityBlocEvent, _i5.ConnectivityBlocState>?
+          _i8.Transition<_i6.ConnectivityBlocEvent, _i6.ConnectivityBlocState>?
               transition) =>
       super.noSuchMethod(
         Invocation.method(
@@ -283,16 +304,16 @@ class MockConnectivityBlocBloc extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<void> close() => (super.noSuchMethod(
+  _i7.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
   @override
-  void onChange(_i7.Change<_i5.ConnectivityBlocState>? change) =>
+  void onChange(_i8.Change<_i6.ConnectivityBlocState>? change) =>
       super.noSuchMethod(
         Invocation.method(
           #onChange,
@@ -335,7 +356,7 @@ class MockConnectivityBlocBloc extends _i1.Mock
 /// A class which mocks [SharedPreferences].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSharedPreferences extends _i1.Mock implements _i8.SharedPreferences {
+class MockSharedPreferences extends _i1.Mock implements _i9.SharedPreferences {
   MockSharedPreferences() {
     _i1.throwOnMissingStub(this);
   }
@@ -388,7 +409,7 @@ class MockSharedPreferences extends _i1.Mock implements _i8.SharedPreferences {
         [key],
       )) as List<String>?);
   @override
-  _i6.Future<bool> setBool(
+  _i7.Future<bool> setBool(
     String? key,
     bool? value,
   ) =>
@@ -400,10 +421,10 @@ class MockSharedPreferences extends _i1.Mock implements _i8.SharedPreferences {
             value,
           ],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> setInt(
+  _i7.Future<bool> setInt(
     String? key,
     int? value,
   ) =>
@@ -415,10 +436,10 @@ class MockSharedPreferences extends _i1.Mock implements _i8.SharedPreferences {
             value,
           ],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> setDouble(
+  _i7.Future<bool> setDouble(
     String? key,
     double? value,
   ) =>
@@ -430,10 +451,10 @@ class MockSharedPreferences extends _i1.Mock implements _i8.SharedPreferences {
             value,
           ],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> setString(
+  _i7.Future<bool> setString(
     String? key,
     String? value,
   ) =>
@@ -445,10 +466,10 @@ class MockSharedPreferences extends _i1.Mock implements _i8.SharedPreferences {
             value,
           ],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> setStringList(
+  _i7.Future<bool> setStringList(
     String? key,
     List<String>? value,
   ) =>
@@ -460,39 +481,39 @@ class MockSharedPreferences extends _i1.Mock implements _i8.SharedPreferences {
             value,
           ],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> remove(String? key) => (super.noSuchMethod(
+  _i7.Future<bool> remove(String? key) => (super.noSuchMethod(
         Invocation.method(
           #remove,
           [key],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> commit() => (super.noSuchMethod(
+  _i7.Future<bool> commit() => (super.noSuchMethod(
         Invocation.method(
           #commit,
           [],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> clear() => (super.noSuchMethod(
+  _i7.Future<bool> clear() => (super.noSuchMethod(
         Invocation.method(
           #clear,
           [],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<void> reload() => (super.noSuchMethod(
+  _i7.Future<void> reload() => (super.noSuchMethod(
         Invocation.method(
           #reload,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }

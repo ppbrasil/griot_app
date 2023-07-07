@@ -7,6 +7,8 @@ abstract class AuthBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class AuthBlocLoadingApplicationEvent extends AuthBlocEvent {}
+
 class SignInWithCredentialsEvent extends AuthBlocEvent {
   final String username;
   final String password;

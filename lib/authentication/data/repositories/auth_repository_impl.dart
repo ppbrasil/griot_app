@@ -57,4 +57,10 @@ class AuthRepositoryImpl implements AuthRepository {
           ConnectivityFailure(message: 'Internet is not available'));
     }
   }
+
+  @override
+  Future<Either<Failure, Token>> performCheckLoggedIn() {
+    // TODO: implement performCheckLoggedIn
+    throw UnimplementedError();
+  }
 }

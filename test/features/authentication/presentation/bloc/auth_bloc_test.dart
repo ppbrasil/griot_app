@@ -1,27 +1,39 @@
 import 'package:griot_app/authentication/domain/entities/token.dart';
-import 'package:griot_app/authentication/domain/usecases/perform_login.dart';
-import 'package:griot_app/authentication/domain/usecases/perform_logout.dart';
+import 'package:griot_app/authentication/domain/usecases/perform_check_logged_in_usecase.dart'
+    as checkLoggedInUseCase;
+import 'package:griot_app/authentication/domain/usecases/perform_login.dart'
+    as logInUseCase;
+import 'package:griot_app/authentication/domain/usecases/perform_logout.dart'
+    as logOutUseCase;
 import 'package:griot_app/core/error/failures.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
-import 'auth_bloc_test.mocks.dart';
 import 'package:bloc_test/bloc_test.dart';
 
-@GenerateMocks([PerformLogin, PerformLogout])
+import 'auth_bloc_test.mocks.dart';
+
+@GenerateMocks([
+  logInUseCase.PerformLogin,
+  logOutUseCase.PerformLogout,
+  checkLoggedInUseCase.CheckLoggedInUseCase,
+])
 void main() {
   late AuthBlocBloc bloc;
   late MockPerformLogin mockPerformLogin;
   late MockPerformLogout mockPerformLogout;
+  late MockCheckLoggedInUseCase mockCheckLoggedIn;
 
   setUp(() {
     mockPerformLogin = MockPerformLogin();
     mockPerformLogout = MockPerformLogout();
+    mockCheckLoggedIn = MockCheckLoggedInUseCase();
     bloc = AuthBlocBloc(
       performLogin: mockPerformLogin,
       performLogout: mockPerformLogout,
+      checkLoggedIn: mockCheckLoggedIn,
     );
   });
 
@@ -37,19 +49,19 @@ void main() {
 
     test('Should get data from the concrete usecase', () async {
       //arrange
-      when(mockPerformLogin(
-              const Params(username: tUsername, password: tPassword)))
+      when(mockPerformLogin(const logInUseCase.Params(
+              username: tUsername, password: tPassword)))
           .thenAnswer((_) async => const Right(tToken));
 
       //act
       bloc.add(const SignInWithCredentialsEvent(
           password: tPassword, username: tUsername));
       await untilCalled(mockPerformLogin(
-          const Params(password: tPassword, username: tUsername)));
+          const logInUseCase.Params(password: tPassword, username: tUsername)));
 
       //assert
       verify(mockPerformLogin(
-          const Params(username: tUsername, password: tPassword)));
+          const logInUseCase.Params(username: tUsername, password: tPassword)));
     });
 
     test('Should emit Empty state when initialized', () async {
@@ -61,8 +73,8 @@ void main() {
       build: () {
         const tToken = Token(tokenString: 'wswsxwsc');
 
-        when(mockPerformLogin
-                .call(const Params(username: 'myUsername', password: '123')))
+        when(mockPerformLogin.call(const logInUseCase.Params(
+                username: 'myUsername', password: '123')))
             .thenAnswer(
           (_) async => Right(Token(tokenString: tToken.tokenString)),
         );
@@ -76,8 +88,8 @@ void main() {
     blocTest<AuthBlocBloc, AuthBlocState>(
       'should emit Error state when login fails',
       build: () {
-        when(mockPerformLogin
-                .call(const Params(username: 'myUsername', password: '123')))
+        when(mockPerformLogin.call(const logInUseCase.Params(
+                username: 'myUsername', password: '123')))
             .thenAnswer(
           (_) async => const Left(
               AuthenticationFailure(message: 'Authentication Failed')),
@@ -101,7 +113,7 @@ void main() {
     blocTest<AuthBlocBloc, AuthBlocState>(
       'should emit AuhtBlocLoggedOutState when LogoutEvent is added and performLogoutUseCase succeeds',
       build: () {
-        when(mockPerformLogout.call(const NoParams()))
+        when(mockPerformLogout.call(const logOutUseCase.NoParams()))
             .thenAnswer((_) async => const Right(true));
         return bloc;
       },
@@ -111,12 +123,37 @@ void main() {
     blocTest<AuthBlocBloc, AuthBlocState>(
       'should emit AuthBlocLogoutFailedState when LogoutEvent is added and performLogoutUseCase fails',
       build: () {
-        when(mockPerformLogout.call(const NoParams()))
+        when(mockPerformLogout.call(const logOutUseCase.NoParams()))
             .thenAnswer((_) async => const Left(InvalidTokenFailure()));
         return bloc;
       },
       act: (bloc) => bloc.add(LogoutEvent()),
       expect: () => [AuthBlocLogoutFailedState()],
+    );
+  });
+  group('AuthBlocLoadingApplicationEvent', () {
+    const tTokenString = 'iuytviuvuyvo';
+    const tToken = Token(tokenString: tTokenString);
+    blocTest<AuthBlocBloc, AuthBlocState>(
+      'should emit AuthBlocAuthorizedState when token is found',
+      build: () {
+        when(mockCheckLoggedIn.call(const checkLoggedInUseCase.NoParams()))
+            .thenAnswer((_) async => const Right(tToken));
+        return bloc;
+      },
+      act: (bloc) => bloc.add(AuthBlocLoadingApplicationEvent()),
+      expect: () => [const AuthBlocAuthorizedState(token: tToken)],
+    );
+    blocTest<AuthBlocBloc, AuthBlocState>(
+      'should emit AuthBlocUnauthorizedState when token is not found',
+      build: () {
+        when(mockCheckLoggedIn.call(const checkLoggedInUseCase.NoParams()))
+            .thenAnswer((_) async =>
+                const Left(AuthenticationFailure(message: 'Token not found')));
+        return bloc;
+      },
+      act: (bloc) => bloc.add(AuthBlocLoadingApplicationEvent()),
+      expect: () => [AuthBlocUnauthorizedState()],
     );
   });
 }

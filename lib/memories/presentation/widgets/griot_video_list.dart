@@ -26,11 +26,13 @@ class _GriotVideoListState extends State<GriotVideoList> {
                 state.memory!.videos != null ? state.memory!.videos!.length : 0,
                 (index) {
                   final video = state.memory!.videos![index];
+                  Uri videoUri = Uri.parse(video.file);
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: GriotVideoTile(
                       videoPlayerController:
-                          VideoPlayerController.network(video.file),
+                          VideoPlayerController.networkUrl(videoUri),
                     ),
                   );
                 },

@@ -83,4 +83,20 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, bool>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Token>> performCheckLoggedIn() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #performCheckLoggedIn,
+          [],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Token>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Token>(
+          this,
+          Invocation.method(
+            #performCheckLoggedIn,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Token>>);
 }
