@@ -87,16 +87,29 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
                       ),
                       // Space
                       const Spacer(flex: 1),
-                      // Video List
-                      const Expanded(flex: 60, child: GriotVideoList()),
-                      // Space
-                      const Spacer(flex: 1),
-                      // addvideo error message
-                      ErrorTextField(errorMessage: videoAddingErrorMessage),
-                      // Space
-                      const Spacer(flex: 3),
-                      // Add Video Button
-                      GriotCircularButton(onPressed: () => _addVideo(context)),
+                      // Video List, Spacer, Error message, Spacer, and Add Video Button wrapped in Expanded and SingleChildScrollView
+                      Flexible(
+                        fit: FlexFit.loose,
+                        flex: 65,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              // Video List - removed Expanded
+                              const GriotVideoList(),
+                              // Space
+                              const SizedBox(),
+                              // addvideo error message
+                              ErrorTextField(
+                                  errorMessage: videoAddingErrorMessage),
+                              // Space
+                              const SizedBox(),
+                              // Add Video Button
+                              GriotAddVideosButton(
+                                  onPressed: () => _addVideo(context)),
+                            ],
+                          ),
+                        ),
+                      ),
                       // Space
                       const Spacer(flex: 3),
                       // Save/Update error message

@@ -21,18 +21,20 @@ class _GriotVideoListState extends State<GriotVideoList> {
         builder: (context, state) {
           if (state is MemoryManipulationSuccessState ||
               state is MemoryManipulationFailureState) {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.memory!.videos != null
-                  ? state.memory!.videos!.length
-                  : 0,
-              itemBuilder: (context, index) {
-                final video = state.memory!.videos![index];
-                return GriotVideoTile(
-                  videoPlayerController:
-                      VideoPlayerController.network(video.file),
-                );
-              },
+            return Column(
+              children: List<Widget>.generate(
+                state.memory!.videos != null ? state.memory!.videos!.length : 0,
+                (index) {
+                  final video = state.memory!.videos![index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: GriotVideoTile(
+                      videoPlayerController:
+                          VideoPlayerController.network(video.file),
+                    ),
+                  );
+                },
+              ),
             );
           } else {
             return Container();
@@ -97,15 +99,22 @@ class _GriotVideoTileState extends State<GriotVideoTile> {
         }
         return true; // Allow back navigation
       },
-      child: Card(
-        child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AspectRatio(
-              aspectRatio: videoAspectRatio,
-              child: Chewie(
-                controller: _chewieController,
+      child: AspectRatio(
+        aspectRatio: 316 / 150, // Replace with your desired aspect ratio
+        child: Container(
+          child: Card(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                  8.0), // Adjust the border radius as needed
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: Chewie(
+                  controller: _chewieController,
+                ),
               ),
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }
