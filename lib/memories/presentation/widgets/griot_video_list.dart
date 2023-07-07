@@ -88,7 +88,6 @@ class _GriotVideoTileState extends State<GriotVideoTile> {
 
   @override
   Widget build(BuildContext context) {
-    final videoAspectRatio = widget.videoPlayerController.value.aspectRatio;
     final isHorizontalVideo =
         (widget.videoPlayerController.value.size.aspectRatio > 1);
 
@@ -103,16 +102,14 @@ class _GriotVideoTileState extends State<GriotVideoTile> {
       },
       child: AspectRatio(
         aspectRatio: 316 / 150, // Replace with your desired aspect ratio
-        child: Container(
-          child: Card(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(
-                  8.0), // Adjust the border radius as needed
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: Chewie(
-                  controller: _chewieController,
-                ),
+        child: Card(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(
+                8.0), // Adjust the border radius as needed
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: Chewie(
+                controller: _chewieController,
               ),
             ),
           ),

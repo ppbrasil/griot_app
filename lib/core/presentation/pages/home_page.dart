@@ -20,10 +20,10 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const Dashboard(),
     const MemoriesListPage(),
-    const BelovedOnesListPage(),
     const MemoryManipulationPage(
       memory: null,
     ),
+    const BelovedOnesListPage(),
     const ProfileDetailsPage(),
   ];
 

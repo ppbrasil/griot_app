@@ -45,6 +45,8 @@ class AuthenticationLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = BlocProvider.of<AuthBlocBloc>(context);
+    authBloc.add(AuthBlocLoadingApplicationEvent());
     return BlocBuilder<AuthBlocBloc, AuthBlocState>(
       builder: (context, authState) {
         if (authState is AuthBlocAuthorizedState) {
