@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/authentication/presentation/bloc/auth_bloc_bloc.dart';
 import 'package:griot_app/core/presentation/pages/base_page.dart';
+import 'package:griot_app/core/presentation/widgets/griot_app_bar.dart';
 import 'package:griot_app/profile/domain/entities/profile.dart';
 import 'package:griot_app/profile/presentation/bloc/profile_bloc_bloc.dart';
 
@@ -26,9 +27,9 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
   Widget build(BuildContext context) {
     return BasePage(
       child: Scaffold(
-        appBar: AppBar(
+        appBar: const GriotAppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Memories List'),
+          title: 'Your Profile',
         ),
         body: BlocBuilder<ProfileBlocBloc, ProfileBlocState>(
             builder: (context, state) {

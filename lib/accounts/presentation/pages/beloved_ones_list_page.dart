@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/accounts/presentation/bloc/beloved_ones_bloc_bloc.dart';
 import 'package:griot_app/core/presentation/pages/base_page.dart';
+import 'package:griot_app/core/presentation/widgets/griot_app_bar.dart';
 
 class BelovedOnesListPage extends StatefulWidget {
   const BelovedOnesListPage({super.key});
@@ -22,9 +23,9 @@ class _BelovedOnesListPageState extends State<BelovedOnesListPage> {
   Widget build(BuildContext context) {
     return BasePage(
       child: Scaffold(
-        appBar: AppBar(
+        appBar: const GriotAppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Beloved Ones'),
+          title: 'Beloved Ones',
         ),
         body: BlocBuilder<BelovedOnesBlocBloc, BelovedOnesBlocState>(
           builder: (context, state) {

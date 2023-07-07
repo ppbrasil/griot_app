@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/core/presentation/pages/base_page.dart';
+import 'package:griot_app/core/presentation/widgets/griot_app_bar.dart';
 import 'package:griot_app/injection_container.dart';
 import 'package:griot_app/memories/domain/entities/memory.dart';
 import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
@@ -63,7 +64,12 @@ class _MemoryManipulationPage extends State<MemoryManipulationPage> {
                 videoAddingErrorMessage = state.videoAddingErrorMesssage;
               }
               return Scaffold(
-                appBar: AppBar(title: Text(state.memory!.title!)),
+                appBar: GriotAppBar(
+                  title: state.memory!.title! != ''
+                      ? state.memory!.title!
+                      : 'unnamed memory',
+                  automaticallyImplyLeading: true,
+                ),
                 body: Padding(
                   padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                   child: Column(
