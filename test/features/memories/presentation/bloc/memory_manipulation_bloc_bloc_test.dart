@@ -10,8 +10,6 @@ import 'package:griot_app/memories/domain/usecases/commit_changes_to_memory_usec
     as commitMemoryUseCase;
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
     as createMemory;
-import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart'
-    as addVideosToMemory;
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart'
     as getMemoryDetails;
 import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
@@ -26,7 +24,6 @@ import 'memory_manipulation_bloc_bloc_test.mocks.dart';
 @GenerateMocks([
   MainAccountIdProvider,
   createMemory.CreateMemoriesUseCase,
-  addVideosToMemory.AddVideoFromLibraryToMemoryUseCase,
   getMemoryDetails.GetMemoriesUseCase,
   addVideosToDraft.AddVideoListFromLibraryToDraftMemoryUseCase,
   commitMemoryUseCase.CommitChangesToMemoryUseCase
@@ -35,8 +32,6 @@ void main() {
   late ValidationService validator;
   late MemoryManipulationBlocBloc bloc;
   late MockCreateMemoriesUseCase mockCreateMemoriesUseCase;
-  late MockAddVideoFromLibraryToMemoryUseCase
-      mockAddVideoFromLibraryToMemoryUseCase;
   late MockGetMemoriesUseCase mockGetMemoriesUseCase;
   late MockCommitChangesToMemoryUseCase mockCommitChangesToMemoryUseCase;
   late MockMainAccountIdProvider mockMainAccountIdProvider;
@@ -51,8 +46,6 @@ void main() {
     mockCreateMemoriesUseCase = MockCreateMemoriesUseCase();
     mockAddVideosToDraftUseCase =
         MockAddVideoListFromLibraryToDraftMemoryUseCase();
-    mockAddVideoFromLibraryToMemoryUseCase =
-        MockAddVideoFromLibraryToMemoryUseCase();
     mockGetMemoriesUseCase = MockGetMemoriesUseCase();
     mockCommitChangesToMemoryUseCase = MockCommitChangesToMemoryUseCase();
 
@@ -62,7 +55,6 @@ void main() {
         //UseCases
         createMemory: mockCreateMemoriesUseCase,
         addVideosToDraft: mockAddVideosToDraftUseCase,
-        addVideos: mockAddVideoFromLibraryToMemoryUseCase,
         getMemoryDetails: mockGetMemoriesUseCase,
         commitMemory: mockCommitChangesToMemoryUseCase);
   });

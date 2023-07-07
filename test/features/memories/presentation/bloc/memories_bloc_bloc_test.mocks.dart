@@ -10,7 +10,7 @@ import 'package:griot_app/core/error/failures.dart' as _i6;
 import 'package:griot_app/memories/domain/entities/memory.dart' as _i7;
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart'
     as _i2;
-import 'package:griot_app/memories/domain/usecases/get_memories_list.dart'
+import 'package:griot_app/memories/domain/usecases/get_memories_list_usecase.dart'
     as _i4;
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart'
     as _i8;

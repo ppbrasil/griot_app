@@ -4,7 +4,6 @@ import 'package:griot_app/core/error/failures.dart';
 import 'package:griot_app/core/network/network_info.dart';
 import 'package:griot_app/memories/data/data_source/memories_local_data_source.dart';
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
-import 'package:griot_app/memories/data/models/memory_model.dart';
 import 'package:griot_app/memories/data/models/video_model.dart';
 import 'package:griot_app/memories/data/repositories/memory_processor.dart';
 import 'package:griot_app/memories/data/repositories/video_processor.dart';
@@ -55,58 +54,6 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
       }
     } else {
       return const Left(ConnectivityFailure(message: 'No internet connection'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, Memory>> performcreateMemory({
-    required Memory memory,
-  }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final Memory savedMemory =
-            await remoteDataSource.postMemoryToAPI(memory: memory);
-        return Right(savedMemory);
-      } on ServerException {
-        return const Left(ServerFailure(message: 'Unable to retrieve data'));
-      } on InvalidTokenException {
-        return const Left(ServerFailure(message: 'Token rejected'));
-      }
-    } else {
-      return const Left(ConnectivityFailure(message: 'No internet connection'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, Memory>> performAddVideoFromLibraryToMemory(
-      {required Memory memory}) async {
-    if (!await networkInfo.isConnected) {
-      return const Left(ConnectivityFailure(message: 'No internet connection'));
-    }
-
-    try {
-      final List<VideoModel>? videosList =
-          await localDataSource.getVideosFromLibraryFromDevice();
-      if (videosList == null) {
-        return Right(memory);
-      }
-
-      for (final video in videosList) {
-        await remoteDataSource.postVideoToAPI(
-            video: video, memoryId: memory.id!);
-      }
-
-      final MemoryModel updatedMemory =
-          await remoteDataSource.getMemoryDetailsFromAPI(memoryId: memory.id!);
-
-      return Right(updatedMemory);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'Unable to POST data to API'));
-    } on InvalidTokenException {
-      return const Left(ServerFailure(message: 'Token rejected'));
-    } on MediaServiceException {
-      return const Left(MediaServiceFailure(
-          message: 'Unable to retrieve media from library'));
     }
   }
 
@@ -173,22 +120,5 @@ class MemoriesRepositoryImpl implements MemoriesRepository {
     }
 
     return memoryProcessor.process(memory);
-  }
-
-  @override
-  Future<Either<Failure, Memory>> performUpdateMemory(
-      {required Memory memory}) async {
-    if (!await networkInfo.isConnected) {
-      return const Left(ConnectivityFailure(message: 'No internet connection'));
-    }
-    try {
-      final Memory updatedMemory =
-          await remoteDataSource.patchUpdateMemoryToAPI(memory: memory);
-      return Right(updatedMemory);
-    } on InvalidTokenException {
-      return const Left(ServerFailure(message: 'Token rejected'));
-    } on ServerException {
-      return const Left(ServerFailure(message: 'Unable to update memory'));
-    }
   }
 }

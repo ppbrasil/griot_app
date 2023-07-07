@@ -27,11 +27,10 @@ import 'package:griot_app/memories/data/data_source/memories_local_data_source.d
 import 'package:griot_app/memories/data/data_source/memories_remote_data_source.dart';
 import 'package:griot_app/memories/data/repositories/memories_repository_impl.dart';
 import 'package:griot_app/memories/domain/repositories/memories_repository.dart';
-import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart';
 import 'package:griot_app/memories/domain/usecases/add_video_list_from_library_to_draft_memory_usecase.dart';
 import 'package:griot_app/memories/domain/usecases/commit_changes_to_memory_usecase.dart';
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart';
-import 'package:griot_app/memories/domain/usecases/get_memories_list.dart';
+import 'package:griot_app/memories/domain/usecases/get_memories_list_usecase.dart';
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart';
 import 'package:griot_app/memories/presentation/bloc/memories_bloc_bloc.dart';
 import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
@@ -137,7 +136,6 @@ void initMemories() {
   sl.registerFactory(() => MemoryManipulationBlocBloc(
         createMemory: sl(),
         accountIdProvider: sl(),
-        addVideos: sl(),
         getMemoryDetails: sl(),
         validationService: sl(),
         addVideosToDraft: sl(),
@@ -148,7 +146,6 @@ void initMemories() {
   sl.registerLazySingleton(() => CreateMemoriesUseCase(sl()));
   sl.registerLazySingleton(() => GetMemoriesUseCase(sl()));
   sl.registerLazySingleton(() => GetMemoriesList(sl()));
-  sl.registerLazySingleton(() => AddVideoFromLibraryToMemoryUseCase(sl()));
   sl.registerLazySingleton(
       () => AddVideoListFromLibraryToDraftMemoryUseCase(sl()));
   sl.registerLazySingleton(() => CommitChangesToMemoryUseCase(sl()));

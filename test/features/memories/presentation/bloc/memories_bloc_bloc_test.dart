@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:test/test.dart';
 
-import 'package:griot_app/memories/domain/usecases/get_memories_list.dart'
+import 'package:griot_app/memories/domain/usecases/get_memories_list_usecase.dart'
     as getMemoriesUseCase;
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart'
     as getMemoryUseCase;

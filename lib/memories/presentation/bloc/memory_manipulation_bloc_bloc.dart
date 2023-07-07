@@ -10,8 +10,6 @@ import 'package:griot_app/memories/domain/usecases/commit_changes_to_memory_usec
     as CommitMemoryUseCase;
 import 'package:griot_app/memories/domain/usecases/create_memory_usecase.dart'
     as createMemoryUseCase;
-import 'package:griot_app/memories/domain/usecases/add_video_from_library_to_memory_usecase.dart'
-    as addLibraryVideosUseCase;
 import 'package:griot_app/memories/domain/usecases/get_memory_details_usecase.dart'
     as getMemoryUseCase;
 
@@ -21,7 +19,6 @@ part 'memory_manipulation_bloc_state.dart';
 class MemoryManipulationBlocBloc
     extends Bloc<MemoryManipulationBlocEvent, MemoryManipulationBlocState> {
   final createMemoryUseCase.CreateMemoriesUseCase createMemory;
-  final addLibraryVideosUseCase.AddVideoFromLibraryToMemoryUseCase addVideos;
   final addLibraryVideosToDraftUseCase
       .AddVideoListFromLibraryToDraftMemoryUseCase addVideosToDraft;
   final getMemoryUseCase.GetMemoriesUseCase getMemoryDetails;
@@ -31,7 +28,6 @@ class MemoryManipulationBlocBloc
 
   MemoryManipulationBlocBloc({
     required this.createMemory,
-    required this.addVideos,
     required this.accountIdProvider,
     required this.getMemoryDetails,
     required this.validationService,

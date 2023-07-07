@@ -62,44 +62,6 @@ class MockMemoriesRepository extends _i1.Mock
             )),
           ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>> performcreateMemory(
-          {required _i6.Memory? memory}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #performcreateMemory,
-          [],
-          {#memory: memory},
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>.value(
-            _FakeEither_0<_i5.Failure, _i6.Memory>(
-          this,
-          Invocation.method(
-            #performcreateMemory,
-            [],
-            {#memory: memory},
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>
-      performAddVideoFromLibraryToMemory({required _i6.Memory? memory}) =>
-          (super.noSuchMethod(
-            Invocation.method(
-              #performAddVideoFromLibraryToMemory,
-              [],
-              {#memory: memory},
-            ),
-            returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>.value(
-                _FakeEither_0<_i5.Failure, _i6.Memory>(
-              this,
-              Invocation.method(
-                #performAddVideoFromLibraryToMemory,
-                [],
-                {#memory: memory},
-              ),
-            )),
-          ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
-  @override
   _i4.Future<_i2.Either<_i5.Failure, List<_i6.Memory>>> getMemoriesList() =>
       (super.noSuchMethod(
         Invocation.method(
@@ -169,25 +131,6 @@ class MockMemoriesRepository extends _i1.Mock
           this,
           Invocation.method(
             #performCommitChangesToMemory,
-            [],
-            {#memory: memory},
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>> performUpdateMemory(
-          {required _i6.Memory? memory}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #performUpdateMemory,
-          [],
-          {#memory: memory},
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Memory>>.value(
-            _FakeEither_0<_i5.Failure, _i6.Memory>(
-          this,
-          Invocation.method(
-            #performUpdateMemory,
             [],
             {#memory: memory},
           ),
