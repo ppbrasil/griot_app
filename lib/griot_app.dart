@@ -20,8 +20,15 @@ class GriotApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<AuthBlocBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBlocBloc>(
+          create: (BuildContext context) => sl<AuthBlocBloc>(),
+        ),
+        BlocProvider<ConnectivityBlocBloc>(
+          create: (BuildContext context) => sl<ConnectivityBlocBloc>(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Griot App',
         theme: AppTheme.lightTheme,
@@ -69,7 +76,6 @@ class AppLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<ConnectivityBlocBloc>()),
         BlocProvider(create: (context) => NavigationBloc()),
         BlocProvider(create: (context) => sl<MemoriesBlocBloc>()),
         BlocProvider(create: (context) => sl<BelovedOnesBlocBloc>()),
