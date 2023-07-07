@@ -174,28 +174,6 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
   }
 
   @override
-  Future<int> deleteVideoFromAPI({required int videoId}) async {
-    final String token = await tokenProvider.getToken();
-
-    final response = await client.delete(
-      Uri.parse('http://app.griot.me/api/video/delete/$videoId/'),
-      headers: {'Content-Type': 'application/json', 'Authorization': token},
-    );
-
-    return response.fold(
-      (exception) {
-        throw InvalidTokenException();
-      },
-      (response) {
-        if (response.statusCode == 201 || response.statusCode == 204) {
-          return 0;
-        }
-        throw ServerException();
-      },
-    );
-  }
-
-  @override
   Future<MemoryModel> patchUpdateMemoryToAPI({required Memory memory}) async {
     final String token = await tokenProvider.getToken();
     final int memoryId = memory.id!;
@@ -216,6 +194,28 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
       (response) {
         if (response.statusCode == 201 || response.statusCode == 200) {
           return MemoryModel.fromJson(json.decode(response.body));
+        }
+        throw ServerException();
+      },
+    );
+  }
+
+  @override
+  Future<int> deleteVideoFromAPI({required int videoId}) async {
+    final String token = await tokenProvider.getToken();
+
+    final response = await client.delete(
+      Uri.parse('http://app.griot.me/api/video/delete/$videoId/'),
+      headers: {'Content-Type': 'application/json', 'Authorization': token},
+    );
+
+    return response.fold(
+      (exception) {
+        throw InvalidTokenException();
+      },
+      (response) {
+        if (response.statusCode == 201 || response.statusCode == 204) {
+          return 0;
         }
         throw ServerException();
       },
