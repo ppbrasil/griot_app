@@ -1,6 +1,7 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:griot_app/memories/domain/entities/video.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
@@ -18,57 +19,90 @@ class _GriotVideoListState extends State<GriotVideoList> {
     return Material(
       child:
           BlocBuilder<MemoryManipulationBlocBloc, MemoryManipulationBlocState>(
-        builder: (context, state) {
-          if (state is MemoryManipulationSuccessState ||
-              state is MemoryManipulationFailureState) {
-            return Column(
-              children: List<Widget>.generate(
+              builder: (context, state) {
+        if (state is MemoryManipulationSuccessState ||
+            state is MemoryManipulationFailureState) {
+          return Column(
+            children: List<Widget>.generate(
                 state.memory!.videos != null ? state.memory!.videos!.length : 0,
                 (index) {
-                  final video = state.memory!.videos![index];
-                  Uri videoUri = Uri.parse(video.file);
+              final video = state.memory!.videos![index];
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: GriotVideoTile(
-                      videoPlayerController:
-                          VideoPlayerController.networkUrl(videoUri),
+              return GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GriotVideoPlayer(video: video),
+                  ),
+                ),
+                child: Stack(
+                  alignment: Alignment.center, // to center the play icon
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: AspectRatio(
+                        aspectRatio: 316 / 150,
+                        child: ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(20.0), // Rounded edges
+                          child: FittedBox(
+                            fit: BoxFit
+                                .cover, // This BoxFit will cover the box with the image, potentially cropping it, while maintaining the image proportions
+                            child: video.thumbnail != null
+                                ? Image.network(
+                                    video.thumbnail!) // remote thumbnail
+                                : video.thumbnailData != null
+                                    ? Image.memory(
+                                        video.thumbnailData!) // local thumbnail
+                                    : Container(), // Some fallback in case of no thumbnail. Adjust this according to your needs.
+                          ),
+                        ),
+                      ),
                     ),
-                  );
-                },
-              ),
-            );
-          } else {
-            return Container();
-          }
-        },
-      ),
+                    const Icon(
+                      Icons.play_circle_fill, // Play icon
+                      color: Colors.white,
+                      size: 28.0,
+                    ),
+                  ],
+                ),
+              );
+            }),
+          );
+        } else {
+          return Container();
+        }
+      }),
     );
   }
 }
 
-class GriotVideoTile extends StatefulWidget {
-  final VideoPlayerController videoPlayerController;
+class GriotVideoPlayer extends StatefulWidget {
+  final Video video;
 
-  const GriotVideoTile({super.key, required this.videoPlayerController});
+  const GriotVideoPlayer({Key? key, required this.video}) : super(key: key);
 
   @override
-  State<GriotVideoTile> createState() => _GriotVideoTileState();
+  State<GriotVideoPlayer> createState() => _GriotVideoPlayerState();
 }
 
-class _GriotVideoTileState extends State<GriotVideoTile> {
+class _GriotVideoPlayerState extends State<GriotVideoPlayer> {
   late ChewieController _chewieController;
+  late VideoPlayerController _videoPlayerController;
 
   @override
   void initState() {
     super.initState();
+    _videoPlayerController = VideoPlayerController.networkUrl(
+      Uri.parse(widget.video.file),
+    );
     _chewieController = ChewieController(
-      videoPlayerController: widget.videoPlayerController,
+      videoPlayerController: _videoPlayerController,
       deviceOrientationsAfterFullScreen: [
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown
       ],
-      autoPlay: false,
+      autoPlay: true,
       autoInitialize: true,
       errorBuilder: (context, errorMessage) {
         return Center(
@@ -76,43 +110,15 @@ class _GriotVideoTileState extends State<GriotVideoTile> {
                 style: const TextStyle(color: Colors.white)));
       },
     );
-    // Set preferred orientation to landscape if video is horizontal
-    final videoValue = widget.videoPlayerController.value;
-    if (videoValue.size.width > videoValue.size.height) {
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ]);
-    } else {}
   }
 
   @override
   Widget build(BuildContext context) {
-    final isHorizontalVideo =
-        (widget.videoPlayerController.value.size.aspectRatio > 1);
-
-    return WillPopScope(
-      onWillPop: () async {
-        if (isHorizontalVideo) {
-          SystemChrome.setPreferredOrientations([
-            DeviceOrientation.portraitUp,
-          ]);
-        }
-        return true; // Allow back navigation
-      },
-      child: AspectRatio(
-        aspectRatio: 316 / 150, // Replace with your desired aspect ratio
-        child: Card(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(
-                8.0), // Adjust the border radius as needed
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: Chewie(
-                controller: _chewieController,
-              ),
-            ),
-          ),
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: Chewie(
+          controller: _chewieController,
         ),
       ),
     );
@@ -121,7 +127,7 @@ class _GriotVideoTileState extends State<GriotVideoTile> {
   @override
   void dispose() {
     super.dispose();
-    widget.videoPlayerController.dispose();
+    _videoPlayerController.dispose();
     _chewieController.dispose();
   }
 }
