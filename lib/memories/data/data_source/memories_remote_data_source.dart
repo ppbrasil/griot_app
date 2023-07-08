@@ -115,14 +115,6 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
   }) async {
     final String token = await tokenProvider.getToken();
 
-    // Generate the thumbnail
-    final thumbnailBytes =
-        await thumbnailService.generateThumbnail(videoUrl: video.file);
-
-    if (thumbnailBytes == null) {
-      throw Exception('Failed to generate thumbnail.');
-    }
-
     int randInt = Random().nextInt(1000000);
 
     // Add the video file
@@ -136,7 +128,7 @@ class MemoriesRemoteDataSourceImpl implements MemoriesRemoteDataSource {
     // Add the thumbnail
     http.MultipartFile thumbnailFile = http.MultipartFile.fromBytes(
       'thumbnail',
-      thumbnailBytes,
+      video.thumbnailData!,
       filename: '$memoryId-$randInt.png',
       contentType: MediaType('image', 'png'),
     );

@@ -5,6 +5,7 @@ class VideoModel extends Video {
     super.id,
     required super.file,
     super.thumbnail,
+    super.thumbnailData,
     super.name,
     super.memoryId,
   });

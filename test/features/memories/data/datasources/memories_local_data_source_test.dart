@@ -14,13 +14,16 @@ void main() {
 
   setUp(() {
     mockMediaService = MockMediaService();
-    datasource = MemoriesLocalDataSourceImpl(mediaService: mockMediaService);
+    datasource = MemoriesLocalDataSourceImpl(
+      mediaService: mockMediaService,
+    );
   });
 
   group('getVideosFromLibraryFromDevice', () {
     const VideoModel tVideoModel1 = VideoModel(
       id: 1,
       file: '/path/to/file/1',
+      thumbnail: null,
       name: 'Video Name 1',
       memoryId: null,
     );
@@ -28,6 +31,7 @@ void main() {
     const VideoModel tVideoModel2 = VideoModel(
       id: 2,
       file: '/path/to/file/2',
+      thumbnail: null,
       name: 'Video Name 2',
       memoryId: null,
     );
@@ -38,6 +42,7 @@ void main() {
       'Should return List<VideoModel> when selectiong is successful',
       () async {
         // arrange
+
         when(mockMediaService.getMultipleVideos())
             .thenAnswer((_) async => tVideoModelList);
 

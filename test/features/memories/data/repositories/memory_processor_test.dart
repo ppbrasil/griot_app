@@ -43,7 +43,13 @@ void main() {
   group('MemoryCreator', () {
     List<Video> tTobeAddedVideoList = [
       const Video(
-          id: 1, file: 'myPath', thumbnail: null, name: 'myVideo', memoryId: 1)
+        id: 1,
+        file: 'myPath',
+        thumbnail: null,
+        name: 'myVideo',
+        memoryId: 1,
+        thumbnailData: null,
+      )
     ];
     Memory tDraftMemory = Memory(
         id: null, title: 'MyMemory', accountId: 1, videos: tTobeAddedVideoList);
@@ -164,20 +170,24 @@ void main() {
   group('MemoryUpdater', () {
     const List<Video> tTobeAddedVideoList = [
       Video(
-          id: null,
-          file: 'myNewPath',
-          thumbnail: null,
-          name: 'myNewVideo',
-          memoryId: 1)
+        id: null,
+        file: 'myNewPath',
+        thumbnail: null,
+        name: 'myNewVideo',
+        memoryId: 1,
+        thumbnailData: null,
+      )
     ];
 
     const List<Video> tFinalVideoList = [
       Video(
-          id: 2,
-          file: 'myNewPath',
-          thumbnail: null,
-          name: 'myNewVideo',
-          memoryId: 1)
+        id: 2,
+        file: 'myNewPath',
+        thumbnail: null,
+        name: 'myNewVideo',
+        memoryId: 1,
+        thumbnailData: null,
+      )
     ];
 
     MemoryModel tDraftMemory = MemoryModel(

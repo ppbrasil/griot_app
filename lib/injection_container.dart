@@ -85,7 +85,7 @@ Future<void> init() async {
   sl.registerLazySingleton<TokenProvider>(
       () => TokenProviderImpl(sharedPreferences: sl()));
   sl.registerLazySingleton<MediaService>(
-      () => MediaServiceImpl(imagePicker: sl()));
+      () => MediaServiceImpl(imagePicker: sl(), thumbnailService: sl()));
   sl.registerLazySingleton<ThumbnailService>(
       () => VideoCompressThumbnailService());
   sl.registerLazySingleton<ValidationService>(() => ValidationService());

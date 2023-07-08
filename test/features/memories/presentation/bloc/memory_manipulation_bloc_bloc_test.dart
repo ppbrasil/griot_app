@@ -224,6 +224,7 @@ void main() {
       thumbnail: 'myThumb',
       name: null,
       memoryId: null,
+      thumbnailData: null,
     );
     List<Video> tFinalVideoList = [tVideo1];
 
@@ -344,17 +345,21 @@ void main() {
       title: 'My Title',
       videos: [
         Video(
-            id: null,
-            file: 'path1',
-            thumbnail: 'thumbnail1',
-            name: 'Video Name1',
-            memoryId: tMemoryId),
+          id: null,
+          file: 'path1',
+          thumbnail: 'thumbnail1',
+          name: 'Video Name1',
+          memoryId: tMemoryId,
+          thumbnailData: null,
+        ),
         Video(
-            id: null,
-            file: 'path2',
-            thumbnail: 'thumbnail2',
-            name: 'Video Name2',
-            memoryId: tMemoryId),
+          id: null,
+          file: 'path2',
+          thumbnail: 'thumbnail2',
+          name: 'Video Name2',
+          memoryId: tMemoryId,
+          thumbnailData: null,
+        ),
       ],
     );
 
@@ -364,17 +369,21 @@ void main() {
       title: 'My Title',
       videos: [
         Video(
-            id: 1,
-            file: 'path1',
-            thumbnail: 'thumbnail1',
-            name: 'Video Name1',
-            memoryId: tMemoryId),
+          id: 1,
+          file: 'path1',
+          thumbnail: 'thumbnail1',
+          name: 'Video Name1',
+          memoryId: tMemoryId,
+          thumbnailData: null,
+        ),
         Video(
-            id: 2,
-            file: 'path2',
-            thumbnail: 'thumbnail2',
-            name: 'Video Name2',
-            memoryId: tMemoryId),
+          id: 2,
+          file: 'path2',
+          thumbnail: 'thumbnail2',
+          name: 'Video Name2',
+          memoryId: tMemoryId,
+          thumbnailData: null,
+        ),
       ],
     );
 

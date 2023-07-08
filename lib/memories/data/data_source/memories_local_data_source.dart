@@ -15,6 +15,7 @@ class MemoriesLocalDataSourceImpl implements MemoriesLocalDataSource {
   Future<List<VideoModel>?> getVideosFromLibraryFromDevice() async {
     try {
       final List<VideoModel>? files = await mediaService.getMultipleVideos();
+
       return files;
     } catch (e) {
       throw MediaServiceException();

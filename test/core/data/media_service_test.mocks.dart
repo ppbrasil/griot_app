@@ -4,7 +4,9 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
+import 'dart:typed_data' as _i6;
 
+import 'package:griot_app/core/services/thumbnail_services.dart' as _i5;
 import 'package:image_picker/image_picker.dart' as _i3;
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart'
     as _i2;
@@ -247,4 +249,24 @@ class MockImagePicker extends _i1.Mock implements _i3.ImagePicker {
         ),
         returnValue: false,
       ) as bool);
+}
+
+/// A class which mocks [ThumbnailService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockThumbnailService extends _i1.Mock implements _i5.ThumbnailService {
+  MockThumbnailService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i6.Uint8List?> generateThumbnail({required String? videoUrl}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #generateThumbnail,
+          [],
+          {#videoUrl: videoUrl},
+        ),
+        returnValue: _i4.Future<_i6.Uint8List?>.value(),
+      ) as _i4.Future<_i6.Uint8List?>);
 }

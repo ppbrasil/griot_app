@@ -86,7 +86,12 @@ void main() {
   });
   group('processVideoChanges', () {
     Video tPreviousVideo = const Video(
-        id: 1, file: 'MyPath2', memoryId: 1, name: null, thumbnail: null);
+        id: 1,
+        file: 'MyPath2',
+        memoryId: 1,
+        name: null,
+        thumbnail: null,
+        thumbnailData: null);
     VideoModel tNewVideoModel = const VideoModel(
         id: null, file: 'MyPath1', memoryId: 1, name: null, thumbnail: null);
 

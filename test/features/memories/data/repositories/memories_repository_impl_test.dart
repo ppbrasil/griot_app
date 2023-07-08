@@ -247,6 +247,7 @@ void main() {
       id: 1,
       name: 'Video Name 1',
       memoryId: null,
+      thumbnailData: null,
     );
 
     const tVideo2 = VideoModel(

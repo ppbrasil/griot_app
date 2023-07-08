@@ -1,9 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 
 class Video extends Equatable {
   final int? id;
   final String file;
   final String? thumbnail;
+  final Uint8List? thumbnailData;
   final String? name;
   final int? memoryId;
 
@@ -11,6 +14,7 @@ class Video extends Equatable {
     required this.id,
     required this.file,
     required this.thumbnail,
+    required this.thumbnailData,
     required this.name,
     required this.memoryId,
   });
