@@ -32,24 +32,6 @@ class AccountsRepositoryImpl implements AccountsRepository {
     }
   }
 
-/*
-  @override
-  Future<Either<Failure, BelovedOne>> performGetBelovedOneDetails(
-      {required int belovedOneId}) async {
-    if (await networkInfo.isConnected) {
-      try {
-        BelovedOneModel myBeloved = await remoteDataSource
-            .getBelovedOneDetailsFromAPI(belovedOneid: belovedOneId);
-
-        return Right(myBeloved);
-      } on ServerException {
-        return const Left(ServerFailure(message: 'Unable to retrieve data'));
-      }
-    } else {
-      return const Left(ConnectivityFailure(message: 'No internet connection'));
-    }
-  }
-*/
   @override
   Future<Either<Failure, List<BelovedOneModel>>> performGetBelovedOnesList(
       {required int accountId}) async {

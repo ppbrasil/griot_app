@@ -115,10 +115,14 @@ class _GriotVideoPlayerState extends State<GriotVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Chewie(
-          controller: _chewieController,
+      appBar: const VideoAppBar(),
+      backgroundColor: Colors.black,
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 40),
+        child: Center(
+          child: Chewie(
+            controller: _chewieController,
+          ),
         ),
       ),
     );
@@ -130,4 +134,25 @@ class _GriotVideoPlayerState extends State<GriotVideoPlayer> {
     _videoPlayerController.dispose();
     _chewieController.dispose();
   }
+}
+
+class VideoAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const VideoAppBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.black,
+      leading: IconButton(
+        icon: const Icon(
+          Icons.close,
+          color: Colors.white,
+        ),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(40);
 }
