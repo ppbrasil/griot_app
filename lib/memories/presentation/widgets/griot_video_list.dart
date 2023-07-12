@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:griot_app/memories/domain/entities/video.dart';
-import 'package:video_player/video_player.dart';
+import 'package:griot_app/memories/presentation/bloc/griot_video_player_bloc_bloc.dart';
+import 'package:native_device_orientation/native_device_orientation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:griot_app/memories/presentation/bloc/memory_manipulation_bloc_bloc.dart';
 
@@ -32,7 +35,13 @@ class _GriotVideoListState extends State<GriotVideoList> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => GriotVideoPlayer(video: video),
+                    builder: (context) {
+                      return BlocProvider(
+                        create: (context) =>
+                            GriotVideoPlayerBlocBloc(videoUrl: video.file),
+                        child: GriotVideoPlayer(video: video),
+                      );
+                    },
                   ),
                 ),
                 child: Stack(
@@ -87,52 +96,67 @@ class GriotVideoPlayer extends StatefulWidget {
 }
 
 class _GriotVideoPlayerState extends State<GriotVideoPlayer> {
-  late ChewieController _chewieController;
-  late VideoPlayerController _videoPlayerController;
+  late GriotVideoPlayerBlocBloc _bloc;
+  late StreamSubscription<NativeDeviceOrientation> _orientationSubscription;
 
   @override
   void initState() {
     super.initState();
-    _videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse(widget.video.file),
-    );
-    _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController,
-      deviceOrientationsAfterFullScreen: [
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown
-      ],
-      autoPlay: true,
-      autoInitialize: true,
-      errorBuilder: (context, errorMessage) {
-        return Center(
-            child: Text(errorMessage,
-                style: const TextStyle(color: Colors.white)));
-      },
-    );
+    _bloc = BlocProvider.of<GriotVideoPlayerBlocBloc>(context);
+
+    _orientationSubscription = NativeDeviceOrientationCommunicator()
+        .onOrientationChanged(useSensor: true)
+        .listen((event) {
+      _bloc.add(GriotVideoPlayerBlocOrientationChangedEvent(
+        orientation: event,
+        isFullScreen: _bloc.videoService.chewieController.isFullScreen,
+      ));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const VideoAppBar(),
-      backgroundColor: Colors.black,
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: 40),
-        child: Center(
-          child: Chewie(
-            controller: _chewieController,
-          ),
-        ),
+    return WillPopScope(
+      onWillPop: () async {
+        _bloc.dispose();
+        _orientationSubscription.cancel();
+        return true;
+      },
+      child: BlocBuilder<GriotVideoPlayerBlocBloc, GriotVideoPlayerBlocState>(
+        builder: (context, state) {
+          if (state is GriotVideoPlayerBlocInitialState) {
+            context
+                .read<GriotVideoPlayerBlocBloc>()
+                .add(const GriotVideoPlayerBlocInitializedEvent());
+            return const Text('Loading');
+          } else if (state is GriotVideoPlayerBlocLoadedState) {
+            return Scaffold(
+              appBar: const VideoAppBar(),
+              backgroundColor: Colors.black,
+              body: Padding(
+                padding: const EdgeInsets.only(bottom: 40),
+                child: Center(
+                  child: Chewie(
+                    controller: state.chewieController,
+                  ),
+                ),
+              ),
+            );
+          } else if (state is GriotVideoPlayerBlocLoadingState) {
+            return const Text('Loading');
+          } else {
+            return const Text('Failed');
+          }
+        },
       ),
     );
   }
 
   @override
   void dispose() {
+    _bloc.dispose();
+    _orientationSubscription.cancel();
     super.dispose();
-    _videoPlayerController.dispose();
-    _chewieController.dispose();
   }
 }
 
