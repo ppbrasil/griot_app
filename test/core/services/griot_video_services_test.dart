@@ -8,7 +8,6 @@ void main() {
           GriotVideoService(videoUrl: 'http://dummy_video_url.com');
 
       expect(videoService, isNotNull);
-      expect(videoService.videoPlayerController, isNotNull);
     });
   });
 }

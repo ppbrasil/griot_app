@@ -62,7 +62,7 @@ class _MemoriesListPageState extends State<MemoriesListPage> with RouteAware {
               final memories = state.memories;
               if (memories.isNotEmpty) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: ListView.builder(
                     itemCount: memories.length,
                     itemBuilder: (context, index) {

@@ -49,6 +49,9 @@ dependencies:
   # Notifications
   flash: ^3.0.5+1
 
+  # others
+  url_launcher: ^6.1.12
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
